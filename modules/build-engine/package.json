@@ -19,34 +19,33 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "7.22.10",
+    "@babel/parser": "7.22.10",
+    "@babel/traverse": "7.22.10",
+    "@ccbuild/bundler": "*",
+    "@ccbuild/modularize": "*",
+    "@ccbuild/stats-query": "*",
+    "@ccbuild/transformer": "*",
+    "@ccbuild/utils": "*",
     "@types/babel__core": "7.1.20",
     "@types/babel__generator": "7.6.4",
     "@types/babel__traverse": "7.18.2",
-    "@babel/core": "^7.20.12",
-    "@babel/parser": "^7.20.13",
-    "@babel/traverse": "^7.20.13",
-
     "@types/resolve": "^1.20.2",
     "dedent": "^0.7.0",
     "fs-extra": "~11.1.1",
     "glob": "~7.2.0",
     "json5": "^2.2.3",
     "resolve": "^1.22.1",
-    "@ccbuild/stats-query": "*",
-    "@ccbuild/transformer": "*",
-    "@ccbuild/utils": "*",
-    "semver": "~7.5.3",
-    "@ccbuild/bundler": "*",
-    "@ccbuild/modularize": "*"
+    "semver": "~7.5.3"
   },
   "devDependencies": {
     "@types/dedent": "^0.7.0",
     "@types/fs-extra": "^9.0.13",
+    "@types/glob": "~7.2.0",
     "@types/jest": "^29.2.3",
-    "del": "^6.1.1",
-    "@types/semver": "~7.5.0",
     "@types/node": "~20.3.3",
-    "@types/glob": "~7.2.0"
+    "@types/semver": "~7.5.0",
+    "del": "^6.1.1"
   },
   "optionalDependencies": {
     "rollup-plugin-visualizer": "5.9.2"

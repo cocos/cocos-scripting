@@ -1,11 +1,10 @@
 {
   "name": "@cocos/ccbuild",
-  "version": "2.2.9",
+  "version": "2.2.10",
   "description": "The next generation of build tool for Cocos engine.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "postinstall": "npm run build",
     "build": "tsc && turbo build",
     "change": "node ./scripts/remove-workspaces.js && changeset add && node ./scripts/restore-workspaces.js",
     "version": "node ./scripts/remove-workspaces.js && changeset version && node ./scripts/restore-workspaces.js",
@@ -21,6 +20,7 @@
   "files": [
     "lib/src/**/*",
     "static/**/*",
+    "modules/quick-build-engine/static/*",
     "CHANGELOG.md",
     "README.md"
   ],
@@ -67,12 +67,14 @@
   },
   "dependencies": {
     "@ccbuild/build-engine": "*",
+    "@ccbuild/quick-build-engine": "*",
     "@ccbuild/bundler": "*",
     "@ccbuild/dts-bundler": "*",
     "@ccbuild/modularize": "*",
     "@ccbuild/stats-query": "*",
     "@ccbuild/transformer": "*",
     "@ccbuild/utils": "*",
+
     "dedent": "^0.7.0",
     "fs-extra": "~11.1.1",
     "glob": "~7.2.0",

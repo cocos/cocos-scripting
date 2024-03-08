@@ -343,7 +343,9 @@ export default function recordDecorators(): babel.PluginObj<any> {
                     }
                 }
 
-
+                if (!nodePath.node.id) {
+                    return;
+                }
                 const currentClassName = nodePath.node.id.name;
                 const classDecoratorNodes: any[] | undefined | null = nodePath.node.decorators;
                 let classDecoratorResults: DecoratorParseResult[] = [];

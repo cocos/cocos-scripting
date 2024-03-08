@@ -1,0 +1,10 @@
+{
+    "features": {
+        "a": { "modules": [ "a" ] }
+    },
+    "moduleOverrides": [],
+    "includes": [
+        "./foo.ts",
+        "./bar/**/*.ts"
+    ]
+}
