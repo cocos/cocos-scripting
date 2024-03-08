@@ -1,8 +1,8 @@
 
 import fs from 'fs-extra';
 import ps from 'path';
-import { ModuleResolver, replaceWithOutputExtension } from '@editor/transform-utilities/dist/module-resolve';
-import { moduleSpecifierURLRelative } from '@editor/transform-utilities/dist/path-url-interop';
+import { ModuleResolver, replaceWithOutputExtension } from '@ccbuild/transform-utilities';
+import { moduleSpecifierURLRelative } from '@ccbuild/transform-utilities';
 import { pathToFileURL } from 'url';
 import * as jss from 'javascript-stringify';
 import type { FileUid } from './file-uid';

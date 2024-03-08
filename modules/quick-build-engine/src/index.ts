@@ -6,7 +6,7 @@ import { ConcatBundler } from './concat-bundler';
 import type { TargetOptions, Platform } from './core';
 import { detectChangedFiles } from './target';
 import type { TargetRecord } from './target';
-import { urlRelative, pathToFileURL } from '@editor/transform-utilities/dist/path-url-interop';
+import { urlRelative, pathToFileURL } from '@ccbuild/transform-utilities';
 import { FsCache } from './fs-cache';
 import { ProgressMessage, Stage } from './progress';
 import { parallelDiscarding, sequenceDiscarding } from './seq';

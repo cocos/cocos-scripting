@@ -7,7 +7,7 @@
     "test": "turbo build && jest"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@ccbuild/stats-query": "*",
     "@ccbuild/build-engine": "*",
