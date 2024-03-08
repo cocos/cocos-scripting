@@ -20,7 +20,7 @@
   },
   "keywords": [],
   "author": "PP",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@ccbuild/utils": "*",
     "commander": "~11.0.0",

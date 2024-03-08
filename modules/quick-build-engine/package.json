@@ -20,7 +20,7 @@
     "prepublishOnly": "npm run build"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@babel/core": "7.22.10",
     "@babel/plugin-proposal-dynamic-import": "7.12.1",

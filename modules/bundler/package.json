@@ -17,7 +17,7 @@
     }
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "rollup": "2.79.1",
     "@rollup/plugin-babel": "6.0.3",
