@@ -14,7 +14,7 @@
     "api": "npm run build && node ./scripts/update-api.js",
     "doc": "typedoc",
     "clean": "node ./scripts/clear.js",
-    "test": "turbo build && node ./scripts/setup-test.js && jest",
+    "test": "tsc && turbo build && node ./scripts/setup-test.js && jest",
     "gen-module-graph": "node ./scripts/gen-module-graph.js"
   },
   "files": [
