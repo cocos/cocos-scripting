@@ -1,10 +1,10 @@
 // @ts-check
 
-const { QuickCompiler } = require('../dist/index');
+const { QuickCompiler } = require('../../modules/quick-build-engine/lib/index');
 const ps = require('path');
 const logUpdate = require('log-update');
-const { Stage } = require('../dist/progress');
-const { StatsQuery } = require('@cocos/ccbuild');
+const { Stage } = require('../../modules/quick-build-engine/lib/progress');
+const { StatsQuery } = require('../../modules/stats-query/lib');
 const editorBrowserslistQuery = 'Electron 5.0.8';
 
 module.exports.run = async (inputDir, outputDir) => {
@@ -53,6 +53,7 @@ module.exports.run = async (inputDir, outputDir) => {
     const quickCompiler = new QuickCompiler({
         rootDir: inputDir,
         outDir,
+        // @ts-ignore
         targets,
         logFile: 'log.txt',
         onProgress: (target, message) => {
