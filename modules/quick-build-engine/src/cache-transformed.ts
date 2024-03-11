@@ -14,7 +14,7 @@ export class CacheTransformed {
         this._cacheDir = cacheDir;
     }
 
-    public async store(path: string, code: string, map?: string) {
+    public async store(path: string, code: string, map?: string): Promise<void> {
         const realPath = this.getOutFilePath(path);
         await fs.ensureDir(ps.dirname(realPath));
         await Promise.all([
@@ -23,22 +23,22 @@ export class CacheTransformed {
         ]);
     }
 
-    public async isOutFileValid(fileUid: string) {
+    public async isOutFileValid(fileUid: string): Promise<boolean> {
         return await fs.pathExists(this.getOutFilePath(fileUid));
     }
 
-    public getOutFileUrl(fileUid: string) {
+    public getOutFileUrl(fileUid: string): string {
         return pathToFileURL(this.getOutFilePath(fileUid)).href;
     }
 
-    public async serialize() {
+    public async serialize(): Promise<void> {
         return;
     }
 
-    public async deserialize(json: any) {
+    public async deserialize(json: any): Promise<void> {
     }
 
-    protected get cacheDir() {
+    protected get cacheDir(): string {
         return this._cacheDir;
     }
 
@@ -47,9 +47,9 @@ export class CacheTransformed {
         code: string | Buffer,
         map?: any,
         mapURL?: URL,
-        ) => Promise<void>) {
+        ) => Promise<void>): Promise<void> {
 
-        const visitRecursive = async (dir: string, prefix: string, visitor: (file: string, prefix: string) => Promise<void>) => {
+        const visitRecursive = async (dir: string, prefix: string, visitor: (file: string, prefix: string) => Promise<void>): Promise<void[]> => {
             return await Promise.all((await fs.readdir(dir)).map(async (fileName) => {
                 const file = ps.join(dir, fileName);
                 const stat = await fs.stat(file);
@@ -74,7 +74,7 @@ export class CacheTransformed {
         });
     }
 
-    protected getRelativeOutputPath(fileUid: string) {
+    protected getRelativeOutputPath(fileUid: string): string {
         let relative: string;
         if (isVirtualFileUid(fileUid)) {
             const encodedName = encodeUrlAsFilePath(decodeVirtualFileUid(fileUid));
@@ -85,14 +85,14 @@ export class CacheTransformed {
         return relative;
     }
 
-    protected getOutFilePath(fileUid: string) {
+    protected getOutFilePath(fileUid: string): string {
         return ps.join(this._cacheDir, this.getRelativeOutputPath(fileUid));
     }
 
     private _cacheDir: string;
 }
 
-function transformOutputExtension(file: string) {
+function transformOutputExtension(file: string): string {
     const lower = file.toLowerCase();
     if (lower.endsWith('.json')) {
         return `${file.substr(0, file.length - 5)}.js`;

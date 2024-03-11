@@ -27,7 +27,7 @@ export class ModuleResolver {
         );
     }
 
-    public async resolve(specifier: string, fromFile: string) {
+    public async resolve(specifier: string, fromFile: string): null | { file: string, isExternal: boolean } {
         const resolveResult = ts.resolveModuleName(
             specifier,
             fromFile,
@@ -105,7 +105,7 @@ export function replaceWithOutputExtension(url: string) {
     const urlLowercase = url.toLowerCase();
     for (const k of Object.keys(map)) {
         if (urlLowercase.endsWith(k)) {
-            return `${url.substr(0, url.length - k.length)}${map[k]}`
+            return `${url.substr(0, url.length - k.length)}${map[k]}`;
         }
     }
     return url;
@@ -137,5 +137,5 @@ function readTSConfig(baseDir: string) {
 
     return {
         compilerOptions: parsedCommandLine.options,
-    }
+    };
 }

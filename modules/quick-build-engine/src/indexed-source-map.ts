@@ -17,15 +17,15 @@ export class IndexedSourceMap {
         this._separator = separator ?? '';
     }
 
-    get code() {
+    get code(): string {
         return this._code;
     }
 
-    get sourceMap() {
+    get sourceMap(): string {
         return JSON.stringify(this._sourceMap);
     }
 
-    public add(code: string | Buffer, map?: RawSourceMap) {
+    public add(code: string | Buffer, map?: RawSourceMap): void {
         if (Buffer.isBuffer(code)) {
             code = code.toString();
         }
@@ -41,7 +41,7 @@ export class IndexedSourceMap {
         this._addCode(code);
     }
 
-    private _addCode(code: string) {
+    private _addCode(code: string): void {
         const lines = code.split(/\r\n|\r|\n/g);
         this._lines += lines.length - 1;
         this._columns += lines[lines.length - 1].length;

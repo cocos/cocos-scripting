@@ -1,13 +1,11 @@
 import { OutputOptions, Plugin, rollup, RollupOptions, WarningHandlerWithDefault } from 'rollup';
 import rpBabel, { RollupBabelInputPluginOptions } from '@rollup/plugin-babel';
-// @ts-ignore
-import rpSourcemaps from 'rollup-plugin-sourcemaps';
-import { terser } from 'rollup-plugin-terser';
+
 import rpCommonJS from '@rollup/plugin-commonjs';
 import rpNodeResolve from '@rollup/plugin-node-resolve';
-// @ts-ignore
+
 import babelPresetEnv from '@babel/preset-env';
-import UUID from 'node-uuid';
+
 import { encodeUrlAsFilePath } from './utilts';
 import fs from 'fs';
 
@@ -29,14 +27,21 @@ export interface BundleResult {
     entryMap: Record<string, string>;
 
     watchFiles: string[];
+
+    write: (writeOptions: {
+        minify?: boolean;
+        sourceMap?: boolean;
+        format: 'commonjs' | 'systemjs';
+        chunkDir: string;
+    }) => void;
 }
 
-export async function bundleExternals(entries: [string, string][], options: BundleExternalsOptions) {
+export async function bundleExternals(entries: [string, string][], options: BundleExternalsOptions): Promise<BundleResult> {
     // const withSourceMap = options.sourceMap;
     // const doMinify = options.minify;
 
     const realpath = typeof fs.realpath.native === 'function' ? fs.realpath.native : fs.realpath;
-    const realPath = (file: string) => new Promise<string>((resolve, reject) => {
+    const realPath = (file: string): Promise<string> => new Promise<string>((resolve, reject) => {
         realpath(file, function (err, path) {
             if (err && err.code !== 'ENOENT') {
                 reject(err);
@@ -127,7 +132,7 @@ export async function bundleExternals(entries: [string, string][], options: Bund
             sourceMap?: boolean;
             format: 'commonjs' | 'systemjs';
             chunkDir: string;
-        }) => {
+        }): Promise<void> =>  {
             const rollupOutputOptions: OutputOptions = {
                 format: writeOptions.format === 'systemjs' ? 'system' : (writeOptions.format),
                 sourcemap: writeOptions.sourceMap,

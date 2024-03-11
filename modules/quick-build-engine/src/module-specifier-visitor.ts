@@ -4,13 +4,13 @@ export function makeVisitorOnModuleSpecifiers(fx: (path: babel.NodePath<babel.ty
     return {
         ImportDeclaration: (path) => fx(path.get('source')),
         ExportAllDeclaration: (path) => fx(path.get('source')),
-        ExportNamedDeclaration: (path) => {
+        ExportNamedDeclaration: (path): void => {
             const source = path.get('source');
             if (source.node !== null) {
                 fx(source as StringLiteralPath);
             }
         },
-        CallExpression: (path) => {
+        CallExpression: (path): void => {
             const { node } = path;
             if (node.callee.type === 'Import' &&
                 node.arguments.length === 1 &&

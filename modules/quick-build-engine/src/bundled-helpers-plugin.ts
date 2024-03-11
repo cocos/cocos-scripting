@@ -1,5 +1,5 @@
 
-// @ts-ignore
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { addNamed } from '@babel/helper-module-imports';
 import * as babel from '@babel/core';
 
@@ -10,11 +10,11 @@ export function importHelperPlugin(): babel.PluginObj<{
 }> {
     return {
         visitor: {},
-        pre(file) {
+        pre(file: babel.BabelFile): void {
             const cachedHelpers: Record<string, babel.types.Identifier> = {};
-            // @ts-ignore
+            // @ts-expect-error TODO(cjh): type error?
             file.set('helperGenerator', (name: string) => {
-                // @ts-ignore
+                // @ts-expect-error TODO(cjh): type error?
                 if (!file.availableHelper(name)) {
                     return null;
                 }

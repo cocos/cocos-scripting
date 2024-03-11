@@ -1,27 +1,27 @@
-import { ScriptTargets, Transformer, TransformOptions, TransformResult } from "./transformer";
+import { ScriptTargets, Transformer, TransformOptions, TransformResult } from './transformer';
 import * as babel from '@babel/core';
 import babelPresetEnv from '@babel/preset-env';
-// @ts-ignore
+
+// @ts-expect-error TODO(cjh): Where to find the type?
 import babelPluginConstEnum from 'babel-plugin-const-enum';
-// @ts-ignore
+// @ts-expect-error TODO(cjh): Where to find the type?
 import babelPluginTransformModulesUmd from '@babel/plugin-transform-modules-umd';
-// @ts-ignore
+// @ts-expect-error TODO(cjh): Where to find the type?
 import babelPluginTransformModulesSystemJs from '@babel/plugin-transform-modules-systemjs';
-// @ts-ignore
+// @ts-expect-error TODO(cjh): Where to find the type?
 import babelPluginTransformModulesCommonJs from '@babel/plugin-transform-modules-commonjs';
-// @ts-ignore
+// @ts-expect-error TODO(cjh): Where to find the type?
 import babelPluginProposalDynamicImport from '@babel/plugin-proposal-dynamic-import';
 import babelPluginDynamicVars from '@cocos/babel-plugin-dynamic-import-vars';
-import { TransformTargetModule } from "../bundler";
+import { TransformTargetModule } from '../bundler';
 import winston from 'winston';
 import { makeVisitorOnModuleSpecifiers } from '../module-specifier-visitor';
-import { importHelperPlugin } from '../bundled-helpers-plugin';
-import { babelPresetCC } from '@cocos/creator-programming-babel-preset-cc'
-import { ConfigInterface } from "@ccbuild/stats-query";
+import { babelPresetCC } from '@cocos/creator-programming-babel-preset-cc';
+import { ConfigInterface } from '@ccbuild/stats-query';
 
 export class BabelTransformer implements Transformer {
     public static buildHelper(): string {
-        // @ts-ignore
+        // @ts-expect-error TODO(cjh): Where to find the type?
         return babel.buildExternalHelpers(null, 'module');
     }
 
@@ -72,7 +72,7 @@ export class BabelTransformer implements Transformer {
             configFile: false,
             babelrc: false,
         };
-        const addTransformModulesPlugin = (plugins: any[]) => {
+        const addTransformModulesPlugin = (plugins: any[]): any[] => {
             if (targetModule === TransformTargetModule.umd) {
                 plugins.push([babelPluginTransformModulesUmd]);
             } else if (targetModule === TransformTargetModule.commonJs) {
@@ -107,7 +107,7 @@ export class BabelTransformer implements Transformer {
             // Resolves them and record the useful information.
             const moduleSpecifierResolveMap: Record<string, string> = {};
 
-            const processModuleSpecifier = (moduleSpecifier: string) => {
+            const processModuleSpecifier = (moduleSpecifier: string): void => {
                 const replacement = replaceModuleSpecifier(moduleSpecifier);
                 if (replacement) {
                     moduleSpecifierResolveMap[moduleSpecifier] = replacement;

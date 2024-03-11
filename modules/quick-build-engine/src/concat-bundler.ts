@@ -19,15 +19,15 @@ class RegularConcat {
         this._concat = new ConcatWithSourceMaps(true, file, separator);
     }
 
-    get code() {
+    get code(): string {
         return this._concat.content.toString('utf8');
     }
 
-    get sourceMap() {
+    get sourceMap(): string {
         return this._concat.sourceMap!.toString();
     }
 
-    public add(code: string | Buffer, map?: RawSourceMap) {
+    public add(code: string | Buffer, map?: RawSourceMap): void {
         this._concat.add(null, code, map as any);
     }
 
@@ -48,11 +48,11 @@ export class ConcatBundler extends CacheTransformed implements IBundler {
 
     targetMode = TransformTargetModule.systemJsNamed;
 
-    getModuleId(path: string) {
+    getModuleId(path: string): string {
         return this._getModuleIdOfOutFile(this.getRelativeOutputPath(path));
     }
 
-    getFinalUrl(path: string) {
+    getFinalUrl(path: string): string {
         return this.getModuleId(path);
     }
 
@@ -62,7 +62,7 @@ export class ConcatBundler extends CacheTransformed implements IBundler {
         sourceRoot,
         inlineSourceMap,
         indexedSourceMap: useIndexedSourceMap,
-    }: Parameters<IBundler['build']>[0]) {
+    }: Parameters<IBundler['build']>[0]): Promise<void> {
         const outFile = ps.join(outDir, 'index.js');
         const concat: ConcatTool = new (useIndexedSourceMap ? IndexedSourceMap : RegularConcat)({
             file: outFile,
@@ -109,7 +109,7 @@ export class ConcatBundler extends CacheTransformed implements IBundler {
         ]);
     }
 
-    private async _concatToCommonJs(concat: ConcatTool, outURL: URL) {
+    private async _concatToCommonJs(concat: ConcatTool, outURL: URL): Promise<void> {
         wrapBigIIFEPre();
 
         await this.forEachModule(async (path, code, map, mapURL) => {
@@ -123,27 +123,27 @@ export class ConcatBundler extends CacheTransformed implements IBundler {
 
         wrapBigIIFEPost();
 
-        function wrapBigIIFEPre() {
+        function wrapBigIIFEPre(): void {
             concat.add(`\
 module.exports = (function(){ return {
 `);
         }
 
-        function wrapBigIIFEPost() {
+        function wrapBigIIFEPost(): void {
             concat.add(`\
 }; })();`);
         }
 
-        function wrapIIFEPre(path: string) {
+        function wrapIIFEPre(path: string): void {
             concat.add(`['${path}']: (function(exports, require){`);
         }
 
-        function wrapIIFEPost() {
+        function wrapIIFEPost(): void {
             concat.add(`}),`);
         }
     }
 
-    private async _concatToSystemJs(concat: ConcatTool, outURL: URL) {
+    private async _concatToSystemJs(concat: ConcatTool, outURL: URL): Promise<void> {
         await this.forEachModule(async (path, code, map, mapURL) => {
             if (map && mapURL) {
                 relocateSourceFilePaths(map, mapURL, outURL);
@@ -152,7 +152,7 @@ module.exports = (function(){ return {
         });
     }
 
-    protected _getModuleIdOfOutFile(relativeOutPath: string) {
+    protected _getModuleIdOfOutFile(relativeOutPath: string): string {
         const parts = relativeOutPath.split(/[\\/]/g);
         return `q-bundled:///${parts.map((part) => encodeURIComponent(part)).join('/')}`;
     }
@@ -162,7 +162,7 @@ function relocateSourceFilePaths(
     sourceMap: RawSourceMap,
     sourceMapURL: URL,
     newSourceMapURL: URL,
-) {
+): RawSourceMap | undefined {
     if (!sourceMap.sources) {
         return;
     }

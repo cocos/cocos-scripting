@@ -8,7 +8,7 @@ export class FsCache {
         this._rootDir = rootDir;
     }
 
-    public async readFile(fileUid: string) {
+    public async readFile(fileUid: string): Promise<string> {
         const cache = this._getCache(fileUid);
         if (cache.source === undefined) {
             cache.source = fs.readFile(this._getFilePath(fileUid), { encoding: 'utf8' });
@@ -16,7 +16,7 @@ export class FsCache {
         return await cache.source;
     }
 
-    public async stat(fileUid: string) {
+    public async stat(fileUid: string): Promise<Stats> {
         const cache = this._getCache(fileUid);
         if (cache.stats === undefined) {
             cache.stats = fs.stat(this._getFilePath(fileUid));
@@ -24,7 +24,7 @@ export class FsCache {
         return await cache.stats;
     }
 
-    public async pathExists(fileUid: string) {
+    public async pathExists(fileUid: string): Promise<boolean> {
         const cache = this._getCache(fileUid);
         if (cache.exists === undefined) {
             cache.exists = fs.pathExists(this._getFilePath(fileUid));
@@ -32,14 +32,14 @@ export class FsCache {
         return await cache.exists;
     }
 
-    private _getCache(fileUid: string) {
+    private _getCache(fileUid: string): FileInfo {
         if (!(fileUid in this._cache)) {
             this._cache[fileUid] = {};
         }
         return this._cache[fileUid];
     }
 
-    private _getFilePath(fileUid: string) {
+    private _getFilePath(fileUid: string): string {
         return ps.join(this._rootDir, decodeRegularFilePath(fileUid));
     }
 

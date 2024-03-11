@@ -32,12 +32,12 @@ export async function detectChangedFiles({
     targetRecord: TargetRecord;
     bundler: IBundler;
     fsCache: FsCache;
-}) {
+}): Promise<FileUid[]> {
     const startupFilesToAudit = entries.concat(Object.keys(targetRecord.files));
 
     const filesToAudit: Set<FileUid> = new Set();
     await Promise.all(startupFilesToAudit.map(async (startupFile: FileUid) => {
-        const delFromRecord = () => delete targetRecord.files[startupFile];
+        const delFromRecord = (): void => { delete targetRecord.files[startupFile]; };
 
         if (!isVirtualFileUid(startupFile)) {
             if (!(await fsCache.pathExists(startupFile))) {

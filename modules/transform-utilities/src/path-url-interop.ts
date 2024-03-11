@@ -18,7 +18,7 @@ export function urlResolve(from: string, to: string): string {
     return new URI(to).absoluteTo(from).valueOf();
 }
 
-export function moduleSpecifierURLRelative(from: string, to: string) {
+export function moduleSpecifierURLRelative(from: string, to: string): string {
     // https://medialize.github.io/URI.js/docs.html#relativeto
     const toURI = new URI(to);
     const relativeURI = toURI.relativeTo(from);

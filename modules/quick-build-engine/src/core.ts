@@ -104,7 +104,7 @@ export async function core({
     logger: winston.Logger,
     onProgress?: (message: Readonly<ProgressMessage>) => void;
     platform: Platform,
-}) {
+}): Promise<void> {
     const babelHelpersModuleName = 'quick-compiler.babel-helpers';
     const babelHelpersModuleUid = encodeVirtualFileUid(babelHelpersModuleName);
     const moduleQuery = new Modularize.ModuleQuery({
@@ -133,12 +133,12 @@ export async function core({
     };
 
     const updateTransformProgress = onProgress
-        ? () => onProgress(transformProgress)
+        ? (): void => onProgress(transformProgress)
         : undefined;
 
     await main();
 
-    async function main() {
+    async function main(): Promise<void> {
         await Promise.all(entries.concat(
             [babelHelpersModuleUid],
         ).map(
@@ -153,7 +153,7 @@ export async function core({
         }
     }
 
-    async function setupVirtualModules(platform: Platform) {
+    async function setupVirtualModules(platform: Platform): Promise<void> {
         const dynamicConstants = statsQuery.constantManager.exportDynamicConstants({
             // platform and mode are dynamic values, indeed we don't have to pass these value.
             platform,
@@ -180,7 +180,7 @@ export async function core({
     /**
      * @param fileUid
      */
-    async function audit(fileUid: FileId) {
+    async function audit(fileUid: FileId): Promise<void> {
         if (audition.audited.has(fileUid)) {
             return;
         }
@@ -225,7 +225,7 @@ export async function core({
         };
         targetRecord.files[fileUid] = newFileRecord;
 
-        const transformResult = await (async () => {
+        const transformResult = await (async (): Promise<TransformResult | undefined> => {
             try {
                 return await compileFile(source, fileUid, newFileRecord, bundler);
             } catch (err) {
@@ -293,7 +293,7 @@ export async function core({
 
         const moduleId = bundler.getModuleId?.(fileUid) ?? fileUid;
 
-        const getModuleRequestTo = (targetFileUid: string) => moduleSpecifierURLRelative(
+        const getModuleRequestTo = (targetFileUid: string): string => moduleSpecifierURLRelative(
             outFileURL,
             bundler.getOutFileUrl(targetFileUid),
         );
@@ -414,7 +414,7 @@ export async function core({
     /**
      *
      */
-    function countExternalDependencies() {
+    function countExternalDependencies(): Record<string, string> {
         const dependenciesMap: Record<string, string> = {};
         for (const fileRecord of Object.values(targetRecord.files)) {
             Object.assign(dependenciesMap, Object.entries(fileRecord.dependencies).reduce((result, [moduleSpecifier, resolveRecord]) => {
@@ -430,7 +430,7 @@ export async function core({
     /**
      *
      */
-    async function rebuildExternalDependenciesIsNeeded() {
+    async function rebuildExternalDependenciesIsNeeded(): Promise<boolean> {
         /// / TODO!!!!! remove
         // return true;
 
@@ -471,7 +471,7 @@ export async function core({
      * @param chunkDir
      * @param importMapFile
      */
-    async function createExternalDependenciesStuffs() {
+    async function createExternalDependenciesStuffs(): Promise<void> {
         targetRecord.externalDependencyWatchFiles = {};
         targetRecord.externalDependencyImportMap = {};
 
@@ -511,8 +511,8 @@ export async function core({
             try {
                 const stat = await fs.stat(watchFile);
                 watchFiles[getDependencyFileId(watchFile)] = stat.mtimeMs;
-            } catch {
-
+            } catch(e) {
+                console.error(e);
             }
         }
 
@@ -523,7 +523,7 @@ export async function core({
     /**
      * @param moduleNameOrFile
      */
-    function getFileUidFromResolved(moduleNameOrFile: string) {
+    function getFileUidFromResolved(moduleNameOrFile: string): null | string {
         if (virtualModules.has(moduleNameOrFile)) {
             return encodeVirtualFileUid(moduleNameOrFile);
         }
@@ -540,14 +540,14 @@ export async function core({
     /**
      * @param dependencyFile
      */
-    function getDependencyFileId(dependencyFile: string) {
+    function getDependencyFileId(dependencyFile: string): string {
         return ps.relative(rootDir, dependencyFile);
     }
 
     /**
      * @param dependencyFileId
      */
-    function getDependencyFile(dependencyFileId: string) {
+    function getDependencyFile(dependencyFileId: string): string {
         return ps.resolve(rootDir, dependencyFileId);
     }
 }

@@ -1,11 +1,11 @@
 
 
 export class VirtualModules {
-    public has(name: string) {
+    public has(name: string): boolean {
         return name in this._sources;
     }
 
-    public get(name: string) {
+    public get(name: string): string {
         const source = this._sources[name];
         if (typeof source === 'function') {
             return this._sources[name] = source();
@@ -14,7 +14,7 @@ export class VirtualModules {
         }
     }
 
-    public set(name: string, source: string | (() => string)) {
+    public set(name: string, source: string | (() => string)): void {
         this._sources[name] = source;
     }
 

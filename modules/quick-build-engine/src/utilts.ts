@@ -1,4 +1,4 @@
 
-export function encodeUrlAsFilePath(text: string) {
+export function encodeUrlAsFilePath(text: string): string {
     return encodeURIComponent(text);
 }
