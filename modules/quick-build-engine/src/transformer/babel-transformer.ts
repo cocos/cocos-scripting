@@ -2,15 +2,15 @@ import { ScriptTargets, Transformer, TransformOptions, TransformResult } from '.
 import * as babel from '@babel/core';
 import babelPresetEnv from '@babel/preset-env';
 
-// @ts-expect-error TODO(cjh): Where to find the type?
+// @ts-ignore
 import babelPluginConstEnum from 'babel-plugin-const-enum';
-// @ts-expect-error TODO(cjh): Where to find the type?
+// @ts-ignore
 import babelPluginTransformModulesUmd from '@babel/plugin-transform-modules-umd';
-// @ts-expect-error TODO(cjh): Where to find the type?
+// @ts-ignore
 import babelPluginTransformModulesSystemJs from '@babel/plugin-transform-modules-systemjs';
-// @ts-expect-error TODO(cjh): Where to find the type?
+// @ts-ignore
 import babelPluginTransformModulesCommonJs from '@babel/plugin-transform-modules-commonjs';
-// @ts-expect-error TODO(cjh): Where to find the type?
+// @ts-ignore
 import babelPluginProposalDynamicImport from '@babel/plugin-proposal-dynamic-import';
 import babelPluginDynamicVars from '@cocos/babel-plugin-dynamic-import-vars';
 import { TransformTargetModule } from '../bundler';
@@ -21,7 +21,7 @@ import { ConfigInterface } from '@ccbuild/stats-query';
 
 export class BabelTransformer implements Transformer {
     public static buildHelper(): string {
-        // @ts-expect-error TODO(cjh): Where to find the type?
+        // @ts-ignore
         return babel.buildExternalHelpers(null, 'module');
     }
 
