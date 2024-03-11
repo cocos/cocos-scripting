@@ -27,7 +27,7 @@ export class ModuleResolver {
         );
     }
 
-    public async resolve(specifier: string, fromFile: string): null | { file: string, isExternal: boolean } {
+    public async resolve(specifier: string, fromFile: string): Promise<null | { file: string, isExternal: boolean }> {
         const resolveResult = ts.resolveModuleName(
             specifier,
             fromFile,
@@ -59,7 +59,7 @@ export class ModuleResolver {
         }
     }
 
-    public resolveSync(specifier: string, fromFile: string) {
+    public resolveSync(specifier: string, fromFile: string): null | { file: string, isExternal: boolean } {
         const resolveResult = ts.resolveModuleName(
             specifier,
             fromFile,
@@ -97,7 +97,7 @@ export class ModuleResolver {
     private _moduleResolutionCache: ts.ModuleResolutionCache;
 }
 
-export function replaceWithOutputExtension(url: string) {
+export function replaceWithOutputExtension(url: string): string {
     const map: Record<string, string> = {
         '.d.ts': '.js',
         '.ts': '.js',
@@ -111,7 +111,7 @@ export function replaceWithOutputExtension(url: string) {
     return url;
 }
 
-function readTSConfig(baseDir: string) {
+function readTSConfig(baseDir: string): { compilerOptions: ts.CompilerOptions } {
     const tsConfigFile = ts.findConfigFile(baseDir, ts.sys.fileExists);
     if (!tsConfigFile) {
         throw new Error(`Can not find tsconfig at ${baseDir}.`);
