@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { ScriptTargets, Transformer, TransformOptions, TransformResult } from './transformer';
 import * as babel from '@babel/core';
 import babelPresetEnv from '@babel/preset-env';
