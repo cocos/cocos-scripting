@@ -1,5 +1,5 @@
 {
-    "name": "@ccbuild/build-proj-script",
+    "name": "@ccbuild/build-project-script",
     "version": "1.0.0",
     "description": "",
     "scripts": {
