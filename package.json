@@ -67,9 +67,9 @@
   },
   "dependencies": {
     "@ccbuild/build-engine": "*",
-    "@ccbuild/build-project-script": "*",
+    "@ccbuild/build-project": "*",
     "@ccbuild/quick-build-engine": "*",
-    "@ccbuild/quick-build-project-script": "*",
+    "@ccbuild/quick-build-project": "*",
     "@ccbuild/transform-utilities": "*",
     "@ccbuild/bundler": "*",
     "@ccbuild/dts-bundler": "*",
