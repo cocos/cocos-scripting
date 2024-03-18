@@ -11,6 +11,10 @@
             ]
         },
 
+        "clean": {
+            
+        },
+
         "test": {
             "dependsOn": ["build"]
         }

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
@@ -11,16 +11,6 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "skipLibCheck": true,
-    "outDir": "./lib",
-    "rootDir": "./",
-  },
-  "include": [
-    "./src/index.ts"
-  ],
-  "exclude": [
-    "./test/",
-    "./lib/",
-    "./static/"
-  ]
+    "skipLibCheck": true
+  }
 }
