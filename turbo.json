@@ -2,12 +2,17 @@
     "$schema": "./turbo.schema.json",
     "pipeline": {
         "build": {
+            "dependsOn": ["^build"],
             "inputs": [
                 "src/**"
             ],
             "outputs": [
                 "lib/**"
             ]
+        },
+
+        "test": {
+            "dependsOn": ["build"]
         }
     }
 }
