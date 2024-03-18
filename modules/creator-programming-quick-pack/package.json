@@ -17,16 +17,16 @@
   "dependencies": {
     "@babel/plugin-proposal-dynamic-import": "7.16.0",
     "@babel/plugin-transform-modules-systemjs": "7.16.0",
-    "@cocos/creator-programming-common": "workspace:*",
-    "@cocos/creator-programming-import-maps": "workspace:*",
-    "@cocos/creator-programming-mod-lo": "workspace:*",
+    "@cocos/creator-programming-common": "*",
+    "@cocos/creator-programming-import-maps": "*",
+    "@cocos/creator-programming-mod-lo": "*",
     "fs-extra": "9.0.1",
     "proper-lockfile": "4.1.2",
     "relateurl": "0.2.7",
     "source-map": "0.7.3"
   },
   "devDependencies": {
-    "@cocos/creator-programming-test-utils": "workspace:*",
+    "@cocos/creator-programming-test-utils": "*",
     "@types/fs-extra": "9.0.13",
     "@types/node": "16.11.10",
     "@types/proper-lockfile": "4.1.2",

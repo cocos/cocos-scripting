@@ -24,7 +24,7 @@
     "@types/babel__traverse": "7.18.3",
 
     "@types/babel__core": "7.1.16",
-    "@cocos/creator-programming-test-utils": "workspace:*",
+    "@cocos/creator-programming-test-utils": "*",
     "@types/fs-extra": "9.0.13",
     "@types/node": "^16.4.3",
     "fs-extra": "10.0.0",
@@ -34,8 +34,8 @@
 
   "dependencies": {
     "@babel/core": "7.16.0",
-    "@cocos/creator-programming-common": "workspace:*",
-    "@cocos/creator-programming-mod-lo": "workspace:*"
+    "@cocos/creator-programming-common": "*",
+    "@cocos/creator-programming-mod-lo": "*"
   },
   "publishConfig": {
     "access": "public"

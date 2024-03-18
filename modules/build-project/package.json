@@ -39,11 +39,11 @@
 
         "@ccbuild/stats-query": "*",
 
-        "@cocos/creator-programming-common": "1.1.1",
-        "@cocos/creator-programming-import-maps": "^1.0.0",
-        "@cocos/creator-programming-mod-lo": "1.9.1",
-        "@cocos/creator-programming-quick-pack": "1.5.8",
-        "@cocos/creator-programming-rollup-plugin-mod-lo": "1.2.6"
+        "@cocos/creator-programming-common": "*",
+        "@cocos/creator-programming-import-maps": "*",
+        "@cocos/creator-programming-mod-lo": "*",
+        "@cocos/creator-programming-quick-pack": "*",
+        "@cocos/creator-programming-rollup-plugin-mod-lo": "*"
     },
     "devDependencies": {
         "@types/fs-extra": "^9.0.13",

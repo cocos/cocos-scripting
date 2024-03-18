@@ -38,9 +38,9 @@
     "@babel/helpers": "7.21.0",
     "@babel/traverse": "7.22.4",
     
-    "@cocos/creator-programming-babel-preset-cc": "workspace:*",
-    "@cocos/creator-programming-common": "workspace:*",
-    "@cocos/creator-programming-import-maps": "workspace:*",
+    "@cocos/creator-programming-babel-preset-cc": "*",
+    "@cocos/creator-programming-common": "*",
+    "@cocos/creator-programming-import-maps": "*",
     "acorn": "8.6.0",
     "acorn-walk": "8.2.0",
     "cjs-module-lexer": "1.2.2",
@@ -61,7 +61,7 @@
     "@babel/helper-transform-fixture-test-runner": "7.16.0",
     "@babel/plugin-transform-modules-commonjs": "7.16.0",
 
-    "@cocos/creator-programming-test-utils": "workspace:*",
+    "@cocos/creator-programming-test-utils": "*",
     "@endo/cjs-module-analyzer": "^0.2.7",
     "@rollup/plugin-node-resolve": "13.0.6",
     "@types/babel__core": "7.1.20",
