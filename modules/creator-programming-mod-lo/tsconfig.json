@@ -1,0 +1,16 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "module": "CommonJS",
+        "rootDir": "src",
+        "outDir": "lib",
+        "types": [
+            "./@types/babel-helper-module-imports"
+        ]
+    },
+    "exclude": [
+        "lib",
+        "test",
+        "src/transformer/swc/**/*.ts"
+    ]
+}

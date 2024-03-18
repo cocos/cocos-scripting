@@ -1,0 +1,297 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/cjs-loader.mjs.js 1`] = `
+"System.register(['./rollupPluginModLoBabelHelpers.js'], (function (exports) {
+  'use strict';
+  var _createClass, _classCallCheck;
+  return {
+    setters: [function (module) {
+      _createClass = module.createClass;
+      _classCallCheck = module.classCallCheck;
+    }],
+    execute: (function () {
+
+      var CjsLoader = /*#__PURE__*/function () {
+        function CjsLoader() {
+          _classCallCheck(this, CjsLoader);
+          this._registry = {};
+          this._moduleCache = {};
+        }
+
+        /**
+         * Defines a CommonJS module.
+         * @param id Module ID.
+         * @param factory The factory.
+         * @param resolveMap An object or a function returning object which records the module specifier resolve result.
+         * The later is called as "deferred resolve map" and would be invocated right before CommonJS code execution.
+         */
+        _createClass(CjsLoader, [{
+          key: "define",
+          value: function define(id, factory, resolveMap) {
+            this._registry[id] = {
+              factory: factory,
+              resolveMap: resolveMap
+            };
+          }
+
+          /**
+           * Requires a CommonJS module.
+           * @param id Module ID.
+           * @returns The module's \`module.exports\`.
+           */
+        }, {
+          key: "require",
+          value: function require(id) {
+            return this._require(id);
+          }
+        }, {
+          key: "throwInvalidWrapper",
+          value: function throwInvalidWrapper(requestTarget, from) {
+            throw new Error("Module '".concat(requestTarget, "' imported from '").concat(from, "' is expected be an ESM-wrapped CommonJS module but it doesn't."));
+          }
+        }, {
+          key: "_require",
+          value: function _require(id, parent) {
+            var cachedModule = this._moduleCache[id];
+            if (cachedModule) {
+              return cachedModule.exports;
+            }
+            var module = {
+              id: id,
+              exports: {}
+            };
+            this._moduleCache[id] = module;
+            this._tryModuleLoad(module, id);
+            return module.exports;
+          }
+        }, {
+          key: "_resolve",
+          value: function _resolve(specifier, parent) {
+            return this._resolveFromInfos(specifier, parent) || this._throwUnresolved(specifier, parent);
+          }
+        }, {
+          key: "_resolveFromInfos",
+          value: function _resolveFromInfos(specifier, parent) {
+            var _cjsInfos$parent$reso, _cjsInfos$parent;
+            if (specifier in cjsInfos) {
+              return specifier;
+            }
+            if (!parent) {
+              return;
+            }
+            return (_cjsInfos$parent$reso = (_cjsInfos$parent = cjsInfos[parent]) === null || _cjsInfos$parent === void 0 ? void 0 : _cjsInfos$parent.resolveCache[specifier]) !== null && _cjsInfos$parent$reso !== void 0 ? _cjsInfos$parent$reso : undefined;
+          }
+        }, {
+          key: "_tryModuleLoad",
+          value: function _tryModuleLoad(module, id) {
+            var threw = true;
+            try {
+              this._load(module, id);
+              threw = false;
+            } finally {
+              if (threw) {
+                delete this._moduleCache[id];
+              }
+            }
+          }
+        }, {
+          key: "_load",
+          value: function _load(module, id) {
+            var _this$_loadWrapper = this._loadWrapper(id),
+              factory = _this$_loadWrapper.factory,
+              resolveMap = _this$_loadWrapper.resolveMap;
+            var vendorRequire = this._createRequire(module);
+            var require = resolveMap ? this._createRequireWithResolveMap(typeof resolveMap === 'function' ? resolveMap() : resolveMap, vendorRequire) : vendorRequire;
+            factory(module.exports, require, module);
+          }
+        }, {
+          key: "_loadWrapper",
+          value: function _loadWrapper(id) {
+            if (id in this._registry) {
+              return this._registry[id];
+            } else {
+              return this._loadHostProvidedModules(id);
+            }
+          }
+        }, {
+          key: "_loadHostProvidedModules",
+          value: function _loadHostProvidedModules(id) {
+            return {
+              factory: function factory(_exports, _require, module) {
+                if (typeof require === 'undefined') {
+                  throw new Error("Current environment does not provide a require() for requiring '".concat(id, "'."));
+                }
+                try {
+                  module.exports = require(id);
+                } catch (err) {
+                  throw new Error("Exception thrown when calling host defined require('".concat(id, "')."), {
+                    cause: err
+                  });
+                }
+              }
+            };
+          }
+        }, {
+          key: "_createRequire",
+          value: function _createRequire(module) {
+            var _this = this;
+            return function (specifier) {
+              return _this._require(specifier, module);
+            };
+          }
+        }, {
+          key: "_createRequireWithResolveMap",
+          value: function _createRequireWithResolveMap(requireMap, originalRequire) {
+            return function (specifier) {
+              var resolved = requireMap[specifier];
+              if (resolved) {
+                return originalRequire(resolved);
+              } else {
+                throw new Error('Unresolved specifier ' + specifier);
+              }
+            };
+          }
+        }, {
+          key: "_throwUnresolved",
+          value: function _throwUnresolved(specifier, parentUrl) {
+            throw new Error("Unable to resolve ".concat(specifier, " from ").concat(parent, "."));
+          }
+        }]);
+        return CjsLoader;
+      }();
+      var loader = exports('default', new CjsLoader());
+
+    })
+  };
+}));
+"
+`;
+
+exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/index.cjs.js 1`] = `
+"System.register(['./cjs-loader.mjs.js', './javascript_%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20export%20const%20__cjsMetaURL%20%3D%20\\'fs\\'%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20.js'], (function (exports, module) {
+  'use strict';
+  var loader, __cjsMetaURL$1;
+  return {
+    setters: [function (module) {
+      loader = module["default"];
+    }, function (module) {
+      __cjsMetaURL$1 = module.__cjsMetaURL;
+    }],
+    execute: (function () {
+
+      var _cjsExports; exports('default', _cjsExports);
+      var __cjsMetaURL = exports('__cjsMetaURL', module.meta.url);
+      loader.define(__cjsMetaURL, function (exports$1, require, module, __filename, __dirname) {
+        // #region ORIGINAL CODE
+
+        require('fs');
+
+        // #endregion ORIGINAL CODE
+
+        exports('default', _cjsExports = module.exports);
+      }, function () {
+        return {
+          'fs': __cjsMetaURL$1
+        };
+      });
+
+    })
+  };
+}));
+"
+`;
+
+exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/index.mjs_cjs__original_.cjs.js 1`] = `
+"System.register(['./index.cjs.js', './cjs-loader.mjs.js'], (function (exports, module) {
+  'use strict';
+  var __cjsMetaURL, loader;
+  return {
+    setters: [function (module) {
+      __cjsMetaURL = module.__cjsMetaURL;
+      exports({ __cjsMetaURL: module.__cjsMetaURL, 'default': module["default"] });
+    }, function (module) {
+      loader = module["default"];
+    }],
+    execute: (function () {
+
+      // I am the facade module who provides access to the CommonJS module './index.cjs'~
+      if (!__cjsMetaURL) {
+        loader.throwInvalidWrapper('./index.cjs', module.meta.url);
+      }
+      loader.require(__cjsMetaURL);
+
+    })
+  };
+}));
+"
+`;
+
+exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/javascript_%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20export%20const%20__cjsMetaURL%20%3D%20'fs'%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20.js 1`] = `
+"System.register([], (function (exports) {
+	'use strict';
+	return {
+		execute: (function () {
+
+			var __cjsMetaURL = exports('__cjsMetaURL', 'fs');
+
+		})
+	};
+}));
+"
+`;
+
+exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/rollupPluginModLoBabelHelpers.js 1`] = `
+"System.register([], (function (exports) {
+  'use strict';
+  return {
+    execute: (function () {
+
+      exports({
+        classCallCheck: _classCallCheck,
+        createClass: _createClass,
+        toPrimitive: _toPrimitive,
+        toPropertyKey: _toPropertyKey
+      });
+
+      function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+          throw new TypeError("Cannot call a class as a function");
+        }
+      }
+      function _defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+          var descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false;
+          descriptor.configurable = true;
+          if ("value" in descriptor) descriptor.writable = true;
+          Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+        }
+      }
+      function _createClass(Constructor, protoProps, staticProps) {
+        if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+        if (staticProps) _defineProperties(Constructor, staticProps);
+        Object.defineProperty(Constructor, "prototype", {
+          writable: false
+        });
+        return Constructor;
+      }
+      function _toPrimitive(input, hint) {
+        if (typeof input !== "object" || input === null) return input;
+        var prim = input[Symbol.toPrimitive];
+        if (prim !== undefined) {
+          var res = prim.call(input, hint || "default");
+          if (typeof res !== "object") return res;
+          throw new TypeError("@@toPrimitive must return a primitive value.");
+        }
+        return (hint === "string" ? String : Number)(input);
+      }
+      function _toPropertyKey(arg) {
+        var key = _toPrimitive(arg, "string");
+        return typeof key === "symbol" ? key : String(key);
+      }
+
+    })
+  };
+}));
+"
+`;

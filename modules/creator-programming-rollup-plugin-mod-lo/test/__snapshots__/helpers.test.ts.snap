@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rollup-plugin-mod-lo helper module: chunk: _virtual/index.mjs.js 1`] = `
+"System.register(['./rollupPluginModLoBabelHelpers.js', './mod.mjs.js'], (function (exports) {
+  'use strict';
+  var _inherits, _createSuper, _classCallCheck, Base;
+  return {
+    setters: [function (module) {
+      _inherits = module.inherits;
+      _createSuper = module.createSuper;
+      _classCallCheck = module.classCallCheck;
+    }, function (module) {
+      Base = module.Base;
+    }],
+    execute: (function () {
+
+      var Derived = exports('Derived', /*#__PURE__*/function (_Base) {
+        _inherits(Derived, _Base);
+        var _super = _createSuper(Derived);
+        function Derived() {
+          var _this;
+          _classCallCheck(this, Derived);
+          _this = _super.call(this);
+          console.log("Derived");
+          return _this;
+        }
+        return Derived;
+      }(Base));
+
+    })
+  };
+}));
+"
+`;
+
+exports[`rollup-plugin-mod-lo helper module: chunk: _virtual/mod.mjs.js 1`] = `
+"System.register(['./rollupPluginModLoBabelHelpers.js'], (function (exports) {
+  'use strict';
+  var _inherits, _createSuper, _classCallCheck;
+  return {
+    setters: [function (module) {
+      _inherits = module.inherits;
+      _createSuper = module.createSuper;
+      _classCallCheck = module.classCallCheck;
+    }],
+    execute: (function () {
+
+      var Base = exports('Base', /*#__PURE__*/function (_ref) {
+        _inherits(Base, _ref);
+        var _super = _createSuper(Base);
+        function Base() {
+          var _this;
+          _classCallCheck(this, Base);
+          _this = _super.call(this);
+          console.log("Base");
+          return _this;
+        }
+        return Base;
+      }(null));
+
+    })
+  };
+}));
+"
+`;
+
+exports[`rollup-plugin-mod-lo helper module: chunk: _virtual/rollupPluginModLoBabelHelpers.js 1`] = `
+"System.register([], (function (exports) {
+  'use strict';
+  return {
+    execute: (function () {
+
+      exports({
+        assertThisInitialized: _assertThisInitialized,
+        classCallCheck: _classCallCheck,
+        createSuper: _createSuper,
+        getPrototypeOf: _getPrototypeOf,
+        inherits: _inherits,
+        isNativeReflectConstruct: _isNativeReflectConstruct,
+        possibleConstructorReturn: _possibleConstructorReturn,
+        setPrototypeOf: _setPrototypeOf
+      });
+
+      function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+          throw new TypeError("Cannot call a class as a function");
+        }
+      }
+      function _inherits(subClass, superClass) {
+        if (typeof superClass !== "function" && superClass !== null) {
+          throw new TypeError("Super expression must either be null or a function");
+        }
+        subClass.prototype = Object.create(superClass && superClass.prototype, {
+          constructor: {
+            value: subClass,
+            writable: true,
+            configurable: true
+          }
+        });
+        Object.defineProperty(subClass, "prototype", {
+          writable: false
+        });
+        if (superClass) _setPrototypeOf(subClass, superClass);
+      }
+      function _getPrototypeOf(o) {
+        exports('getPrototypeOf', _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+          return o.__proto__ || Object.getPrototypeOf(o);
+        });
+        return _getPrototypeOf(o);
+      }
+      function _setPrototypeOf(o, p) {
+        exports('setPrototypeOf', _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+          o.__proto__ = p;
+          return o;
+        });
+        return _setPrototypeOf(o, p);
+      }
+      function _isNativeReflectConstruct() {
+        if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+        if (Reflect.construct.sham) return false;
+        if (typeof Proxy === "function") return true;
+        try {
+          Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
+          return true;
+        } catch (e) {
+          return false;
+        }
+      }
+      function _assertThisInitialized(self) {
+        if (self === void 0) {
+          throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+        }
+        return self;
+      }
+      function _possibleConstructorReturn(self, call) {
+        if (call && (typeof call === "object" || typeof call === "function")) {
+          return call;
+        } else if (call !== void 0) {
+          throw new TypeError("Derived constructors may only return object or undefined");
+        }
+        return _assertThisInitialized(self);
+      }
+      function _createSuper(Derived) {
+        var hasNativeReflectConstruct = _isNativeReflectConstruct();
+        return function _createSuperInternal() {
+          var Super = _getPrototypeOf(Derived),
+            result;
+          if (hasNativeReflectConstruct) {
+            var NewTarget = _getPrototypeOf(this).constructor;
+            result = Reflect.construct(Super, arguments, NewTarget);
+          } else {
+            result = Super.apply(this, arguments);
+          }
+          return _possibleConstructorReturn(this, result);
+        };
+      }
+
+    })
+  };
+}));
+"
+`;

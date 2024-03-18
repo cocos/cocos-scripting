@@ -1,0 +1,857 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuickPack build Case 0: cjs 1`] = `
+{
+  "chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [function (_unresolved_) {
+      var _exportObj = {};
+
+      for (var _key in _unresolved_) {
+        if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
+      }
+
+      _export(_exportObj);
+    }],
+    execute: function () {}
+  };
+});",
+  "chunks/62/62fc06e78e280e3ecf1f0e6cdc344a3571d799bc.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  var _cjsLoader, _cjsExports, __cjsMetaURL;
+
+  _export("default", void 0);
+
+  return {
+    setters: [function (_unresolved_) {
+      _cjsLoader = _unresolved_.default;
+    }],
+    execute: function () {
+      _export("__cjsMetaURL", __cjsMetaURL = _context.meta.url);
+
+      _cjsLoader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        // #region ORIGINAL CODE
+        module.exports = 0; // #endregion ORIGINAL CODE
+
+        _export("default", _cjsExports = module.exports);
+      }, {});
+    }
+  };
+});",
+  "chunks/82/82beee843625389aae24699a14bdfed67b7f23dd.js": "System.register([], function (_export, _context) {
+  "use strict";
+
+  var CjsLoader;
+
+  function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+
+  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+  function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+
+  function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+  return {
+    setters: [],
+    execute: function () {
+      CjsLoader = /*#__PURE__*/function () {
+        function CjsLoader() {
+          _classCallCheck(this, CjsLoader);
+
+          this._registry = {};
+          this._moduleCache = {};
+        }
+        /**
+         * Defines a CommonJS module.
+         * @param id Module ID.
+         * @param factory The factory.
+         * @param resolveMap An object or a function returning object which records the module specifier resolve result.
+         * The later is called as "deferred resolve map" and would be invocated right before CommonJS code execution.
+         */
+
+
+        _createClass(CjsLoader, [{
+          key: "define",
+          value: function define(id, factory, resolveMap) {
+            this._registry[id] = {
+              factory: factory,
+              resolveMap: resolveMap
+            };
+          }
+          /**
+           * Requires a CommonJS module.
+           * @param id Module ID.
+           * @returns The module's \`module.exports\`.
+           */
+
+        }, {
+          key: "require",
+          value: function require(id) {
+            return this._require(id);
+          }
+        }, {
+          key: "throwInvalidWrapper",
+          value: function throwInvalidWrapper(requestTarget, from) {
+            throw new Error("Module '".concat(requestTarget, "' imported from '").concat(from, "' is expected be an ESM-wrapped CommonJS module but it doesn't."));
+          }
+        }, {
+          key: "_require",
+          value: function _require(id, parent) {
+            var cachedModule = this._moduleCache[id];
+
+            if (cachedModule) {
+              return cachedModule.exports;
+            }
+
+            var module = {
+              id: id,
+              exports: {}
+            };
+            this._moduleCache[id] = module;
+
+            this._tryModuleLoad(module, id);
+
+            return module.exports;
+          }
+        }, {
+          key: "_resolve",
+          value: function _resolve(specifier, parent) {
+            return this._resolveFromInfos(specifier, parent) || this._throwUnresolved(specifier, parent);
+          }
+        }, {
+          key: "_resolveFromInfos",
+          value: function _resolveFromInfos(specifier, parent) {
+            var _cjsInfos$parent$reso, _cjsInfos$parent;
+
+            if (specifier in cjsInfos) {
+              return specifier;
+            }
+
+            if (!parent) {
+              return;
+            }
+
+            return (_cjsInfos$parent$reso = (_cjsInfos$parent = cjsInfos[parent]) === null || _cjsInfos$parent === void 0 ? void 0 : _cjsInfos$parent.resolveCache[specifier]) !== null && _cjsInfos$parent$reso !== void 0 ? _cjsInfos$parent$reso : undefined;
+          }
+        }, {
+          key: "_tryModuleLoad",
+          value: function _tryModuleLoad(module, id) {
+            var threw = true;
+
+            try {
+              this._load(module, id);
+
+              threw = false;
+            } finally {
+              if (threw) {
+                delete this._moduleCache[id];
+              }
+            }
+          }
+        }, {
+          key: "_load",
+          value: function _load(module, id) {
+            var _this$_loadWrapper = this._loadWrapper(id),
+                factory = _this$_loadWrapper.factory,
+                resolveMap = _this$_loadWrapper.resolveMap;
+
+            var vendorRequire = this._createRequire(module);
+
+            var require = resolveMap ? this._createRequireWithResolveMap(typeof resolveMap === 'function' ? resolveMap() : resolveMap, vendorRequire) : vendorRequire;
+
+            factory(module.exports, require, module);
+          }
+        }, {
+          key: "_loadWrapper",
+          value: function _loadWrapper(id) {
+            if (id in this._registry) {
+              return this._registry[id];
+            } else {
+              return this._loadHostProvidedModules(id);
+            }
+          }
+        }, {
+          key: "_loadHostProvidedModules",
+          value: function _loadHostProvidedModules(id) {
+            return {
+              factory: function factory(_exports, _require, module) {
+                if (typeof require === 'undefined') {
+                  throw new Error("Current environment does not provide a require() for requiring '".concat(id, "'."));
+                }
+
+                try {
+                  module.exports = require(id);
+                } catch (err) {
+                  throw new Error("Exception thrown when calling host defined require('".concat(id, "')."), {
+                    cause: err
+                  });
+                }
+              }
+            };
+          }
+        }, {
+          key: "_createRequire",
+          value: function _createRequire(module) {
+            var _this = this;
+
+            return function (specifier) {
+              return _this._require(specifier, module);
+            };
+          }
+        }, {
+          key: "_createRequireWithResolveMap",
+          value: function _createRequireWithResolveMap(requireMap, originalRequire) {
+            return function (specifier) {
+              var resolved = requireMap[specifier];
+
+              if (resolved) {
+                return originalRequire(resolved);
+              } else {
+                throw new Error('Unresolved specifier ' + specifier);
+              }
+            };
+          }
+        }, {
+          key: "_throwUnresolved",
+          value: function _throwUnresolved(specifier, parentUrl) {
+            throw new Error("Unable to resolve ".concat(specifier, " from ").concat(parent, "."));
+          }
+        }]);
+
+        return CjsLoader;
+      }();
+
+      _export("default", new CjsLoader());
+    }
+  };
+});",
+  "chunks/df/dfb059a765bf67459c15c9631f6c1c152d8fb720.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [function (_unresolved_) {}],
+    execute: function () {}
+  };
+});",
+  "chunks/f6/f6f44249dbf3be0fa3c05f090484ca81d5bb8e93.js": "System.register(["__unresolved_0", "__unresolved_1", "__unresolved_2", "__unresolved_3"], function (_export, _context) {
+  "use strict";
+
+  var req, loader, d;
+  return {
+    setters: [function (_unresolved_) {
+      req = _unresolved_.__cjsMetaURL;
+    }, function (_unresolved_2) {
+      loader = _unresolved_2.default;
+    }, function (_unresolved_3) {
+      var _exportObj = {};
+
+      for (var _key in _unresolved_3) {
+        if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_3[_key];
+      }
+
+      _export(_exportObj);
+    }, function (_unresolved_4) {
+      d = _unresolved_4.default;
+    }],
+    execute: function () {
+      // I am the facade module who provides access to the CommonJS module './lib.js'~
+      if (!req) {
+        loader.throwInvalidWrapper('./lib.js', _context.meta.url);
+      }
+
+      loader.require(req);
+
+      _export("default", d);
+    }
+  };
+});",
+  "import-map.json": "{
+  "imports": {
+    "virtual:/proxy-entries/input/index.mjs": "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js"
+  },
+  "scopes": {
+    "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": {
+      "__unresolved_0": "./chunks/df/dfb059a765bf67459c15c9631f6c1c152d8fb720.js"
+    },
+    "./chunks/df/dfb059a765bf67459c15c9631f6c1c152d8fb720.js": {
+      "__unresolved_0": "./chunks/f6/f6f44249dbf3be0fa3c05f090484ca81d5bb8e93.js"
+    },
+    "./chunks/f6/f6f44249dbf3be0fa3c05f090484ca81d5bb8e93.js": {
+      "__unresolved_0": "./chunks/62/62fc06e78e280e3ecf1f0e6cdc344a3571d799bc.js",
+      "__unresolved_1": "./chunks/82/82beee843625389aae24699a14bdfed67b7f23dd.js",
+      "__unresolved_2": "./chunks/62/62fc06e78e280e3ecf1f0e6cdc344a3571d799bc.js",
+      "__unresolved_3": "./chunks/62/62fc06e78e280e3ecf1f0e6cdc344a3571d799bc.js"
+    },
+    "./chunks/62/62fc06e78e280e3ecf1f0e6cdc344a3571d799bc.js": {
+      "__unresolved_0": "./chunks/82/82beee843625389aae24699a14bdfed67b7f23dd.js"
+    }
+  }
+}
+",
+  "resolution-detail-map.json": "{}
+",
+}
+`;
+
+exports[`QuickPack build Case 1: external 1`] = `
+{
+  "chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [function (_unresolved_) {
+      var _exportObj = {};
+
+      for (var _key in _unresolved_) {
+        if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
+      }
+
+      _export(_exportObj);
+    }],
+    execute: function () {}
+  };
+});",
+  "chunks/52/52984271423d3d0634a9c1996de2aaec0eb3d621.js": "System.register(["__unresolved_0", "baz", "baz2"], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [function (_unresolved_) {}, function (_baz) {}, function (_baz2) {}],
+    execute: function () {}
+  };
+});",
+  "import-map.json": "{
+  "imports": {
+    "virtual:/proxy-entries/input/index.mjs": "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js"
+  },
+  "scopes": {
+    "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": {
+      "__unresolved_0": "./chunks/52/52984271423d3d0634a9c1996de2aaec0eb3d621.js"
+    },
+    "./chunks/52/52984271423d3d0634a9c1996de2aaec0eb3d621.js": {
+      "__unresolved_0": "foo:/bar"
+    }
+  }
+}
+",
+  "resolution-detail-map.json": "{}
+",
+}
+`;
+
+exports[`QuickPack build Case 2: json 1`] = `
+{
+  "chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [function (_unresolved_) {
+      var _exportObj = {};
+
+      for (var _key in _unresolved_) {
+        if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
+      }
+
+      _export(_exportObj);
+    }],
+    execute: function () {}
+  };
+});",
+  "chunks/62/62f73f5bef93afcf4251f126f4379e036512a7d4.js": "System.register([], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("default", {
+        x: 5,
+        y: 6,
+        s: 'foo',
+        b: true,
+        nil: null,
+        array: [1, 2, 3, 'string'],
+        'some-key': 10
+      });
+    }
+  };
+});",
+  "chunks/d6/d66c8302a6b853aee2ca40413e10dc5672aa8deb.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  var json;
+  return {
+    setters: [function (_unresolved_) {
+      json = _unresolved_.default;
+    }],
+    execute: function () {
+      console.log(json.x, json['some-key']);
+    }
+  };
+});",
+  "import-map.json": "{
+  "imports": {
+    "virtual:/proxy-entries/input/index.mjs": "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js"
+  },
+  "scopes": {
+    "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": {
+      "__unresolved_0": "./chunks/d6/d66c8302a6b853aee2ca40413e10dc5672aa8deb.js"
+    },
+    "./chunks/d6/d66c8302a6b853aee2ca40413e10dc5672aa8deb.js": {
+      "__unresolved_0": "./chunks/62/62f73f5bef93afcf4251f126f4379e036512a7d4.js"
+    }
+  }
+}
+",
+  "resolution-detail-map.json": "{}
+",
+}
+`;
+
+exports[`QuickPack build Case 3: regular 1`] = `
+{
+  "chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [function (_unresolved_) {
+      var _exportObj = {};
+
+      for (var _key in _unresolved_) {
+        if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
+      }
+
+      _export(_exportObj);
+    }],
+    execute: function () {}
+  };
+});",
+  "chunks/b2/b2d54b3f2dcda0f320672a5c8bf9a2fd9d3d6777.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  var foo;
+  return {
+    setters: [function (_unresolved_) {
+      foo = _unresolved_.foo;
+    }],
+    execute: function () {
+      console.log(foo);
+    }
+  };
+});",
+  "chunks/bd/bd90733bb9b5b1e5b1269eb34e1547c3a08bedc5.js": "System.register([], function (_export, _context) {
+  "use strict";
+
+  var foo;
+  return {
+    setters: [],
+    execute: function () {
+      _export("foo", foo = 'foo');
+    }
+  };
+});",
+  "import-map.json": "{
+  "imports": {
+    "virtual:/proxy-entries/input/index.mjs": "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js"
+  },
+  "scopes": {
+    "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": {
+      "__unresolved_0": "./chunks/b2/b2d54b3f2dcda0f320672a5c8bf9a2fd9d3d6777.js"
+    },
+    "./chunks/b2/b2d54b3f2dcda0f320672a5c8bf9a2fd9d3d6777.js": {
+      "__unresolved_0": "./chunks/bd/bd90733bb9b5b1e5b1269eb34e1547c3a08bedc5.js"
+    }
+  }
+}
+",
+  "resolution-detail-map.json": "{}
+",
+}
+`;
+
+exports[`QuickPack build Case 4: tla 1`] = `
+{
+  "chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [function (_unresolved_) {
+      var _exportObj = {};
+
+      for (var _key in _unresolved_) {
+        if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
+      }
+
+      _export(_exportObj);
+    }],
+    execute: function () {}
+  };
+});",
+  "chunks/d2/d2e9a17620064471f862dbb60db53fe537dc63b8.js": "System.register([], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [],
+    execute: async function () {
+      await 0;
+    }
+  };
+});",
+  "import-map.json": "{
+  "imports": {
+    "virtual:/proxy-entries/input/index.mjs": "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js"
+  },
+  "scopes": {
+    "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": {
+      "__unresolved_0": "./chunks/d2/d2e9a17620064471f862dbb60db53fe537dc63b8.js"
+    }
+  }
+}
+",
+  "resolution-detail-map.json": "{}
+",
+}
+`;
+
+exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
+{
+  "chunks/18/18b47ad0ec1d409a1beb1d4bac3da84a4e31a2c9.js": "System.register(["__unresolved_0", "__unresolved_1", "__unresolved_2", "__unresolved_3"], function (_export, _context) {
+  "use strict";
+
+  var req, loader, d;
+  return {
+    setters: [function (_unresolved_) {
+      req = _unresolved_.__cjsMetaURL;
+    }, function (_unresolved_2) {
+      loader = _unresolved_2.default;
+    }, function (_unresolved_3) {
+      var _exportObj = {};
+
+      for (var _key in _unresolved_3) {
+        if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_3[_key];
+      }
+
+      _export(_exportObj);
+    }, function (_unresolved_4) {
+      d = _unresolved_4.default;
+    }],
+    execute: function () {
+      // I am the facade module who provides access to the CommonJS module './cjs.js'~
+      if (!req) {
+        loader.throwInvalidWrapper('./cjs.js', _context.meta.url);
+      }
+
+      loader.require(req);
+
+      _export("default", d);
+    }
+  };
+});",
+  "chunks/1e/1e52989c831df736ee6cff930b7ef30f422ad06c.js": "System.register([], function (_export, _context) {
+  "use strict";
+
+  var __cjsMetaURL;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__cjsMetaURL", __cjsMetaURL = 'bare');
+    }
+  };
+});",
+  "chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [function (_unresolved_) {
+      var _exportObj = {};
+
+      for (var _key in _unresolved_) {
+        if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
+      }
+
+      _export(_exportObj);
+    }],
+    execute: function () {}
+  };
+});",
+  "chunks/58/584f5544af1840e822944fa908cb8ca2c10f2d6e.js": "System.register(["__unresolved_0", "bare", "fs"], function (_export, _context) {
+  "use strict";
+
+  var _cjsLoader, _req, _req0, _cjsExports, __cjsMetaURL;
+
+  _export("default", void 0);
+
+  return {
+    setters: [function (_unresolved_) {
+      _cjsLoader = _unresolved_.default;
+    }, function (_bare) {
+      _req = _bare.__cjsMetaURL;
+    }, function (_fs) {
+      _req0 = _fs.__cjsMetaURL;
+    }],
+    execute: function () {
+      _export("__cjsMetaURL", __cjsMetaURL = _context.meta.url);
+
+      _cjsLoader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        // #region ORIGINAL CODE
+        require('bare');
+
+        require('fs'); // #endregion ORIGINAL CODE
+
+
+        _export("default", _cjsExports = module.exports);
+      }, function () {
+        return {
+          'bare': _req,
+          'fs': _req0
+        };
+      });
+    }
+  };
+});",
+  "chunks/5e/5effeec9808389eede5f0ecb1c4ceaa9ddab58e8.js": "System.register([], function (_export, _context) {
+  "use strict";
+
+  var __cjsMetaURL;
+
+  return {
+    setters: [],
+    execute: function () {
+      _export("__cjsMetaURL", __cjsMetaURL = 'fs');
+    }
+  };
+});",
+  "chunks/82/82beee843625389aae24699a14bdfed67b7f23dd.js": "System.register([], function (_export, _context) {
+  "use strict";
+
+  var CjsLoader;
+
+  function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+
+  function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+  function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+
+  function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+  return {
+    setters: [],
+    execute: function () {
+      CjsLoader = /*#__PURE__*/function () {
+        function CjsLoader() {
+          _classCallCheck(this, CjsLoader);
+
+          this._registry = {};
+          this._moduleCache = {};
+        }
+        /**
+         * Defines a CommonJS module.
+         * @param id Module ID.
+         * @param factory The factory.
+         * @param resolveMap An object or a function returning object which records the module specifier resolve result.
+         * The later is called as "deferred resolve map" and would be invocated right before CommonJS code execution.
+         */
+
+
+        _createClass(CjsLoader, [{
+          key: "define",
+          value: function define(id, factory, resolveMap) {
+            this._registry[id] = {
+              factory: factory,
+              resolveMap: resolveMap
+            };
+          }
+          /**
+           * Requires a CommonJS module.
+           * @param id Module ID.
+           * @returns The module's \`module.exports\`.
+           */
+
+        }, {
+          key: "require",
+          value: function require(id) {
+            return this._require(id);
+          }
+        }, {
+          key: "throwInvalidWrapper",
+          value: function throwInvalidWrapper(requestTarget, from) {
+            throw new Error("Module '".concat(requestTarget, "' imported from '").concat(from, "' is expected be an ESM-wrapped CommonJS module but it doesn't."));
+          }
+        }, {
+          key: "_require",
+          value: function _require(id, parent) {
+            var cachedModule = this._moduleCache[id];
+
+            if (cachedModule) {
+              return cachedModule.exports;
+            }
+
+            var module = {
+              id: id,
+              exports: {}
+            };
+            this._moduleCache[id] = module;
+
+            this._tryModuleLoad(module, id);
+
+            return module.exports;
+          }
+        }, {
+          key: "_resolve",
+          value: function _resolve(specifier, parent) {
+            return this._resolveFromInfos(specifier, parent) || this._throwUnresolved(specifier, parent);
+          }
+        }, {
+          key: "_resolveFromInfos",
+          value: function _resolveFromInfos(specifier, parent) {
+            var _cjsInfos$parent$reso, _cjsInfos$parent;
+
+            if (specifier in cjsInfos) {
+              return specifier;
+            }
+
+            if (!parent) {
+              return;
+            }
+
+            return (_cjsInfos$parent$reso = (_cjsInfos$parent = cjsInfos[parent]) === null || _cjsInfos$parent === void 0 ? void 0 : _cjsInfos$parent.resolveCache[specifier]) !== null && _cjsInfos$parent$reso !== void 0 ? _cjsInfos$parent$reso : undefined;
+          }
+        }, {
+          key: "_tryModuleLoad",
+          value: function _tryModuleLoad(module, id) {
+            var threw = true;
+
+            try {
+              this._load(module, id);
+
+              threw = false;
+            } finally {
+              if (threw) {
+                delete this._moduleCache[id];
+              }
+            }
+          }
+        }, {
+          key: "_load",
+          value: function _load(module, id) {
+            var _this$_loadWrapper = this._loadWrapper(id),
+                factory = _this$_loadWrapper.factory,
+                resolveMap = _this$_loadWrapper.resolveMap;
+
+            var vendorRequire = this._createRequire(module);
+
+            var require = resolveMap ? this._createRequireWithResolveMap(typeof resolveMap === 'function' ? resolveMap() : resolveMap, vendorRequire) : vendorRequire;
+
+            factory(module.exports, require, module);
+          }
+        }, {
+          key: "_loadWrapper",
+          value: function _loadWrapper(id) {
+            if (id in this._registry) {
+              return this._registry[id];
+            } else {
+              return this._loadHostProvidedModules(id);
+            }
+          }
+        }, {
+          key: "_loadHostProvidedModules",
+          value: function _loadHostProvidedModules(id) {
+            return {
+              factory: function factory(_exports, _require, module) {
+                if (typeof require === 'undefined') {
+                  throw new Error("Current environment does not provide a require() for requiring '".concat(id, "'."));
+                }
+
+                try {
+                  module.exports = require(id);
+                } catch (err) {
+                  throw new Error("Exception thrown when calling host defined require('".concat(id, "')."), {
+                    cause: err
+                  });
+                }
+              }
+            };
+          }
+        }, {
+          key: "_createRequire",
+          value: function _createRequire(module) {
+            var _this = this;
+
+            return function (specifier) {
+              return _this._require(specifier, module);
+            };
+          }
+        }, {
+          key: "_createRequireWithResolveMap",
+          value: function _createRequireWithResolveMap(requireMap, originalRequire) {
+            return function (specifier) {
+              var resolved = requireMap[specifier];
+
+              if (resolved) {
+                return originalRequire(resolved);
+              } else {
+                throw new Error('Unresolved specifier ' + specifier);
+              }
+            };
+          }
+        }, {
+          key: "_throwUnresolved",
+          value: function _throwUnresolved(specifier, parentUrl) {
+            throw new Error("Unable to resolve ".concat(specifier, " from ").concat(parent, "."));
+          }
+        }]);
+
+        return CjsLoader;
+      }();
+
+      _export("default", new CjsLoader());
+    }
+  };
+});",
+  "chunks/ec/ec6fac9bdad77a34f9bb0aedc9c5f914d3534d0f.js": "System.register(["__unresolved_0"], function (_export, _context) {
+  "use strict";
+
+  return {
+    setters: [function (_unresolved_) {}],
+    execute: function () {}
+  };
+});",
+  "import-map.json": "{
+  "imports": {
+    "virtual:/proxy-entries/input/index.mjs": "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js"
+  },
+  "scopes": {
+    "./chunks/40/4075fb0cdd1c67c57407b9d3efac0ebba7335cda.js": {
+      "__unresolved_0": "./chunks/ec/ec6fac9bdad77a34f9bb0aedc9c5f914d3534d0f.js"
+    },
+    "./chunks/ec/ec6fac9bdad77a34f9bb0aedc9c5f914d3534d0f.js": {
+      "__unresolved_0": "./chunks/18/18b47ad0ec1d409a1beb1d4bac3da84a4e31a2c9.js"
+    },
+    "./chunks/18/18b47ad0ec1d409a1beb1d4bac3da84a4e31a2c9.js": {
+      "__unresolved_0": "./chunks/58/584f5544af1840e822944fa908cb8ca2c10f2d6e.js",
+      "__unresolved_1": "./chunks/82/82beee843625389aae24699a14bdfed67b7f23dd.js",
+      "__unresolved_2": "./chunks/58/584f5544af1840e822944fa908cb8ca2c10f2d6e.js",
+      "__unresolved_3": "./chunks/58/584f5544af1840e822944fa908cb8ca2c10f2d6e.js"
+    },
+    "./chunks/58/584f5544af1840e822944fa908cb8ca2c10f2d6e.js": {
+      "__unresolved_0": "./chunks/82/82beee843625389aae24699a14bdfed67b7f23dd.js",
+      "bare": "./chunks/1e/1e52989c831df736ee6cff930b7ef30f422ad06c.js",
+      "fs": "./chunks/5e/5effeec9808389eede5f0ecb1c4ceaa9ddab58e8.js"
+    }
+  }
+}
+",
+  "resolution-detail-map.json": "{}
+",
+}
+`;

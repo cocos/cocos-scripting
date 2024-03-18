@@ -1,0 +1,9 @@
+{
+    "x": 5,
+    "y": 6,
+    "s": "foo",
+    "b": true,
+    "nil": null,
+    "array": [1, 2, 3, "string"],
+    "some-key": 10
+}

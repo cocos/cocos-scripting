@@ -1,0 +1,296 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bugfix cocos/cocos-engine#11373 1`] = `
+"function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+var _dec, _class;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+import * as cc from "cc";
+var ccclass = cc._decorator.ccclass;
+var AppVersion = (_dec = ccclass('AppVersion'), _dec(_class = /*#__PURE__*/function (_cc$Component) {
+  _inherits(AppVersion, _cc$Component);
+  var _super = _createSuper(AppVersion);
+  function AppVersion() {
+    _classCallCheck(this, AppVersion);
+    return _super.apply(this, arguments);
+  }
+  _createClass(AppVersion, [{
+    key: "onLoad",
+    value: function onLoad() {}
+  }]);
+  return AppVersion;
+}(cc.Component)) || _class);
+export { AppVersion as default };"
+`;
+
+exports[`Transform CommonJS modules ESM: isEsm: true 1`] = `
+"import _cjsLoader0 from 'cce:/internal/ml/cjs-loader.mjs';
+import { __cjsMetaURL as _req0} from './foo';
+import { __cjsMetaURL as _req2} from 'bar';
+let _cjsExports0;
+const __cjsMetaURL = import.meta.url;
+_cjsLoader0.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+// #region ORIGINAL CODE
+
+
+ const Foo = require('./foo');
+ const Bar = require('bar');
+
+ // These variable names are used accordingly by implementation.
+ console.log(
+     _req,
+     _req1,
+     _cjsExports,
+     _cjsLoader,
+     _Test,
+ );
+
+ module.exports = class Test {
+     F = new Foo();
+     B = new Bar();
+ }
+
+
+// #endregion ORIGINAL CODE
+
+_cjsExports0 = module.exports;
+
+
+}, () => ({
+  './foo': _req0,
+  'bar': _req2,
+}));
+export { _cjsExports0 as default };
+export { __cjsMetaURL }
+"
+`;
+
+exports[`Transform CommonJS modules SystemJS: isEsm: false 1`] = `
+"System.register(["cce:/internal/ml/cjs-loader.mjs", "./foo", "bar"], function (_export, _context) {
+  "use strict";
+
+  var _cjsLoader0, _req0, _req2, _cjsExports0, __cjsMetaURL;
+  _export("default", void 0);
+  return {
+    setters: [function (_cceInternalMlCjsLoaderMjs) {
+      _cjsLoader0 = _cceInternalMlCjsLoaderMjs.default;
+    }, function (_foo) {
+      _req0 = _foo.__cjsMetaURL;
+    }, function (_bar) {
+      _req2 = _bar.__cjsMetaURL;
+    }],
+    execute: function () {
+      _export("__cjsMetaURL", __cjsMetaURL = _context.meta.url);
+      _cjsLoader0.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+        // #region ORIGINAL CODE
+
+        
+         const Foo = require('./foo');
+         const Bar = require('bar');
+
+         // These variable names are used accordingly by implementation.
+         console.log(
+             _req,
+             _req1,
+             _cjsExports,
+             _cjsLoader,
+             _Test,
+         );
+
+         module.exports = class Test {
+             F = new Foo();
+             B = new Bar();
+         }
+
+;
+        // #endregion ORIGINAL CODE
+
+        _export("default", _cjsExports0 = module.exports);
+      }, () => ({
+        './foo': _req0,
+        'bar': _req2
+      }));
+    }
+  };
+});"
+`;
+
+exports[`Transform JSON module 1`] = `
+"export default {
+  x: 5,
+  y: 6,
+  s: 'foo',
+  b: true,
+  nil: null,
+  array: [1, 2, 3, 'string'],
+  'some-key': 10
+};"
+`;
+
+exports[`Transform option: _importMetaURLValid false 1`] = `
+"import _cjsLoader from 'cce:/internal/ml/cjs-loader.mjs';
+var _cjsExports;
+var _foo;
+var __cjsMetaURL = '70eb3fd3cd871d41e5f7e819d8bed871-cjs-import-meta-url-valid.js';
+_cjsLoader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+  // #region ORIGINAL CODE
+
+  module.exports.foo = null;
+
+  // #endregion ORIGINAL CODE
+
+  _cjsExports = module.exports;
+  _foo = module.exports.foo;
+}, {});
+export { _cjsExports as default };
+export { __cjsMetaURL };"
+`;
+
+exports[`Transform option: _importMetaURLValid true 1`] = `
+"import _cjsLoader from 'cce:/internal/ml/cjs-loader.mjs';
+var _cjsExports;
+var _foo;
+var __cjsMetaURL = import.meta.url;
+_cjsLoader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
+  // #region ORIGINAL CODE
+
+  module.exports.foo = null;
+
+  // #endregion ORIGINAL CODE
+
+  _cjsExports = module.exports;
+  _foo = module.exports.foo;
+}, {});
+export { _cjsExports as default };
+export { __cjsMetaURL };"
+`;
+
+exports[`Transform options: loose false 1`] = `
+"function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var ValueType = function ValueType() {
+  _classCallCheck(this, ValueType);
+};
+var Vec3 = /*#__PURE__*/function (_ValueType) {
+  _inherits(Vec3, _ValueType);
+  var _super = _createSuper(Vec3);
+  function Vec3() {
+    var _this;
+    _classCallCheck(this, Vec3);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _super.call.apply(_super, [this].concat(args));
+    _defineProperty(_assertThisInitialized(_this), "x", 0.0);
+    return _this;
+  }
+  return Vec3;
+}(ValueType);"
+`;
+
+exports[`Transform options: loose true 1`] = `
+"function _inheritsLoose(subClass, superClass) { subClass.prototype = Object.create(superClass.prototype); subClass.prototype.constructor = subClass; _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+var ValueType = function ValueType() {};
+var Vec3 = /*#__PURE__*/function (_ValueType) {
+  _inheritsLoose(Vec3, _ValueType);
+  function Vec3() {
+    var _this;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    _this = _ValueType.call.apply(_ValueType, [this].concat(args)) || this;
+    _this.x = 0.0;
+    return _this;
+  }
+  return Vec3;
+}(ValueType);"
+`;
+
+exports[`Transform options: useDefineForClassFields & allowDeclareFields useDefineForClassFields: false & allowDeclareFields: false 1`] = `
+"function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var C = function C() {
+  _classCallCheck(this, C);
+  this.a = 1;
+};
+export {};"
+`;
+
+exports[`Transform options: useDefineForClassFields & allowDeclareFields useDefineForClassFields: false & allowDeclareFields: true 1`] = `
+"function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var C = function C() {
+  _classCallCheck(this, C);
+  this.a = 1;
+  this.b = void 0;
+};
+export {};"
+`;
+
+exports[`Transform options: useDefineForClassFields & allowDeclareFields useDefineForClassFields: true & allowDeclareFields: false 1`] = `
+"function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var C = function C() {
+  _classCallCheck(this, C);
+  _defineProperty(this, "a", 1);
+};
+export {};"
+`;
+
+exports[`Transform options: useDefineForClassFields & allowDeclareFields useDefineForClassFields: true & allowDeclareFields: true 1`] = `
+"function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var C = function C() {
+  _classCallCheck(this, C);
+  _defineProperty(this, "a", 1);
+  _defineProperty(this, "b", void 0);
+};
+export {};"
+`;
+
+exports[`Transform options: useDefineForClassFields false: false 1`] = `
+"function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var C = function C() {
+  _classCallCheck(this, C);
+  this.a = 1;
+  this.b = void 0;
+};"
+`;
+
+exports[`Transform options: useDefineForClassFields true: true 1`] = `
+"function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var C = function C() {
+  _classCallCheck(this, C);
+  _defineProperty(this, "a", 1);
+  _defineProperty(this, "b", void 0);
+};"
+`;

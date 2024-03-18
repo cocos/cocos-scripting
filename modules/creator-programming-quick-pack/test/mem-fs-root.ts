@@ -1,0 +1,1 @@
+export const TESTING_MEM_FS_ROOT = '/.mem/';

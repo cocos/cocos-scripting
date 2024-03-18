@@ -1,0 +1,2 @@
+require('bare');
+require('fs');

@@ -1,0 +1,19 @@
+{
+  "name": "@cocos/creator-programming-test-utils",
+  "version": "1.0.0",
+  "private": "true",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "clean": "tsc --build --clean"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@cocos/creator-programming-common": "workspace:*",
+    "@types/fs-extra": "9.0.13",
+    "fs-extra": "10.0.0",
+    "unionfs": "4.4.0"
+  }
+}
