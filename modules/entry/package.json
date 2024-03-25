@@ -57,6 +57,13 @@
     "@ccbuild/transformer": "*",
     "@ccbuild/utils": "*",
 
+    "@cocos/creator-programming-babel-preset-cc": "*",
+    "@cocos/creator-programming-common": "*",
+    "@cocos/creator-programming-import-maps": "*",
+    "@cocos/creator-programming-mod-lo": "*",
+    "@cocos/creator-programming-quick-pack": "*",
+    "@cocos/creator-programming-rollup-plugin-mod-lo": "*",
+
     "dedent": "^0.7.0",
     "fs-extra": "~11.1.1",
     "glob": "~7.2.0",

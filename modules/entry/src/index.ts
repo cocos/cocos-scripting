@@ -10,3 +10,9 @@ export { Modularize };
 export { dtsBundler };
 
 export * from '@ccbuild/quick-build-engine';
+export * from '@cocos/creator-programming-babel-preset-cc';
+export * from '@cocos/creator-programming-common';
+export * from '@cocos/creator-programming-import-maps';
+export * from '@cocos/creator-programming-mod-lo';
+export { QuickPack, QuickPackLoader, QuickPackLoaderContext } from '@cocos/creator-programming-quick-pack';
+export * from '@cocos/creator-programming-rollup-plugin-mod-lo';
