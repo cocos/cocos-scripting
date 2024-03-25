@@ -6,9 +6,9 @@ import { modLoBuiltinModCommonJsURL } from "../utils/mod-lo-builtin-mods";
 import { cjsMetaUrlExportName } from "../cjs/share";
 import { analyzeCommonJs } from "../cjs/detect-exports";
 import { assert } from "console";
-// @ts-expect-error
+// @ts-ignore
 import babelPluginTransformSystemJs from '@babel/plugin-transform-modules-systemjs';
-// @ts-expect-error
+// @ts-ignore
 import babelPluginProposalDynamicImport from '@babel/plugin-proposal-dynamic-import';
 import * as babel from '@babel/core';
 import { assertsNonNullable } from "../../../creator-programming-common/lib/asserts";

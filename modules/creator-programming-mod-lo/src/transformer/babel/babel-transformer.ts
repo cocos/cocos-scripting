@@ -11,9 +11,11 @@ import { asserts, assertsNonNullable } from "@cocos/creator-programming-common/l
 import { RawSourceMap } from "source-map";
 import { InternalTransformOptions, SourceMap } from "../../mod-lo";
 import { createBabelPluginDetectAndRewriteImports } from "./babel-plugins/detect-imports";
-// @ts-expect-error
+
+// @ts-ignore
 import babelPluginTransformSystemJs from '@babel/plugin-transform-modules-systemjs';
-// @ts-expect-error
+
+// @ts-ignore
 import babelPluginProposalDynamicImport from '@babel/plugin-proposal-dynamic-import';
 import generate from '@babel/generator';
 import { transformJson } from "../transform-json";
