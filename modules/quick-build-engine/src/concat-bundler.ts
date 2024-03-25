@@ -5,7 +5,7 @@ import ConcatWithSourceMaps from 'concat-with-sourcemaps';
 import { IBundler, TransformTargetModule } from './bundler';
 import { IndexedSourceMap } from './indexed-source-map';
 import { RawSourceMap } from 'source-map';
-import { pathToFileURL } from 'url';
+import { pathToFileURL, URL as NodeURL } from 'url';
 import RelateURl from 'relateurl';
 
 class RegularConcat {
@@ -109,7 +109,7 @@ export class ConcatBundler extends CacheTransformed implements IBundler {
         ]);
     }
 
-    private async _concatToCommonJs(concat: ConcatTool, outURL: URL): Promise<void> {
+    private async _concatToCommonJs(concat: ConcatTool, outURL: NodeURL): Promise<void> {
         wrapBigIIFEPre();
 
         await this.forEachModule(async (path, code, map, mapURL) => {
@@ -143,7 +143,7 @@ module.exports = (function(){ return {
         }
     }
 
-    private async _concatToSystemJs(concat: ConcatTool, outURL: URL): Promise<void> {
+    private async _concatToSystemJs(concat: ConcatTool, outURL: NodeURL): Promise<void> {
         await this.forEachModule(async (path, code, map, mapURL) => {
             if (map && mapURL) {
                 relocateSourceFilePaths(map, mapURL, outURL);
@@ -160,8 +160,8 @@ module.exports = (function(){ return {
 
 function relocateSourceFilePaths(
     sourceMap: RawSourceMap,
-    sourceMapURL: URL,
-    newSourceMapURL: URL,
+    sourceMapURL: NodeURL,
+    newSourceMapURL: NodeURL,
 ): RawSourceMap | undefined {
     if (!sourceMap.sources) {
         return;
@@ -170,7 +170,7 @@ function relocateSourceFilePaths(
 
     const resolveRelative = new RelateURl(newSourceMapURL.href);
     sources.map((source, iSource) => {
-        const sourceURL = new URL(source, sourceMapURL);
+        const sourceURL = new NodeURL(source, sourceMapURL);
         const resolved = resolveRelative.relate(sourceURL.href);
         sources[iSource] = resolved;
     });
