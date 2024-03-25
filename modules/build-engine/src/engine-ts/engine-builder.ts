@@ -580,12 +580,13 @@ export class EngineBuilder {
                                 },
                                 ClassDeclaration (path): void {
                                     const idPath = path.get('id');
-                                    if (idPath.node) {
-                                        const name = idPath.node.name;
-                                        const alias = self._renameMap[name];
-                                        if (typeof alias === 'string') {
-                                            idPath.replaceWith(t.identifier(alias));
-                                        }
+                                    if (!idPath.node) {
+                                        return;
+                                    }
+                                    const name = idPath.node.name;
+                                    const alias = self._renameMap[name];
+                                    if (typeof alias === 'string') {
+                                        idPath.replaceWith(t.identifier(alias));
                                     }
                                 },
                                 NewExpression (path): void {

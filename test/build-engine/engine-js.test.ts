@@ -7,7 +7,7 @@ import { getOutputContent, getOutputDirStructure } from '../utils';
 describe('engine-js', () => {
     test('build WASM module on platform supporting WASM', async () => {
         const out = ps.join(__dirname, './lib-js');
-        await buildEngine({
+        const buildResult: buildEngine.Result = await buildEngine({
             engine: ps.join(__dirname, '../test-engine-source'),
             out,
             mode: 'BUILD',
@@ -16,8 +16,13 @@ describe('engine-js', () => {
             moduleFormat: 'system',
             nativeCodeBundleMode: 'wasm',
         });
+        const chunks = Object.keys(buildResult.chunkDepGraph).sort();
+        for (const chunk of chunks) {
+            if (chunk.startsWith('_virtual_cc') || chunk === 'cc.js') {
+                expect(await getOutputContent(ps.join(out, chunk))).toMatchSnapshot();
+            }
+        }
         expect(await getOutputDirStructure(out)).toMatchSnapshot();
-        expect(await getOutputContent(ps.join(out, 'cc.js'))).toMatchSnapshot();
         await del(out, { force: true });
 
         // build wasm module only
@@ -31,6 +36,7 @@ describe('engine-js', () => {
             nativeCodeBundleMode: 'wasm',
             flags: {},
         });
+
         expect(await getOutputDirStructure(out)).toMatchSnapshot('cull asm.js module');
         // expect(await getOutputContent(ps.join(out, 'cc.js'))).toMatchSnapshot();  // this is too much for a snapshot output
         await del(out, { force: true });
