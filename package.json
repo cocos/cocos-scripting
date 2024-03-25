@@ -8,7 +8,7 @@
     "version": "node ./scripts/remove-workspaces.js && changeset version && node ./scripts/restore-workspaces.js",
     "version-alpha": "node ./scripts/remove-workspaces.js && changeset pre enter alpha && changeset version && changeset pre exit && node ./scripts/restore-workspaces.js",
     "version-snapshot": "node ./scripts/remove-workspaces.js && changeset version --snapshot test && node ./scripts/restore-workspaces.js",
-    "deploy": "npm run clean && turbo build --force && tsc && node ./scripts/deploy.js",
+    "deploy": "npm run clean && turbo build --force && node ./scripts/deploy.js",
     "api": "npm run build && node ./scripts/update-api.js",
     "doc": "typedoc",
     "clean": "node ./scripts/clear.js",
@@ -32,7 +32,6 @@
     "README.md"
   ],
   "workspaces": [
-    "./entry/*",
     "./modules/*"
   ],
   "author": "cocos",
