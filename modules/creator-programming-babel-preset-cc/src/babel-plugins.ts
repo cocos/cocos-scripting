@@ -22,6 +22,9 @@ export function genBabelPlugins ({
     editorDecorators,
 }: babelPresetCC.Options) {
     const looseClassProperties = !useDefineForClassFields;
+    if (!ccDecoratorHelpers) {
+        ccDecoratorHelpers = 'inline';
+    }
 
     // Note, if we choose to use @babel/preset-typescript instead of @babel/plugin-transform-typescript
     // We have to wrap the `plugins` into an anonymous preset and that preset should

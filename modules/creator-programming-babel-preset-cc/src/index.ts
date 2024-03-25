@@ -34,16 +34,16 @@ export namespace babelPresetCC {
         /**
          * If it's 'external', then the helpers should be an external module.
          */
-        ccDecoratorHelpers: 'external' | 'inline';
+        ccDecoratorHelpers?: 'external' | 'inline';
 
          /**
           * The list of decorator names to be optimized.
           */
-        fieldDecorators: string[];
+        fieldDecorators?: string[];
 
         /**
          * The list of decorator names to be removed, which should only work in Cocos Creator editor environment.
          */
-        editorDecorators: string[];
+        editorDecorators?: string[];
     }>;
 }

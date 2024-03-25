@@ -16,7 +16,7 @@
   "devDependencies": {
     "@cocos/creator-programming-test-utils": "*",
     "@types/node": "16.11.0",
-    "typescript": "4.5.2"
+    "typescript": "4.9.5"
   },
   "dependencies": {
     "@cocos/creator-programming-common": "*"

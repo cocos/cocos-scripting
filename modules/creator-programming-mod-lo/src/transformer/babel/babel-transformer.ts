@@ -1,13 +1,13 @@
 import { CircularReferenceReportOptions, InputSourceMap, Transformer, TransformOptions, TransformTargets } from "../transformer";
 // @ts-expect-error
 import babelPluginSyntaxTopLevelAwait from '@babel/plugin-syntax-top-level-await';
-import babelPresetCc from '@cocos/creator-programming-babel-preset-cc';
+import { babelPresetCC } from '@cocos/creator-programming-babel-preset-cc';
 import { ParserPlugin } from '@babel/parser';
 import babelPluginAnnotateCCClass from './babel-plugins/plugin-annotate-ccclass';
 import bpDetectCircularReference from './babel-plugins/plugin-detect-circular';
 import babelPresetEnv from '@babel/preset-env';
 import * as babel from '@babel/core';
-import { asserts, assertsNonNullable } from "../../../../creator-programming-common/lib/asserts";
+import { asserts, assertsNonNullable } from "@cocos/creator-programming-common/lib/asserts";
 import { RawSourceMap } from "source-map";
 import { InternalTransformOptions, SourceMap } from "../../mod-lo";
 import { createBabelPluginDetectAndRewriteImports } from "./babel-plugins/detect-imports";
@@ -233,9 +233,11 @@ export class BabelTransformer implements Transformer {
         }
         plugins.push(babelPluginSyntaxTopLevelAwait);
 
-        presets.push([babelPresetCc, {
+        presets.push([babelPresetCC, {
             allowDeclareFields: this._allowDeclareFields,
-        } as babelPresetCc.Options]);
+            // @ts-ignore
+            useDefineForClassFields: !this._assumptions.setPublicClassFields
+        } as babelPresetCC.Options]);
 
         if (options) {
             if (this._dynamicImportVarsOptions) {

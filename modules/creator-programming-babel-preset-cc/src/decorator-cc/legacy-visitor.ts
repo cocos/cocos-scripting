@@ -6,9 +6,13 @@ import type { NodePath, Visitor } from "@babel/traverse";
 import { addHelper } from "./helpers";
 
 
-export function genVisitor(fieldDecorators: string[], editorDecorators: string[] | undefined) {
+export function genVisitor(fieldDecorators: string[] | undefined, editorDecorators: string[] | undefined) {
   
-  function isAllDecorateField (decorators: t.Decorator[]) {
+  function isAllDecorateField (decorators: t.Decorator[]): boolean {
+    if (!fieldDecorators) {
+      return false;
+    }
+
     return decorators.every(dec => {
       const exp = dec.expression;
       if (t.isCallExpression(exp)) {

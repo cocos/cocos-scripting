@@ -20,14 +20,13 @@ export namespace pluginDecoratorCC {
    }
 }
 
+
 export const pluginDecoratorCC = declare((api: babel.ConfigAPI, options: pluginDecoratorCC.Options) => {
   api.assertVersion(7);
   if (options.version !== 'legacy') {
     throw new Error('please specify the decorator proposal version as legacy');
   }
-  if (!options.fieldDecorators) {
-    throw new Error('please specify the array of field decorators');
-  }
+
   return {
     name: 'plugin-decorator-cc',
     inherits: syntaxDecorators,
@@ -39,6 +38,7 @@ export const pluginDecoratorCC = declare((api: babel.ConfigAPI, options: pluginD
           if (importHelperCache[name]) {
             return t.cloneNode(importHelperCache[name]);
           }
+          // @ts-ignore
           return importHelperCache[name] = addNamed(file.path, name, CC_HELPER_MODULE);
         });
       }
