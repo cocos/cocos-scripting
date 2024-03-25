@@ -1,4 +1,4 @@
-import * as ccbuild from '@ccbuild/build-engine/src/engine-ts/engine-builder';
+import * as ccbuild from '../../modules/build-engine/src/engine-ts/engine-builder';
 import * as fs from 'fs';
 import del from 'del';
 import { formatPath, ps } from '@ccbuild/utils';

@@ -472,6 +472,7 @@ export class EngineBuilder {
                                                     const decName = (expPath.node.callee as t.Identifier).name;
                                                     const args = expPath.node.arguments;
                                                     decPath.replaceWith(t.decorator(t.callExpression(
+                                                        // @ts-ignore
                                                         helperIdentifier,
                                                         [
                                                             t.identifier(decName),
@@ -484,6 +485,7 @@ export class EngineBuilder {
                                                 } else if (type === 'Identifier') {
                                                     const decName = expPath.node.name;
                                                     decPath.replaceWith(t.decorator(t.callExpression(
+                                                        // @ts-ignore
                                                         helperIdentifier,
                                                         [
                                                             t.identifier(decName),

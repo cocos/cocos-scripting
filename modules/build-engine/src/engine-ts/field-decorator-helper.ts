@@ -22,12 +22,15 @@ export class FieldDecoratorHelper {
         return this._moduleSource = fs.readFileSync(ps.join(__dirname, '../../../../static/helper-file-decorator.ts'), 'utf8');
     }
 
-    addHelper (file: BabelFile): t.Identifier {
+    addHelper (file: BabelFile): t.Identifier | undefined {
         let namedIdentifier = this._file2NamedIdentifier.get(file);
         if (namedIdentifier) {
             return namedIdentifier;
         }
+
+        // @ts-ignore
         namedIdentifier = addNamed(file.path, 'CCBuildTsFieldDecoratorHelper', this._moduleName);
+        // @ts-ignore
         this._file2NamedIdentifier.set(file, namedIdentifier);
         return namedIdentifier;
     }
