@@ -1,0 +1,14 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "rootDirs": [
+            "./modules/*/src",
+            "./modules/*/test",
+            "./test/*/"
+        ],
+        "types": [
+            "jest",
+            "node"
+        ]
+    }
+}

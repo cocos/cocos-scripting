@@ -25,6 +25,12 @@
     "build",
     "compile"
   ],
+  "files": [
+    "lib/src/**/*",
+    "static/**/*",
+    "CHANGELOG.md",
+    "README.md"
+  ],
   "workspaces": [
     "./entry/*",
     "./modules/*"
@@ -32,6 +38,8 @@
   "author": "cocos",
   "license": "MIT",
   "devDependencies": {
+    "@changesets/cli": "^2.26.1",
+
     "@jest/types": "29.6.3",
     "@types/jest": "29.5.4",
 

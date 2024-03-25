@@ -158,15 +158,28 @@ module.exports = {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
-  // ],
+  testMatch: [
+    '<rootDir>/modules/*/test/**/*.(test|spec).(ts|tsx)',
+    '<rootDir>/test/**/*.(test|spec).(ts|tsx)'
+    // "**/__tests__/**/*.[jt]s?(x)",
+    // "**/?(*.)+(spec|test).[tj]s?(x)"
+  ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  testPathIgnorePatterns: [
+    "\\\\node_modules\\\\",
+    '/node_modules/',
+    'swc',
+  ],
+
+  transform: {
+    '^.+\\.tsx?$': [
+        'ts-jest',
+        {
+            tsconfig: 'tsconfig.spec.json',
+        },
+    ],
+  },
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
