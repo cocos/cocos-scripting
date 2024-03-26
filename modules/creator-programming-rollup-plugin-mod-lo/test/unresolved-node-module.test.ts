@@ -3,12 +3,11 @@ import * as rollup from 'rollup';
 import { ModLo } from '@cocos/creator-programming-mod-lo';
 import rpModLo from '../src/index';
 import ps from 'path';
-import fs from 'fs-extra';
 import { pathToFileURL } from 'url';
 
 test('rollup-plugin-mod-lo unresolved node module', async () => {
     const modLo = new ModLo({
-        _compressUUID: () => '',
+        _compressUUID: (): string => '',
         _helperModule: rpModLo.helperModule,
     });
 
