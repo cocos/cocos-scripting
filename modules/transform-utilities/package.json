@@ -43,8 +43,8 @@
     "@types/babel__traverse": "7.18.3",
     "@types/browserify": "^12.0.36",
     "@types/core-js": "^2.5.2",
-    "@types/fs-extra": "^9.0.13",
-    "@types/node": "~20.3.3",
+    "@types/fs-extra": "9.0.13",
+    "@types/node": "20.3.3",
     "@types/urijs": "^1.19.4"
   }
 }
