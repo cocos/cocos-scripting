@@ -201,7 +201,7 @@ exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/index.cjs.
 "
 `;
 
-exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/index.mjs_cjs__original_.cjs.js 1`] = `
+exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/index.mjs.js 1`] = `
 "System.register(['./index.cjs.js', './cjs-loader.mjs.js'], (function (exports, module) {
   'use strict';
   var __cjsMetaURL, loader;
@@ -248,9 +248,7 @@ exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/rollupPlug
 
       exports({
         classCallCheck: _classCallCheck,
-        createClass: _createClass,
-        toPrimitive: _toPrimitive,
-        toPropertyKey: _toPropertyKey
+        createClass: _createClass
       });
 
       function _classCallCheck(instance, Constructor) {
@@ -264,7 +262,7 @@ exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/rollupPlug
           descriptor.enumerable = descriptor.enumerable || false;
           descriptor.configurable = true;
           if ("value" in descriptor) descriptor.writable = true;
-          Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+          Object.defineProperty(target, descriptor.key, descriptor);
         }
       }
       function _createClass(Constructor, protoProps, staticProps) {
@@ -274,20 +272,6 @@ exports[`rollup-plugin-mod-lo unresolved node module: chunk: _virtual/rollupPlug
           writable: false
         });
         return Constructor;
-      }
-      function _toPrimitive(input, hint) {
-        if (typeof input !== "object" || input === null) return input;
-        var prim = input[Symbol.toPrimitive];
-        if (prim !== undefined) {
-          var res = prim.call(input, hint || "default");
-          if (typeof res !== "object") return res;
-          throw new TypeError("@@toPrimitive must return a primitive value.");
-        }
-        return (hint === "string" ? String : Number)(input);
-      }
-      function _toPropertyKey(arg) {
-        var key = _toPrimitive(arg, "string");
-        return typeof key === "symbol" ? key : String(key);
       }
 
     })

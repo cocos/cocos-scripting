@@ -8,11 +8,9 @@ exports[`QuickPack build Case 0: cjs 1`] = `
   return {
     setters: [function (_unresolved_) {
       var _exportObj = {};
-
       for (var _key in _unresolved_) {
         if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
       }
-
       _export(_exportObj);
     }],
     execute: function () {}
@@ -22,19 +20,19 @@ exports[`QuickPack build Case 0: cjs 1`] = `
   "use strict";
 
   var _cjsLoader, _cjsExports, __cjsMetaURL;
-
   _export("default", void 0);
-
   return {
     setters: [function (_unresolved_) {
       _cjsLoader = _unresolved_.default;
     }],
     execute: function () {
       _export("__cjsMetaURL", __cjsMetaURL = _context.meta.url);
-
       _cjsLoader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
         // #region ORIGINAL CODE
-        module.exports = 0; // #endregion ORIGINAL CODE
+
+        module.exports = 0;
+
+        // #endregion ORIGINAL CODE
 
         _export("default", _cjsExports = module.exports);
       }, {});
@@ -45,29 +43,20 @@ exports[`QuickPack build Case 0: cjs 1`] = `
   "use strict";
 
   var CjsLoader;
-
-  function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
+  function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-
+  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
   function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-  function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-
-  function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-
   return {
     setters: [],
     execute: function () {
       CjsLoader = /*#__PURE__*/function () {
         function CjsLoader() {
           _classCallCheck(this, CjsLoader);
-
           this._registry = {};
           this._moduleCache = {};
         }
+
         /**
          * Defines a CommonJS module.
          * @param id Module ID.
@@ -75,8 +64,6 @@ exports[`QuickPack build Case 0: cjs 1`] = `
          * @param resolveMap An object or a function returning object which records the module specifier resolve result.
          * The later is called as "deferred resolve map" and would be invocated right before CommonJS code execution.
          */
-
-
         _createClass(CjsLoader, [{
           key: "define",
           value: function define(id, factory, resolveMap) {
@@ -85,12 +72,12 @@ exports[`QuickPack build Case 0: cjs 1`] = `
               resolveMap: resolveMap
             };
           }
+
           /**
            * Requires a CommonJS module.
            * @param id Module ID.
            * @returns The module's \`module.exports\`.
            */
-
         }, {
           key: "require",
           value: function require(id) {
@@ -105,19 +92,15 @@ exports[`QuickPack build Case 0: cjs 1`] = `
           key: "_require",
           value: function _require(id, parent) {
             var cachedModule = this._moduleCache[id];
-
             if (cachedModule) {
               return cachedModule.exports;
             }
-
             var module = {
               id: id,
               exports: {}
             };
             this._moduleCache[id] = module;
-
             this._tryModuleLoad(module, id);
-
             return module.exports;
           }
         }, {
@@ -129,25 +112,20 @@ exports[`QuickPack build Case 0: cjs 1`] = `
           key: "_resolveFromInfos",
           value: function _resolveFromInfos(specifier, parent) {
             var _cjsInfos$parent$reso, _cjsInfos$parent;
-
             if (specifier in cjsInfos) {
               return specifier;
             }
-
             if (!parent) {
               return;
             }
-
             return (_cjsInfos$parent$reso = (_cjsInfos$parent = cjsInfos[parent]) === null || _cjsInfos$parent === void 0 ? void 0 : _cjsInfos$parent.resolveCache[specifier]) !== null && _cjsInfos$parent$reso !== void 0 ? _cjsInfos$parent$reso : undefined;
           }
         }, {
           key: "_tryModuleLoad",
           value: function _tryModuleLoad(module, id) {
             var threw = true;
-
             try {
               this._load(module, id);
-
               threw = false;
             } finally {
               if (threw) {
@@ -159,13 +137,10 @@ exports[`QuickPack build Case 0: cjs 1`] = `
           key: "_load",
           value: function _load(module, id) {
             var _this$_loadWrapper = this._loadWrapper(id),
-                factory = _this$_loadWrapper.factory,
-                resolveMap = _this$_loadWrapper.resolveMap;
-
+              factory = _this$_loadWrapper.factory,
+              resolveMap = _this$_loadWrapper.resolveMap;
             var vendorRequire = this._createRequire(module);
-
             var require = resolveMap ? this._createRequireWithResolveMap(typeof resolveMap === 'function' ? resolveMap() : resolveMap, vendorRequire) : vendorRequire;
-
             factory(module.exports, require, module);
           }
         }, {
@@ -185,7 +160,6 @@ exports[`QuickPack build Case 0: cjs 1`] = `
                 if (typeof require === 'undefined') {
                   throw new Error("Current environment does not provide a require() for requiring '".concat(id, "'."));
                 }
-
                 try {
                   module.exports = require(id);
                 } catch (err) {
@@ -200,7 +174,6 @@ exports[`QuickPack build Case 0: cjs 1`] = `
           key: "_createRequire",
           value: function _createRequire(module) {
             var _this = this;
-
             return function (specifier) {
               return _this._require(specifier, module);
             };
@@ -210,7 +183,6 @@ exports[`QuickPack build Case 0: cjs 1`] = `
           value: function _createRequireWithResolveMap(requireMap, originalRequire) {
             return function (specifier) {
               var resolved = requireMap[specifier];
-
               if (resolved) {
                 return originalRequire(resolved);
               } else {
@@ -224,10 +196,8 @@ exports[`QuickPack build Case 0: cjs 1`] = `
             throw new Error("Unable to resolve ".concat(specifier, " from ").concat(parent, "."));
           }
         }]);
-
         return CjsLoader;
       }();
-
       _export("default", new CjsLoader());
     }
   };
@@ -251,23 +221,20 @@ exports[`QuickPack build Case 0: cjs 1`] = `
       loader = _unresolved_2.default;
     }, function (_unresolved_3) {
       var _exportObj = {};
-
       for (var _key in _unresolved_3) {
         if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_3[_key];
       }
-
       _export(_exportObj);
     }, function (_unresolved_4) {
       d = _unresolved_4.default;
     }],
     execute: function () {
       // I am the facade module who provides access to the CommonJS module './lib.js'~
+
       if (!req) {
         loader.throwInvalidWrapper('./lib.js', _context.meta.url);
       }
-
       loader.require(req);
-
       _export("default", d);
     }
   };
@@ -308,11 +275,9 @@ exports[`QuickPack build Case 1: external 1`] = `
   return {
     setters: [function (_unresolved_) {
       var _exportObj = {};
-
       for (var _key in _unresolved_) {
         if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
       }
-
       _export(_exportObj);
     }],
     execute: function () {}
@@ -353,11 +318,9 @@ exports[`QuickPack build Case 2: json 1`] = `
   return {
     setters: [function (_unresolved_) {
       var _exportObj = {};
-
       for (var _key in _unresolved_) {
         if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
       }
-
       _export(_exportObj);
     }],
     execute: function () {}
@@ -421,11 +384,9 @@ exports[`QuickPack build Case 3: regular 1`] = `
   return {
     setters: [function (_unresolved_) {
       var _exportObj = {};
-
       for (var _key in _unresolved_) {
         if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
       }
-
       _export(_exportObj);
     }],
     execute: function () {}
@@ -482,11 +443,9 @@ exports[`QuickPack build Case 4: tla 1`] = `
   return {
     setters: [function (_unresolved_) {
       var _exportObj = {};
-
       for (var _key in _unresolved_) {
         if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
       }
-
       _export(_exportObj);
     }],
     execute: function () {}
@@ -531,23 +490,20 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
       loader = _unresolved_2.default;
     }, function (_unresolved_3) {
       var _exportObj = {};
-
       for (var _key in _unresolved_3) {
         if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_3[_key];
       }
-
       _export(_exportObj);
     }, function (_unresolved_4) {
       d = _unresolved_4.default;
     }],
     execute: function () {
       // I am the facade module who provides access to the CommonJS module './cjs.js'~
+
       if (!req) {
         loader.throwInvalidWrapper('./cjs.js', _context.meta.url);
       }
-
       loader.require(req);
-
       _export("default", d);
     }
   };
@@ -556,7 +512,6 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
   "use strict";
 
   var __cjsMetaURL;
-
   return {
     setters: [],
     execute: function () {
@@ -570,11 +525,9 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
   return {
     setters: [function (_unresolved_) {
       var _exportObj = {};
-
       for (var _key in _unresolved_) {
         if (_key !== "default" && _key !== "__esModule") _exportObj[_key] = _unresolved_[_key];
       }
-
       _export(_exportObj);
     }],
     execute: function () {}
@@ -584,9 +537,7 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
   "use strict";
 
   var _cjsLoader, _req, _req0, _cjsExports, __cjsMetaURL;
-
   _export("default", void 0);
-
   return {
     setters: [function (_unresolved_) {
       _cjsLoader = _unresolved_.default;
@@ -597,13 +548,13 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
     }],
     execute: function () {
       _export("__cjsMetaURL", __cjsMetaURL = _context.meta.url);
-
       _cjsLoader.define(__cjsMetaURL, function (exports, require, module, __filename, __dirname) {
         // #region ORIGINAL CODE
+
         require('bare');
+        require('fs');
 
-        require('fs'); // #endregion ORIGINAL CODE
-
+        // #endregion ORIGINAL CODE
 
         _export("default", _cjsExports = module.exports);
       }, function () {
@@ -619,7 +570,6 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
   "use strict";
 
   var __cjsMetaURL;
-
   return {
     setters: [],
     execute: function () {
@@ -631,29 +581,20 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
   "use strict";
 
   var CjsLoader;
-
-  function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
+  function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-
+  function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
   function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-  function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-
-  function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-
   return {
     setters: [],
     execute: function () {
       CjsLoader = /*#__PURE__*/function () {
         function CjsLoader() {
           _classCallCheck(this, CjsLoader);
-
           this._registry = {};
           this._moduleCache = {};
         }
+
         /**
          * Defines a CommonJS module.
          * @param id Module ID.
@@ -661,8 +602,6 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
          * @param resolveMap An object or a function returning object which records the module specifier resolve result.
          * The later is called as "deferred resolve map" and would be invocated right before CommonJS code execution.
          */
-
-
         _createClass(CjsLoader, [{
           key: "define",
           value: function define(id, factory, resolveMap) {
@@ -671,12 +610,12 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
               resolveMap: resolveMap
             };
           }
+
           /**
            * Requires a CommonJS module.
            * @param id Module ID.
            * @returns The module's \`module.exports\`.
            */
-
         }, {
           key: "require",
           value: function require(id) {
@@ -691,19 +630,15 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
           key: "_require",
           value: function _require(id, parent) {
             var cachedModule = this._moduleCache[id];
-
             if (cachedModule) {
               return cachedModule.exports;
             }
-
             var module = {
               id: id,
               exports: {}
             };
             this._moduleCache[id] = module;
-
             this._tryModuleLoad(module, id);
-
             return module.exports;
           }
         }, {
@@ -715,25 +650,20 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
           key: "_resolveFromInfos",
           value: function _resolveFromInfos(specifier, parent) {
             var _cjsInfos$parent$reso, _cjsInfos$parent;
-
             if (specifier in cjsInfos) {
               return specifier;
             }
-
             if (!parent) {
               return;
             }
-
             return (_cjsInfos$parent$reso = (_cjsInfos$parent = cjsInfos[parent]) === null || _cjsInfos$parent === void 0 ? void 0 : _cjsInfos$parent.resolveCache[specifier]) !== null && _cjsInfos$parent$reso !== void 0 ? _cjsInfos$parent$reso : undefined;
           }
         }, {
           key: "_tryModuleLoad",
           value: function _tryModuleLoad(module, id) {
             var threw = true;
-
             try {
               this._load(module, id);
-
               threw = false;
             } finally {
               if (threw) {
@@ -745,13 +675,10 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
           key: "_load",
           value: function _load(module, id) {
             var _this$_loadWrapper = this._loadWrapper(id),
-                factory = _this$_loadWrapper.factory,
-                resolveMap = _this$_loadWrapper.resolveMap;
-
+              factory = _this$_loadWrapper.factory,
+              resolveMap = _this$_loadWrapper.resolveMap;
             var vendorRequire = this._createRequire(module);
-
             var require = resolveMap ? this._createRequireWithResolveMap(typeof resolveMap === 'function' ? resolveMap() : resolveMap, vendorRequire) : vendorRequire;
-
             factory(module.exports, require, module);
           }
         }, {
@@ -771,7 +698,6 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
                 if (typeof require === 'undefined') {
                   throw new Error("Current environment does not provide a require() for requiring '".concat(id, "'."));
                 }
-
                 try {
                   module.exports = require(id);
                 } catch (err) {
@@ -786,7 +712,6 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
           key: "_createRequire",
           value: function _createRequire(module) {
             var _this = this;
-
             return function (specifier) {
               return _this._require(specifier, module);
             };
@@ -796,7 +721,6 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
           value: function _createRequireWithResolveMap(requireMap, originalRequire) {
             return function (specifier) {
               var resolved = requireMap[specifier];
-
               if (resolved) {
                 return originalRequire(resolved);
               } else {
@@ -810,10 +734,8 @@ exports[`QuickPack build Case 5: unresolved-dependency-in-cjs 1`] = `
             throw new Error("Unable to resolve ".concat(specifier, " from ").concat(parent, "."));
           }
         }]);
-
         return CjsLoader;
       }();
-
       _export("default", new CjsLoader());
     }
   };
