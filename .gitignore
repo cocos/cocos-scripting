@@ -10,3 +10,4 @@ common/temp
 deploy/
 .turbo/
 /graph.png
+__dts_before_bundle/
