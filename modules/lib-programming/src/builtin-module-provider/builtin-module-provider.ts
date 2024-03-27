@@ -1,10 +1,6 @@
-import fs from 'fs-extra';
-import ps from 'path';
 import { IBuildTimeConstantValue, makeBuildTimeConstantModule } from './build-time-constants';
 import * as babel from '@babel/core';
-// import babelPresetCC from '@cocos/babel-preset-cc';
 // @ts-ignore
-// import babelPresetEnv from '@babel/preset-env';
 import babelPluginTransformModulesSystemJs from '@babel/plugin-transform-modules-systemjs';
 import URL from 'url';
 

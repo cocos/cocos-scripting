@@ -31,6 +31,6 @@ test('Decompose specifier', async () => {
 
         const parts = decomposeDynamicImportVars(imports[0]);
 
-        expect(parts).toEqual(expect.arrayContaining(result));;
+        expect(parts).toEqual(expect.arrayContaining(result));
     }
 });
