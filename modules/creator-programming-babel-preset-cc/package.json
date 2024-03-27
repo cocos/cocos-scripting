@@ -33,7 +33,7 @@
     "@babel/plugin-syntax-decorators": "7.19.0",
     "@babel/plugin-transform-typescript": "7.14.6",
     
-    "babel-plugin-const-enum": "1.1.0"
+    "babel-plugin-const-enum": "1.2.0"
   },
   "publishConfig": {
     "access": "public"

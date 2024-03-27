@@ -26,6 +26,6 @@
     "commander": "~11.0.0"
   },
   "devDependencies": {
-    "@types/node": "~20.3.3"
+    "@types/node": "20.3.3"
   }
 }
