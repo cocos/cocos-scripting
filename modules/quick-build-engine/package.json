@@ -61,7 +61,6 @@
     "@types/fs-extra": "9.0.13",
     "@types/node-uuid": "0.0.28",
     "@types/relateurl": "0.2.29",
-    "log-update": "^4.0.0",
-    "systemjs": "6.12.1"
+    "log-update": "^4.0.0"
   }
 }
