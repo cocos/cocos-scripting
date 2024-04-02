@@ -23,10 +23,10 @@ export async function build({
     platform,
     hmr = false,
     editor = false,
-}: BuildOptions) {
-    const input = join(__dirname, '../lib/index.js');
+}: BuildOptions): Promise<void> {
+    const input = join(__dirname, '..', 'runtime-src', 'index.js');
     const browser = platform === 'web-mobile' || platform === 'web-desktop' || platform === 'fb-instant-games';
-    const ejsResult = await compileEjs(join(__dirname, '../lib/index.ejs'), {
+    const ejsResult = await compileEjs(join(__dirname, '..', 'runtime-src', 'index.ejs'), {
         preset: browser ? 'web' : 'commonjs-like',
         hmr,
         editor,
@@ -47,7 +47,7 @@ export async function build({
                 modulesOnly: true
             }),
             minify ? terser({}) : undefined,
-            typescript({ tsconfig: join(__dirname, '../lib/tsconfig.json') }),
+            typescript({ tsconfig: join(__dirname, '../runtime-src/tsconfig.json') }),
         ],
     })).write({
         file: out,

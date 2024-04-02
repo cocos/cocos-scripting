@@ -1,5 +1,5 @@
 const { join, dirname } = require('path');
-const { build } = require('../dist/build.js');
+const { build } = require('../lib/build.js');
 
 (async function () {
     await build({

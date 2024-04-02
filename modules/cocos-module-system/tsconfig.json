@@ -1,20 +1,13 @@
 {
-    "compilerOptions": {
-      "target": "ES2021",
-      "module": "CommonJS",
-      "strict": true,
-      "downlevelIteration": true,
-      "esModuleInterop": true,
-      "moduleResolution": "node",
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
       "rootDir": "./src",
-      "outDir": "./dist",
-      "sourceMap": true,
-      "declaration": true
-    },
-    "exclude": [
-      "./test",
-      "./lib",
-      "./dist"
-    ]
-  }
+      "outDir": "./lib"
+  },
+  "exclude": [
+      "./lib/",
+      "./test/",
+      "./runtime-src"
+  ]
+}
   

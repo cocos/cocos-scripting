@@ -4,10 +4,10 @@
   "description": "",
   "author": "cocos",
   "license": "ISC",
-  "main": "./dist/index.js",
+  "main": "./lib/index.js",
   "type": "commonjs",
   "bin": {
-    "ccms": "./dist/cli.js"
+    "ccms": "./lib/cli.js"
   },
   "scripts": {
     "build": "tsc && node ./scripts/build-self.js",
@@ -17,7 +17,7 @@
   "files": [
     "systemjs/src",
     "lib",
-    "dist",
+    "runtime-src",
     "module-system.d.ts"
   ],
   "dependencies": {

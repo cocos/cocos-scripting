@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 
-import { Env } from "./utils/env.js";
+import { Env } from './utils/env';
 import dedent from 'dedent';
-import { EventType, makeEvent, sourceOfEventType, sourceOfInvokeDispose, sourceOfNotifyExecution, sourceOfReportDependencyAccept, sourceOfReportDependencyAcceptUpdate, sourceOfReportSelfAcceptError, sourceOfSelfAccept } from "./utils/procedural-module-source.js";
+import { EventType, makeEvent, sourceOfEventType, sourceOfInvokeDispose, sourceOfNotifyExecution, sourceOfReportDependencyAccept, sourceOfReportDependencyAcceptUpdate, sourceOfReportSelfAcceptError, sourceOfSelfAccept } from './utils/procedural-module-source';
 
 class Notifier {
     constructor(env: Env) {

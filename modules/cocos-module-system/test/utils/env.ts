@@ -1,7 +1,7 @@
 
-import { systemGlobal, systemJSPrototype } from '../../src/globals.js';
+import { systemGlobal, systemJSPrototype } from '../../runtime-src/globals';
 import { VirtualModules } from './virtual-modules.js';
-import { reload } from '../../src/index.js';
+import { reload } from '../../runtime-src/hmr';
 
 export class Env {
     private static _nextDomain = 0;
@@ -88,6 +88,7 @@ systemJSPrototype.instantiate = function instantiate(...args: [string, string | 
 
     const vmComponents = tryExtractVMComponents(url);
     if (!vmComponents) {
+        // @ts-ignore
         return vendorInstantiate.apply(this, args);
     }
 
@@ -100,6 +101,7 @@ systemJSPrototype.instantiate = function instantiate(...args: [string, string | 
 
     new Function('System', `${source}\n//# sourceURL=${url}`)(systemGlobal);
 
+    // @ts-ignore
     return this.getRegister();
 };
 
