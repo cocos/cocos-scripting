@@ -1,0 +1,25 @@
+import '../systemjs/src/system-core.js';
+import './throw-uninstantiated';
+import '../systemjs/src/features/registry.js';
+
+<% if (hmr) { %>
+import './hmr/index.ts';
+import './module-system/index.ts';
+<% } %>
+
+<% if (preset === 'commonjs-like') { %>
+import './warmup/index.js';
+<% } else if (preset === 'web') { %>
+import '../systemjs/src/system.js';
+<% } %>
+
+import '../systemjs/src/extras/named-register.js';
+<% if (hmr) { %>
+import './upvalue-polyfill';
+<% } %>
+
+<% if (editor) { %>
+import './editor.js';
+<% } %>
+    
+

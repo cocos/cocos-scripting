@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "target": "ES2021",
+      "module": "ES2022",
+      "strict": true,
+      "downlevelIteration": true,
+      "esModuleInterop": true,
+      "moduleResolution": "node",
+      "rootDir": "."
+    }
+  }
+  
