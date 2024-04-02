@@ -1,0 +1,3 @@
+[submodule "systemjs"]
+	path = modules/cocos-module-system/systemjs
+	url = https://github.com/cocos/systemjs.git
