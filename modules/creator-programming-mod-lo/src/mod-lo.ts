@@ -30,7 +30,7 @@ import {
     TransformResult,
     Specifier,
 } from './mods';
-import { minimatch } from 'minimatch';
+import minimatch from 'minimatch';
 
 export {
     Mod,
