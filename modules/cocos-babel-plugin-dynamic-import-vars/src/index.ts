@@ -96,7 +96,7 @@ export default function({ types }: typeof babel): babel.PluginObj<{
                         types.stringLiteral(test),
                         [types.returnStatement(types.callExpression(
                             createImport(), [types.stringLiteral(specifier)]))],
-                    )
+                    );
                 });
 
                 const lambda = types.parenthesizedExpression(

@@ -43,7 +43,7 @@ export interface IPluginChangedInfo {
 
 export class Executor {
     private static _inst: Executor;
-    public static async create(options: Executor.Options) {
+    public static async create(options: Executor.Options): Promise<Executor> {
         if (Executor._inst) {
             return Executor._inst;
         }
@@ -71,7 +71,7 @@ export class Executor {
         this._importExceptionHandler = importExceptionHandler ?? defaultImportExceptionHandler;
     }
 
-    private async _initialize(options: Executor.Options) {
+    private async _initialize(options: Executor.Options): Promise<void> {
         if (options.beforeUnregisterClass) {
             this._beforeUnregisterClass = options.beforeUnregisterClass;
         }

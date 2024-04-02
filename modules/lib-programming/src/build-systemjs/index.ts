@@ -21,7 +21,7 @@ export async function build({
     minify?: boolean;
     browser?: boolean;
     format?: 'systemjs' | 'commonjs';
-}) {
+}): Promise<void> {
     const modules: Record<string, string> = {};
     if (inputSource !== undefined) {
         modules[input] = inputSource;

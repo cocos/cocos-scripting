@@ -65,7 +65,7 @@ export class ExecutorSystem {
                 upvalue (name: string) {
                     return function (target: any) {
                         name2class[name] = target;
-                    }
+                    };
                 }
             };
         };

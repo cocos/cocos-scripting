@@ -194,7 +194,7 @@ async function quickCompile(options: QuickCompileOptions, bundlers: IBundler[], 
             return;
         }
 
-        await (await import('./core.js')).core({
+        await (await import('./core')).core({
             rootDir,
             statsQuery,
             entries: changedFiles,
