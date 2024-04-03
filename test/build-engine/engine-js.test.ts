@@ -18,8 +18,8 @@ describe('engine-js', () => {
         });
         const chunks = Object.keys(buildResult.chunkDepGraph).sort();
         for (const chunk of chunks) {
-            if (chunk.startsWith('_virtual_cc') || chunk === 'cc.js') {
-                expect(await getOutputContent(ps.join(out, chunk))).toMatchSnapshot();
+            if (chunk.endsWith('.js')) {
+                expect(await getOutputContent(ps.join(out, chunk))).toMatchSnapshot(chunk);
             }
         }
         expect(await getOutputDirStructure(out)).toMatchSnapshot();
