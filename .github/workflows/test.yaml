@@ -22,9 +22,14 @@ jobs:
       - run: npm run test
 
       - run: |
+          echo "cleanup ...."
           git clean -fdx .
           git checkout -f
+      
+      - run: |
           rm package-lock.json
+
+      - run: |
           npm i
           npm run test
 
