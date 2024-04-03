@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+      "rootDir": "./src",
+      "outDir": "./lib",
+      "types": [
+        "./@types/core-js-builder",
+        "node"
+      ]
+  },
+  "exclude": [
+      "./lib/",
+      "./test/"
+  ]
+}
