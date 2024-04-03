@@ -29,11 +29,11 @@
     "@babel/core": "7.19.6",
     "@babel/preset-env": "7.16.4",
 
-    "@babel/plugin-proposal-dynamic-import": "7.12.1",
+    "@babel/plugin-proposal-dynamic-import": "7.16.0",
     "@babel/plugin-transform-classes": "7.16.0",
-    "@babel/plugin-transform-modules-commonjs": "7.12.1",
+    "@babel/plugin-transform-modules-commonjs": "7.19.6",
     "@babel/plugin-transform-modules-systemjs": "7.16.0",
-    "@babel/plugin-transform-modules-umd": "7.9.0",
+    "@babel/plugin-transform-modules-umd": "7.16.0",
 
     "babel-plugin-const-enum": "1.2.0",
     

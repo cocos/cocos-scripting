@@ -52,7 +52,7 @@
 
     "@babel/helper-string-parser": "7.19.4",
     "@babel/helper-validator-identifier": "7.19.1",
-    "@babel/helper-transform-fixture-test-runner": "7.16.0",
+    "@babel/helper-transform-fixture-test-runner": "7.19.4",
     "@babel/plugin-transform-modules-commonjs": "7.16.0",
     "@babel/types": "7.19.4",
 
