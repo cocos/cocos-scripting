@@ -12,7 +12,7 @@
     "api": "npm run build && node ./scripts/update-api.js",
     "doc": "typedoc",
     "clean": "node ./scripts/clear.js",
-    "test": "node ./scripts/setup-test.js && npm run build && jest",
+    "test": "npm run build && node ./scripts/setup-test.js && jest",
     "gen-module-graph": "node ./scripts/gen-module-graph.js"
   },
   "repository": {
