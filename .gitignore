@@ -11,3 +11,4 @@ deploy/
 .turbo/
 /graph.png
 __dts_before_bundle/
+modules/quick-build-engine/static/loader.js
