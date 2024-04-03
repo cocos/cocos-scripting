@@ -1,0 +1,16 @@
+{
+    "extends": ["//"],
+    "pipeline": {
+        "build": {
+            "inputs": [
+                "src/**",
+                "runtime-src/**",
+                "scripts/**",
+                "systemjs/**"
+            ],
+            "outputs": [
+                "lib/**"
+            ]
+        }
+    }
+}

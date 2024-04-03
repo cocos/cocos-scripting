@@ -1,0 +1,38 @@
+import '../../systemjs/src/system-core.js';
+import '../throw-uninstantiated';
+import '../../systemjs/src/features/registry.js';
+
+<% if (hmr) { %>
+import '../hmr/index.ts';
+import '../module-system/index.ts';
+<% } %>
+
+<% if (preset === 'commonjs-like') { %>
+import '../warmup/index.js';
+<% } else if (preset === 'web') { %>
+import '../../systemjs/src/system.js';
+<% } else if (preset === 'node') { %>
+import '../../systemjs/src/system-node.js';
+<% } else if (preset === 'core') { %>
+import '../../systemjs/src/common.js';
+<% } %>
+
+<% if (preset !== 'core') { %>
+import '../../systemjs/src/extras/named-register.js';
+<% } %>
+
+<% if (hmr) { %>
+import '../upvalue-polyfill';
+<% } %>
+
+<% if (editor) { %>
+import './preview/editor';
+<% } %>
+
+<% if (libprogramming) { %>
+export * from './libprogramming';
+<% } %>
+    
+<% if (quickBuildEngine) { %>
+export * from './quick-build-engine';
+<% } %>

@@ -1,9 +1,9 @@
 const { join } = require('path');
-const { build } = require('../lib/build.js');
+const { build } = require('@cocos/module-system');
 
 (async function () {
     await build({
-        out: join(__dirname, '../bin/system.bundle.js'),
+        out: join(__dirname, '..', 'static', 'loader.js'),
         sourceMap: false,
         minify: false,
         preset: 'node',

@@ -1,9 +1,10 @@
 import { rollup } from 'rollup';
 import { terser } from 'rollup-plugin-terser';
 import replace from '@rollup/plugin-replace';
-import { join, dirname, basename, parse } from 'path';
+import { join, parse } from 'path';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import commonjs from '@rollup/plugin-commonjs';
 import { renderFile } from 'ejs';
 import virtual from './virtual-entry-source.js';
 
@@ -11,25 +12,37 @@ interface BuildOptions {
     out: string;
     sourceMap: boolean;
     minify: boolean;
-    platform: string;
+    preset: 'web' | 'commonjs-like' | 'node' | 'core';
+    runInBrowserEnv: boolean;
+    format?: 'iife' | 'commonjs';
     hmr?: boolean;
     editor?: boolean;
+    libprogramming?: boolean;
+    quickBuildEngine?: boolean;
+    inlineDynamicImports?: boolean;
 }
 
 export async function build({
     out,
     sourceMap,
     minify,
-    platform,
+    preset,
+    runInBrowserEnv,
+    format,
     hmr = false,
     editor = false,
+    libprogramming = false,
+    quickBuildEngine = false,
+    inlineDynamicImports = false,
 }: BuildOptions): Promise<void> {
-    const input = join(__dirname, '..', 'runtime-src', 'index.js');
-    const browser = platform === 'web-mobile' || platform === 'web-desktop' || platform === 'fb-instant-games';
-    const ejsResult = await compileEjs(join(__dirname, '..', 'runtime-src', 'index.ejs'), {
-        preset: browser ? 'web' : 'commonjs-like',
+    const input = join(__dirname, '..', 'runtime-src', 'custom-loaders', 'index.js');
+    const ejsResult = await compileEjs(join(__dirname, '..', 'runtime-src', 'custom-loaders', 'index.ejs'), {
+        preset,
+        runInBrowserEnv,
         hmr,
         editor,
+        libprogramming,
+        quickBuildEngine,
     });
     const modules: Record<string, string> = {};
     modules[ejsResult.path] = ejsResult.source;
@@ -41,25 +54,32 @@ export async function build({
             replace({
                 preventAssignment: true,
                 'process.env.SYSTEM_PRODUCTION': minify ? 'true' : 'false',
-                'process.env.SYSTEM_BROWSER': browser ? 'true' : 'false',
+                'process.env.SYSTEM_BROWSER': runInBrowserEnv ? 'true' : 'false',
             }),
             nodeResolve({
-                modulesOnly: true
+                // modulesOnly: true,
+                preferBuiltins: true,
             }),
             minify ? terser({}) : undefined,
             typescript({ tsconfig: join(__dirname, '../runtime-src/tsconfig.json') }),
+            commonjs({
+            }),
         ],
     })).write({
         file: out,
         sourcemap: sourceMap,
-        format: 'iife',
+        format: format ?? 'iife',
+        inlineDynamicImports,
     });
 }
 
 interface CompileEjsOptions {
-    preset: 'web' | 'commonjs-like',
-    hmr: boolean,
-    editor: boolean,
+    preset: 'web' | 'commonjs-like' | 'node' | 'core';
+    runInBrowserEnv: boolean,
+    hmr: boolean;
+    editor: boolean;
+    libprogramming: boolean;
+    quickBuildEngine: boolean;
 }
 interface CompileResult {
     path: string,

@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "@cocos/creator-programming-quick-pack": "*",
+        "@cocos/module-system": "*",
 
         "@babel/core": "7.19.6",
         "@babel/preset-env": "7.16.4",
@@ -43,7 +44,7 @@
     },
     "scripts": {
         "test": "jest",
-        "build": "tsc & npm run build-executor-bridge & npm run build-embedded-commonjs-helpers",
+        "build": "tsc & npm run build-executor-bridge",
         "prepublishOnly": "npm run build & npm run test",
         "build-executor-bridge": "node scripts/build-executor-bridge.js",
         "build-embedded-commonjs-helpers": "node scripts/build-embedded-commonjs-helpers.js"

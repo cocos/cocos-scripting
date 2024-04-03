@@ -1,11 +1,17 @@
 
-const { build } = require('../lib/build-systemjs');
+const { build } = require('@cocos/module-system');
 const ps = require('path');
 
 (async () => {
-    build({
-        input: ps.join(__dirname, '..', 'static', 'executor', 'systemjs-bridge', 'index.js'),
+    await build({
         out: ps.join(__dirname, '..', 'static', 'executor', 'systemjs-bridge', 'out', 'index.js'),
+        sourceMap: false,
+        minify: false,
+        preset: 'core',
+        runInBrowserEnv: true,
         format: 'commonjs',
+        hmr: false,
+        editor: false,
+        libprogramming: true,
     });
 })();

@@ -14,9 +14,9 @@
     }
   },
   "scripts": {
-    "build": "npm run build:generate-loader & npx tsc",
+    "build": "npm run build:generate-loader && tsc",
     "build:clear": "node ./scripts/clear.js",
-    "build:generate-loader": "rollup -c ./scripts/loader/rollup.config.js",
+    "build:generate-loader": "node ./scripts/generate-loader.js",
     "prepublishOnly": "npm run build"
   },
   "author": "",
