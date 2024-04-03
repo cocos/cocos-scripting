@@ -22,11 +22,11 @@ jobs:
       - run: npm run test
 
       - run: |
-        git clean -fdx .
-        git checkout -f
-        rm package-lock.json
-        npm i
-        npm run test
+          git clean -fdx .
+          git checkout -f
+          rm package-lock.json
+          npm i
+          npm run test
 
       # - name: Upload Artifact
       #   uses: actions/upload-artifact@v3
