@@ -27,6 +27,8 @@ jobs:
           echo "cleanup ...."
           git clean -fdx .
           git checkout -f
+          git submodule foreach 'git clean -fdx .'
+          git submodule foreach 'git checkout -f'
       
       - run: |
           rm package-lock.json
