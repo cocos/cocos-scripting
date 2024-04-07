@@ -2,10 +2,11 @@
   "name": "@cocos/creator-programming-quick-pack",
   "version": "1.6.0",
   "description": "",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "files": [
-    "lib/**/*",
-    "runtime-lib/**/*"
+    "./lib/**/*",
+    "./runtime-lib/**/*"
   ],
   "scripts": {
     "build": "tsc",

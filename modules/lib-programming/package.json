@@ -3,6 +3,7 @@
     "version": "3.7.9",
     "description": "Libraries for programming in editor.",
     "main": "./lib/index.js",
+    "types": "./lib/index.d.ts",
     "directories": {
         "test": "test"
     },

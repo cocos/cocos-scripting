@@ -2,7 +2,8 @@
   "name": "@cocos/creator-programming-test-utils",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "files": [
     "./lib/**/*"
   ],

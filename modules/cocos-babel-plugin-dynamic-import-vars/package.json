@@ -2,7 +2,8 @@
   "name": "@cocos/babel-plugin-dynamic-import-vars",
   "version": "1.0.2",
   "description": "Babel plugin to route your dynamic import.",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "files": [
     "lib"
   ],

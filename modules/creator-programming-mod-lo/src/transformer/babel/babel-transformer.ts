@@ -1,4 +1,4 @@
-import { CircularReferenceReportOptions, InputSourceMap, Transformer, TransformOptions, TransformTargets } from "../transformer";
+import { CircularReferenceReportOptions, InputSourceMap, Transformer, TransformOptions, TransformTargets } from '../transformer';
 // @ts-expect-error
 import babelPluginSyntaxTopLevelAwait from '@babel/plugin-syntax-top-level-await';
 import { babelPresetCC } from '@cocos/creator-programming-babel-preset-cc';
@@ -7,10 +7,10 @@ import babelPluginAnnotateCCClass from './babel-plugins/plugin-annotate-ccclass'
 import bpDetectCircularReference from './babel-plugins/plugin-detect-circular';
 import babelPresetEnv from '@babel/preset-env';
 import * as babel from '@babel/core';
-import { asserts, assertsNonNullable } from "@cocos/creator-programming-common/lib/asserts";
-import { RawSourceMap } from "source-map";
-import { InternalTransformOptions, SourceMap } from "../../mod-lo";
-import { createBabelPluginDetectAndRewriteImports } from "./babel-plugins/detect-imports";
+import { asserts, assertsNonNullable } from '@cocos/creator-programming-common';
+import { RawSourceMap } from 'source-map';
+import { InternalTransformOptions, SourceMap } from '../../mod-lo';
+import { createBabelPluginDetectAndRewriteImports } from './babel-plugins/detect-imports';
 
 // @ts-ignore
 import babelPluginTransformSystemJs from '@babel/plugin-transform-modules-systemjs';
@@ -18,13 +18,13 @@ import babelPluginTransformSystemJs from '@babel/plugin-transform-modules-system
 // @ts-ignore
 import babelPluginProposalDynamicImport from '@babel/plugin-proposal-dynamic-import';
 import generate from '@babel/generator';
-import { transformJson } from "../transform-json";
+import { transformJson } from '../transform-json';
 import importHelper from './babel-plugins/plugin-import-helper';
-import { CommonJsMod, EsmMod, JavaScriptSource, JsonMod, Specifier, TransformResolver, TransformResult } from "../../mods";
+import { CommonJsMod, EsmMod, JavaScriptSource, JsonMod, Specifier, TransformResolver, TransformResult } from '../../mods';
 import * as generator from '@babel/generator';
-import { FastCommonJsMod } from "../transform-common-js-fast";
+import { FastCommonJsMod } from '../transform-common-js-fast';
 import bpDynamicImportVars, { Options as DynamicImportVarsOptions } from './babel-plugins/dynamic-import-vars';
-import { pluginCheckObsolete } from "./babel-plugins/plugin-check-obsolete";
+import { pluginCheckObsolete } from './babel-plugins/plugin-check-obsolete';
 
 const syncBabelTransform = true;
 
@@ -369,7 +369,7 @@ class BabelModBase {
     }
 
     public async systemjs(resolver?: TransformResolver): Promise<TransformResult> {
-        let specifiers: Specifier[] = [];
+        const specifiers: Specifier[] = [];
 
         const systemJsPlugins = [
             [babelPluginTransformSystemJs],
@@ -560,7 +560,7 @@ class BabelCommonJsMod extends BabelModBase implements CommonJsMod {
 function normalizeSourceMapAsBabelInput (sourceMap: SourceMap | null | undefined) {
     return typeof sourceMap === 'string'
         ? JSON.parse(sourceMap) as RawSourceMap
-        : sourceMap ?? undefined
+        : sourceMap ?? undefined;
 }
 
 const parserPlugins: ParserPlugin[] = [

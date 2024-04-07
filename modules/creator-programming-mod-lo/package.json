@@ -2,11 +2,12 @@
   "name": "@cocos/creator-programming-mod-lo",
   "version": "1.10.0",
   "description": "",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "files": [
-    "lib/**/*",
-    "static/**/*.js",
-    "static/**/*.mjs"
+    "./lib/**/*",
+    "./static/**/*.js",
+    "./static/**/*.mjs"
   ],
   "scripts": {
     "build:cjs-module-analyzer": "rollup -c ./scripts/build-cjs-module-analyzer.rollup.config.js",

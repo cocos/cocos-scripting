@@ -5,6 +5,7 @@
   "author": "cocos",
   "license": "ISC",
   "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "type": "commonjs",
   "bin": {
     "ccms": "./lib/cli.js"
