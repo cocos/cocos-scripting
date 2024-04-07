@@ -1,5 +1,5 @@
 import { URL } from 'url';
-import { i18nTranslate } from '@cocos/creator-programming-common/lib/i18n';
+import { i18nTranslate } from '@cocos/creator-programming-common';
 
 export abstract class ResolveError extends Error {
     constructor(
@@ -80,7 +80,7 @@ export class PackagePathNotExportedError extends PackageResolveError {
         this.message = i18nTranslate('resolve_error_package_path_not_exported', {
             subpath,
             packageURL: packageUrl,
-        })
+        });
     }
 }
 
@@ -97,7 +97,7 @@ export class PackageImportNotDefined extends PackageResolveError {
         this.message = i18nTranslate('resolve_error_package_imports_not_defined', {
             specifier,
             packageURL: packageUrl,
-        })
+        });
     }
 }
 

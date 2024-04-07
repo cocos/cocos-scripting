@@ -2,8 +2,7 @@
 import ps from 'path';
 import { ExecutorSystem, globalEditorSystem } from '../editor-systemjs';
 import { URL } from 'url';
-import { LoaderContext } from '@cocos/creator-programming-quick-pack/lib/utils/loader-context';
-import { QuickPackLoader } from '@cocos/creator-programming-quick-pack/lib/loader';
+import { LoaderContext, QuickPackLoader } from '@cocos/creator-programming-quick-pack';
 import { PackModInstantiation, PackModuleEvaluator } from './pack-mod-instantiation';
 
 type ImportEngineMod = (id: string) => Record<string, unknown> | Promise<Record<string, unknown>>;

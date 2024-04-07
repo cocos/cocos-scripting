@@ -2,7 +2,7 @@
     "name": "@editor/lib-programming",
     "version": "3.7.9",
     "description": "Libraries for programming in editor.",
-    "main": "index.js",
+    "main": "./lib/index.js",
     "directories": {
         "test": "test"
     },

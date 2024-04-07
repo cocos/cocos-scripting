@@ -1,5 +1,5 @@
 
-import { Logger } from '@cocos/creator-programming-common/lib/logger';
+import { Logger } from '@cocos/creator-programming-common';
 
 const debugLog: Logger['debug'] = () => {};
 

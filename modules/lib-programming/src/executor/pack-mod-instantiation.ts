@@ -2,7 +2,7 @@
 import vm from 'vm';
 import { asserts } from '../utils/asserts';
 import fs from 'fs-extra';
-import { ChunkTimestamp, ChunkId, QuickPackLoader } from '@cocos/creator-programming-quick-pack/lib/loader';
+import { ChunkTimestamp, ChunkId, QuickPackLoader } from '@cocos/creator-programming-quick-pack';
 import type { ExecutorSystem } from '../editor-systemjs';
 import { i18nTranslate } from '../utils/i18n';
 import { pathToFileURL } from 'url';

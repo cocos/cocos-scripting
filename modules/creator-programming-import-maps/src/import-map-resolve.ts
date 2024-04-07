@@ -1,8 +1,6 @@
-import { asserts } from '@cocos/creator-programming-common/lib/asserts';
-import { tryParseURL } from '@cocos/creator-programming-common/lib/url';
+import { asserts, tryParseURL, i18nTranslate } from '@cocos/creator-programming-common';
 import { ParsedSpecifierMap, ParsedImportMap } from './parsed-import-map';
 import { URL } from 'url';
-import { i18nTranslate } from '@cocos/creator-programming-common/lib/i18n';
 
 /**
  * @param specifier

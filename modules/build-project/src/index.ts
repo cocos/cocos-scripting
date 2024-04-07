@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { ModLo, ImportMap } from '@cocos/creator-programming-mod-lo/lib/mod-lo';
+import { ModLo, ImportMap } from '@cocos/creator-programming-mod-lo';
 import rpModLo from '@cocos/creator-programming-rollup-plugin-mod-lo';
 import toNamedRegister from './to-named-register';
 import { URL, pathToFileURL, fileURLToPath } from 'url';

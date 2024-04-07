@@ -4,19 +4,19 @@ import fs from 'fs-extra';
 import { fileURLToPath, pathToFileURL, URL } from 'url';
 import { performance } from 'perf_hooks';
 import { makePrerequisiteImportsMod, makeTentativePrerequisiteImports, prerequisiteImportsModURL } from './prerequisite-imports';
-// import { editorBrowserslistQuery } from '@editor/lib-programming/dist/utils';
+// import { editorBrowserslistQuery } from '@editor/lib-programming';
 import { StatsQuery } from '@ccbuild/stats-query';
 //cjh import { asserts } from '../utils/asserts';
 //cjh import { querySharedSettings, SharedSettings } from '../shared/query-shared-settings';
-import { Logger } from '@cocos/creator-programming-common/lib/logger';
-import { QuickPack } from '@cocos/creator-programming-quick-pack/lib/quick-pack';
-import { QuickPackLoaderContext } from '@cocos/creator-programming-quick-pack/lib/loader';
+import { Logger } from '@cocos/creator-programming-common';
+import { QuickPack, QuickPackLoaderContext } from '@cocos/creator-programming-quick-pack';
+
 import {
     ModLo,
     MemoryModule,
     ModLoOptions,
     ImportMap,
-} from '@cocos/creator-programming-mod-lo/lib/mod-lo';
+} from '@cocos/creator-programming-mod-lo';
 //cjh import { AssetChange, AssetChangeType, AssetDatabaseDomain, AssetDbInterop, ModifiedAssetChange } from './asset-db-interop';
 import { PackerDriverLogger } from './logger';
 //cjh import { LanguageServiceAdapter } from '../language-service';

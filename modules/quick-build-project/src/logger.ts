@@ -1,5 +1,5 @@
 import winston from 'winston';
-import { Logger } from '@cocos/creator-programming-common/lib/logger';
+import { Logger } from '@cocos/creator-programming-common';
 // import { getGlobal } from '@electron/remote';
 // const remoteEditor = getGlobal('Editor');
 

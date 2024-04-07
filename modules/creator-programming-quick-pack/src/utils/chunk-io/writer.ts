@@ -4,10 +4,9 @@ import ps from 'path';
 import fs from 'fs-extra';
 import { ChunkUID } from '../chunk-id';
 import { ImportMap } from '../../loader';
-import { asserts } from '@cocos/creator-programming-common/lib/asserts';
+import { asserts, Logger } from '@cocos/creator-programming-common';
 import { URL, fileURLToPath, pathToFileURL } from 'url';
 import RelateUrl from 'relateurl';
-import { Logger } from '@cocos/creator-programming-common/lib/logger';
 import crypto from 'crypto';
 import { ResolutionDetailMap } from '../../resolution-detail-map';
 

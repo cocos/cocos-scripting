@@ -1,13 +1,10 @@
 
 import { URL, fileURLToPath, pathToFileURL } from 'url';
-import { isRelativeSpecifier } from '@cocos/creator-programming-common/lib/specifier';
-import { hasFileProtocol, tryParseURL } from '@cocos/creator-programming-common/lib/url';
+import { asserts, isRelativeSpecifier, hasFileProtocol, tryParseURL } from '@cocos/creator-programming-common';
 import { InvalidModuleSpecifierError, InvalidPackageConfigurationError, InvalidPackageTargetError, ModuleNotFoundError, PackagePathNotExportedError, UnsupportedDirectoryImportError } from './resolve-error';
 import fs from 'fs-extra';
 import ps from 'path';
-import { asserts } from '@cocos/creator-programming-common/lib/asserts';
-import { ParsedImportMap } from '@cocos/creator-programming-import-maps/lib/parsed-import-map';
-import { importMapResolve } from '@cocos/creator-programming-import-maps/lib/import-map-resolve';
+import { ParsedImportMap, importMapResolve } from '@cocos/creator-programming-import-maps';
 import { isNodeJsBuiltinModule, toNodeProtocolUrl } from '../utils/node-builtins';
 
 /**

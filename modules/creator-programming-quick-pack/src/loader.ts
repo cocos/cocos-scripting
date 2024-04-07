@@ -1,13 +1,12 @@
-import { LoaderContext } from "./utils/loader-context";
+import { LoaderContext } from './utils/loader-context';
 import { ChunkIOBase } from './utils/chunk-io/base';
-import { asserts } from '@cocos/creator-programming-common/lib/asserts';
+import { asserts, i18nTranslate } from '@cocos/creator-programming-common';
 import { fileURLToPath, pathToFileURL, URL } from 'url';
 import { ChunkTimestamp } from './utils/chunk';
-import { i18nTranslate } from '@cocos/creator-programming-common/lib/i18n';
-import { QuickPackMiddleware } from "./middleware";
+import { QuickPackMiddleware } from './middleware';
 import fs from 'fs-extra';
-import { CHUNK_HOME_RELATIVE_URL, IMPORT_MAP_RELATIVE_URL, RESOLUTION_DETAIL_MAP_RELATIVE_URL } from "./constants";
-import { ResolutionDetailMap } from "./resolution-detail-map";
+import { CHUNK_HOME_RELATIVE_URL, IMPORT_MAP_RELATIVE_URL, RESOLUTION_DETAIL_MAP_RELATIVE_URL } from './constants';
+import { ResolutionDetailMap } from './resolution-detail-map';
 
 interface Options { }
 

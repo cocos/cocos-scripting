@@ -2,9 +2,8 @@
 import resolve from 'resolve';
 import { URL, fileURLToPath, pathToFileURL } from 'url';
 import ps from 'path';
-import { hasFileProtocol } from '@cocos/creator-programming-common/lib/url';
+import { hasFileProtocol, asserts } from '@cocos/creator-programming-common';
 import { CjsModuleNotFileError, ModuleNotFoundError } from './resolve-error';
-import { asserts } from '@cocos/creator-programming-common/lib/asserts';
 import { isNodeJsBuiltinModule, toNodeProtocolUrl } from '../utils/node-builtins';
 
 export async function cjsResolve(specifier: string, parentURL: URL): Promise<URL> {

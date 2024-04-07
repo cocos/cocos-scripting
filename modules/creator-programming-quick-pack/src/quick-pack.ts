@@ -6,17 +6,10 @@ import { ErroneousModuleRecord, ModuleRecord, ModuleResolution, ResolutionMessag
 import { ChunkWriter } from './utils/chunk-io/writer';
 import { ChunkUID } from './utils/chunk-id';
 import { LoaderContext } from './utils/loader-context';
-import { tryParseURL } from '@cocos/creator-programming-common/lib/url';
-import { createLogger, Logger } from '@cocos/creator-programming-common/lib/logger';
-import { asserts, assertsNonNullable } from '@cocos/creator-programming-common/lib/asserts';
-import { isCjsInteropUrl, getCjsInteropTarget } from '@cocos/creator-programming-common';
-import { launchSequentially, parallelDiscarding } from '@cocos/creator-programming-common/lib/launch-policy';
-import { i18nTranslate } from '@cocos/creator-programming-common/lib/i18n';
+import { asserts, assertsNonNullable, tryParseURL, createLogger, Logger, isCjsInteropUrl, getCjsInteropTarget, launchSequentially, parallelDiscarding, i18nTranslate, isBareSpecifier,  } from '@cocos/creator-programming-common';
 import { Chunk, ChunkMessage } from './utils/chunk';
-import { isBareSpecifier } from '@cocos/creator-programming-common/lib/specifier';
-import { JavaScriptSource } from '@cocos/creator-programming-mod-lo/lib/mods/common';
+import { JavaScriptSource, cjsMetaUrlExportName } from '@cocos/creator-programming-mod-lo';
 import { QuickPackMiddleware } from './middleware';
-import { cjsMetaUrlExportName } from '@cocos/creator-programming-mod-lo/lib/cjs/share';
 
 const getLauncher = (par: boolean) => par ? parallelDiscarding : launchSequentially;
 
@@ -332,7 +325,7 @@ export class QuickPack {
         let specifiers: Specifier[];
         let type: ModuleType;
         try {
-            let mod = await this._modLo.load(url);
+            const mod = await this._modLo.load(url);
             type = mod.type;
             ({
                 source: jsSource,
@@ -504,7 +497,7 @@ throw new Error(\`${String(err)}\`);
      */
     private _getDepsGraphFromModuleRecords () {
         const depGraphs: Record<string, string[]> = {};
-        for (let k in this._moduleRecords) {
+        for (const k in this._moduleRecords) {
             const mr: ModuleRecord = this._moduleRecords[k] as ModuleRecord;
             if (mr.resolutions) {
                 depGraphs[k] = mr.resolutions.map((res) => {
