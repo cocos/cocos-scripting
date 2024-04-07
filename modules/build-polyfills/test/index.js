@@ -3,7 +3,7 @@
 
 const path = require('path');
 
-const buildPolyfills = require('../dist/index').default;
+const buildPolyfills = require('../lib/index').default;
 buildPolyfills({
     debug: true,
     sourceMap: true,

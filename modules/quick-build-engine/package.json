@@ -44,7 +44,7 @@
     "concat-with-sourcemaps": "^1.1.0",
     "fs-extra": "~11.1.1",
     "globby": "11.0.4",
-    "javascript-stringify": "^2.0.1",
+    "javascript-stringify": "2.1.0",
     "node-uuid": "^1.4.8",
     "relateurl": "0.2.7",
     "rollup": "2.79.1",

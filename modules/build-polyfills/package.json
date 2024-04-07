@@ -7,6 +7,10 @@
     "build": "tsc",
     "prebuilt": "node ./scripts/prebuilt.js"
   },
+  "files": [
+    "./lib/**/*"
+  ],
+
   "author": "",
   "license": "ISC",
   "dependencies": {
