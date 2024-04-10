@@ -3,7 +3,7 @@ import type { ModuleSystem } from './module-system/module-system';
 
 
 export type ModuleId = string;
-export type Module = Object;
+export type Module = object;
 export type ModuleMap = Record<ModuleId, Module>;
 
 export type SystemJS = SystemJSPrototype & {
@@ -13,8 +13,8 @@ export type SystemJS = SystemJSPrototype & {
 }
 
 type Deps = string[];
-type Declare = (_export?: string, _context?: Object) => {
-    setters: ((ns: Object) => void)[],
+type Declare = (_export?: string, _context?: object) => {
+    setters: ((ns: object) => void)[],
     executor: () => void;
 };
 type Register = [Deps, Declare];
@@ -31,7 +31,7 @@ export interface ImportContext {
     upvalue: (name: string) => ClassDecorator;
 }
 
-type Entries = IterableIterator<[id: string, ns: Object, upvalueList?: Record<string, Object>]>;
+type Entries = IterableIterator<[id: string, ns: object, upvalueList?: Record<string, object>]>;
 
 interface SystemJSPrototype {
     has (id: string): boolean;
@@ -61,13 +61,6 @@ interface SystemJSPrototype {
 
 declare global {
     let System: SystemJS;
-}
-
-type Imports = Record<string, string>;
-
-export interface ImportMap {
-    imports: Imports,
-    scopes: Record<string, Imports>,
 }
 
 declare let $global: any;  //  $global for TAOBAO

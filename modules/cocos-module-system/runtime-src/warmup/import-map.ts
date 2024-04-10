@@ -1,7 +1,8 @@
 
 // @ts-ignore
 import { resolveImportMap, resolveIfNotPlainOrUrl, resolveAndComposeImportMap } from '../../systemjs/src/common.js';
-import { systemJSPrototype, ImportMap } from '../globals';
+import { systemJSPrototype } from '../globals';
+import type { ImportMap } from '@ccbuild/utils';
 import { baseUrl } from './base-url';
 
 export const importMap = { imports: {}, scopes: {} };
