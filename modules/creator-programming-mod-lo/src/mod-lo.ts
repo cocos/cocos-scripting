@@ -6,7 +6,7 @@ import { getCjsInteropModuleSource } from './cjs/wrapper';
 import { fileURLToPath, URL, pathToFileURL } from 'url';
 import { modLoBuiltinLoadMappings } from './utils/mod-lo-builtin-mods';
 import { performance } from 'perf_hooks';
-import { ImportMap, getBaseName, hasFileProtocol, replaceExtension, tryParseURL, asserts, i18nTranslate, isRelativeSpecifier } from '@ccbuild/utils';
+import { ImportMap, getBaseName, hasFileProtocol, replaceExtension, tryParseURL, asserts, i18nTranslate, isRelativeSpecifier, ImportRestriction } from '@ccbuild/utils';
 import { isCjsInteropUrl, getCjsInteropTarget, createLogger, Logger } from '@cocos/creator-programming-common';
 import { defaultConditions, esmResolve, readPackageScope } from './resolver/esm-resolve';
 import { CanNotBeBaseURLError, CjsInteropError, ModuleNotFoundError, UnsupportedDirectoryImportError } from './resolver/resolve-error';
@@ -38,11 +38,6 @@ export {
 type PackageMeta = NonNullable<Parameters<Parameters<typeof nodeResolve>[2]>[2]>;
 
 const esmDataURIPrefix = 'data:text/javascript,';
-
-export interface ImportRestriction {
-    importerPatterns: string[];
-    banSourcePatterns: string[];
-}
 
 export class MemoryModule {
     constructor(source: string) {

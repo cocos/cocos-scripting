@@ -174,11 +174,11 @@ export class ChunkWriter extends ChunkIOBase {
         const imports = importMap.imports;
         const involvedModules: string[] =[];
         for (const [alias, chunkId] of Object.entries(entries)) {
-            imports[alias] = getChunkRelativePathFromImportMap(chunkId);
+            imports![alias] = getChunkRelativePathFromImportMap(chunkId);
             involvedModules.unshift(chunkId);
         }
 
-        const scopes = importMap.scopes;
+        const scopes = importMap.scopes!;
         const visited = new Set<string>();
         while (involvedModules.length !== 0) {
             const chunkId = involvedModules.pop()!;

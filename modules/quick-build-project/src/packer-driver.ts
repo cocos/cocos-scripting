@@ -9,17 +9,12 @@ import { editorBrowserslistQuery } from '@ccbuild/utils';
 import { StatsQuery } from '@ccbuild/stats-query';
 
 //cjh import { querySharedSettings, SharedSettings } from '../shared/query-shared-settings';
-import { SharedSettings } from '@ccbuild/utils';
+import { SharedSettings, AssetChange, AssetChangeType, AssetDatabaseDomain, EngineInfo, ImportRestriction } from '@ccbuild/utils';
 import { Logger } from '@cocos/creator-programming-common';
 import { QuickPack, QuickPackLoaderContext } from '@cocos/creator-programming-quick-pack';
-import { AssetChange, AssetChangeType, AssetDatabaseDomain, EngineInfo, IPackerDriverCallbacks } from './types';
-import { Editor } from './internal-types';
+import { IPackerDriverCallbacks } from './types';
 
-import {
-    ImportRestriction,
-    ModLo,
-    ModLoOptions,
-} from '@cocos/creator-programming-mod-lo';
+import { ModLo, ModLoOptions } from '@cocos/creator-programming-mod-lo';
 
 import { PackerDriverLogger } from './logger';
 
@@ -27,7 +22,7 @@ import { PackerDriverLogger } from './logger';
 // import { DbURLInfo, getInternalCompilerOptions, getInternalDbURLInfos, realTsConfigPath } from '../intelligence';
 // import { AsyncDelegate } from '../utils/delegate';
 
-import JSON5 from 'json5';
+// import JSON5 from 'json5';
 
 const VERSION = '20';
 
@@ -43,10 +38,6 @@ const featureUnitModulePrefix = 'cce:/internal/x/cc-fu/';
     // }
     // return editorPatterns;
 // }
-
-function getCCEModuleIDs(cceModuleMap: CCEModuleMap): string[] {
-    return Object.keys(cceModuleMap).filter(id => id !== 'mapLocation');
-}
 
 interface IncrementalRecord {
     version: string;
@@ -71,7 +62,12 @@ export interface PackerDriverOptions {
     workspace: string;
     projectPath: string;
     engineInfo: EngineInfo;
+    cceModuleMap: CCEModuleMap;
     callbacks: IPackerDriverCallbacks;
+}
+
+function getCCEModuleIDs(cceModuleMap: CCEModuleMap): string[] {
+    return Object.keys(cceModuleMap).filter(id => id !== 'mapLocation');
 }
 
 /**
@@ -89,7 +85,6 @@ export class PackerDriver {
      * 创建 Packer 驱动器。
      */
     public static async create(options: PackerDriverOptions): Promise<PackerDriver> {
-        PackerDriver._cceModuleMap = PackerDriver.queryCCEModuleMap();
         const baseWorkspace = options.workspace;
         const versionFile = ps.join(baseWorkspace, 'VERSION');
         const targetWorkspaceBase = ps.join(baseWorkspace, 'targets');
@@ -148,7 +143,7 @@ export class PackerDriver {
             const modLoExternals: string[] = [
                 'cc/env',
                 'cc/userland/macro',
-                ...getCCEModuleIDs(PackerDriver._cceModuleMap), // 设置编辑器导出的模块为外部模块
+                ...getCCEModuleIDs(options.cceModuleMap), // 设置编辑器导出的模块为外部模块
             ];
 
             modLoExternals.push(...statsQuery.getFeatureUnits().map(
@@ -167,7 +162,7 @@ export class PackerDriver {
                 allowDeclareFields: incrementalRecord.config.allowDeclareFields,
                 cr: crOptions,
                 _compressUUID(uuid: string): string {
-                    return options.callbacks.compressUUID(uuid, false);
+                    return options.callbacks.onCompressUUID(uuid, false);
                 },
                 logger,
                 checkObsolete: true,
@@ -229,14 +224,15 @@ export class PackerDriver {
             });
         }
 
-        const packer = new PackerDriver(
+        const packer = new PackerDriver({
             targets,
             statsQuery,
             logger,
-            options.callbacks,
+            cceModuleMap: options.cceModuleMap,
+            callbacks: options.callbacks,
             //cjh await getInternalCompilerOptions(),
             // await getInternalDbURLInfos()
-        );
+        });
         return packer;
     }
 
@@ -244,7 +240,7 @@ export class PackerDriver {
         return PackerDriver._importRestrictions;
     }
 
-    public static async updateImportRestrictions(): Promise<void> {
+    // public static async updateImportRestrictions(): Promise<void> {
         // if (!useEditorFolderFeature) {
         //     return;
         // }
@@ -265,14 +261,14 @@ export class PackerDriver {
         //         banSourcePatterns,
         //     };
         // }
-    }
+    // }
 
-    public static queryCCEModuleMap(): CCEModuleMap {
-        const cceModuleMapLocation = ps.join(__dirname, '../../cce-module.jsonc');
-        const cceModuleMap = JSON5.parse(fs.readFileSync(cceModuleMapLocation, 'utf8')) as CCEModuleMap;
-        cceModuleMap.mapLocation = cceModuleMapLocation;
-        return cceModuleMap;
-    }
+    // public static queryCCEModuleMap(): CCEModuleMap {
+    //     const cceModuleMapLocation = ps.join(__dirname, '../../cce-module.jsonc');
+    //     const cceModuleMap = JSON5.parse(fs.readFileSync(cceModuleMapLocation, 'utf8')) as CCEModuleMap;
+    //     cceModuleMap.mapLocation = cceModuleMapLocation;
+    //     return cceModuleMap;
+    // }
 
     /**构建任务的委托，在构建之前会把委托里面的所有内容执行 */
     //cjh public readonly beforeEditorBuildDelegate: AsyncDelegate<(changes: ModifiedAssetChange[]) => Promise<void>> = new AsyncDelegate();
@@ -351,7 +347,7 @@ export class PackerDriver {
             await target.clearCache();
         }
         this._logger.debug('Request build after clearing...');
-        this._dispatchBuildRequest();
+        this.dispatchBuildRequest();
         this._clearing = false;
     }
 
@@ -391,17 +387,31 @@ export class PackerDriver {
     private _assetChangeQueue: AssetChange[] = [];
     private _featureChanged = false;
     private _beforeBuildTasks: (() => void)[] = [];
-    private _broadcastListenerMap: Record<string, (...args: any[]) => void> = {};
+    // private _broadcastListenerMap: Record<string, (...args: any[]) => void> = {};
     private _callbacks: IPackerDriverCallbacks;
     private _depsGraph: Record<string, string[]> = {};
-    private static _cceModuleMap: CCEModuleMap;
+    private _cceModuleMap: CCEModuleMap;
     private static _importRestrictions: ImportRestriction[] = [];
     private _init = false;
 
-    private constructor(targets: PackerDriver['_targets'], statsQuery: StatsQuery, logger: PackerDriverLogger, callbacks: IPackerDriverCallbacks/*, compilerOptions: Readonly<ts.CompilerOptions>, dbURLInfos: readonly DbURLInfo[]*/) {
+    // /*, compilerOptions: Readonly<ts.CompilerOptions>, dbURLInfos: readonly DbURLInfo[]*/
+    private constructor({
+        targets, 
+        statsQuery, 
+        logger,
+        cceModuleMap,
+        callbacks,
+    }: {
+        targets: PackerDriver['_targets'],
+        statsQuery: StatsQuery,
+        logger: PackerDriverLogger,
+        cceModuleMap: CCEModuleMap,
+        callbacks: IPackerDriverCallbacks,
+    }) {
         this._targets = targets;
         this._statsQuery = statsQuery;
         this._logger = logger;
+        this._cceModuleMap = cceModuleMap;
         this._callbacks = callbacks;
         //cjh this.languageService = new LanguageServiceAdapter(realTsConfigPath, Editor.Project.path, this.beforeEditorBuildDelegate, compilerOptions, dbURLInfos);
         // this._assetDbInterop = new AssetDbInterop(this._onSomeAssetChangesWereMade.bind(this));
@@ -417,6 +427,7 @@ export class PackerDriver {
             return;
         }
         this._init = true;
+        await this._callbacks.onInit();
         //cjh this._broadcastListenerMap['engine:modules-changed'] = () => this._onEngineFeaturesChanged();
         //cjh Object.keys(this._broadcastListenerMap).forEach((message) => Editor.Message.__protected__.addBroadcastListener(message, this._broadcastListenerMap[message]));
         //cjh await this._assetDbInterop.init();
@@ -424,10 +435,18 @@ export class PackerDriver {
     }
 
     async destroyed(): Promise<void> {
+        if (!this._init) {
+            return;
+        }
         this._init = false;
+        await this._callbacks.onDestroy();
         //cjh Object.keys(this._broadcastListenerMap).forEach((message) => Editor.Message.__protected__.removeBroadcastListener(message, this._broadcastListenerMap[message]));
         // this._broadcastListenerMap = {};
         // await this._assetDbInterop.destroyed();
+    }
+
+    public get logger(): Logger {
+        return this._logger;
     }
 
     private _warnMissingTarget(targetName: TargetName): void {
@@ -436,9 +455,31 @@ export class PackerDriver {
         }
     }
 
-    public notifyAssetChanges(changes: ReadonlyArray<AssetChange>): void {
+    public updateAssetChangeList(changes: ReadonlyArray<AssetChange>): void {
         this._assetChangeQueue.push(...changes);
-        this._dispatchBuildRequest();
+    }
+
+    public triggerNextBuild(beforeBuildTask: () => void): void {
+        this._beforeBuildTasks.push(beforeBuildTask);
+        this.dispatchBuildRequest();
+    }
+
+    /**
+     * 请求一次构建，如果正在构建，会和之前的请求合并。
+     */
+    public async waitUnitlBuildFinish(): Promise<void> {
+        return await this._asyncIteration.nextIteration();
+    }
+
+    /**
+     * 请求一次构建，如果正在构建，会和之前的请求合并。
+     */
+    public dispatchBuildRequest(): void {
+        void this._asyncIteration.nextIteration();
+    }
+
+    public getCCEModuleIDs(): string[] {
+        return getCCEModuleIDs(this._cceModuleMap);
     }
 
     /**
@@ -454,9 +495,9 @@ export class PackerDriver {
     /**
      * 当引擎功能变动后。
      */
-    private async _onEngineFeaturesChanged(): Promise<void> {
+    public notifyEngineFeaturesChanged(): void {
         this._featureChanged = true;
-        this._dispatchBuildRequest();
+        this.dispatchBuildRequest();
     }
 
     /**
@@ -484,7 +525,7 @@ export class PackerDriver {
         }
 
         try {
-            await this._callbacks.beforeBuild(assetChanges.filter(item => item.type === AssetChangeType.modified));
+            await this._callbacks.onBeforeBuild(assetChanges.filter(item => item.type === AssetChangeType.modified));
         } catch (err) {
             console.debug(err);
         }
@@ -502,22 +543,8 @@ export class PackerDriver {
         Editor.Metrics.trackTimeEnd('programming:compile-start');
     }
 
-    /**
-     * 请求一次构建，如果正在构建，会和之前的请求合并。
-     */
-    private async _waitForBuild(): Promise<void> {
-        return await this._asyncIteration.nextIteration();
-    }
-
-    /**
-     * 请求一次构建，如果正在构建，会和之前的请求合并。
-     */
-    private _dispatchBuildRequest(): void {
-        void this._asyncIteration.nextIteration();
-    }
-
     private static async _createIncrementalRecord(logger: PackerDriverLogger, callbacks: IPackerDriverCallbacks): Promise<IncrementalRecord> {
-        const sharedModLoOptions = await callbacks.querySharedSettings(logger);
+        const sharedModLoOptions = await callbacks.onQuerySharedSettings(logger);
 
         const incrementalRecord: IncrementalRecord = {
             version: VERSION,
@@ -598,7 +625,7 @@ export class PackerDriver {
     }
 
     private async _syncEngineFeatures(): Promise<void> {
-        const features:string[] = await this._callbacks.queryIncludeModules();
+        const features:string[] = await this._callbacks.onQueryIncludeModules();
         this._logger.debug(`Sync engine features: ${features}`);
 
         // 如果带 physics-2d-box2d 模块，需要决定使用哪个后端
@@ -629,11 +656,6 @@ export class PackerDriver {
         return engineIndexModuleSource;
     }
 
-    private _triggerNextBuild(beforeBuildTask: () => void): void {
-        this._beforeBuildTasks.push(beforeBuildTask);
-        this._dispatchBuildRequest();
-    }
-
     /**
      * 将 depsGraph 从 file 协议转成 db 路径协议。
      * 并且过滤掉一些外部模块。
@@ -641,11 +663,11 @@ export class PackerDriver {
     private async _transformDepsGraph(): Promise<void> {
         const transformed: Record<string, string[]> = {};
         for (const [scriptFilePath, depFilePaths] of Object.entries(this._depsGraph)) {
-            const scriptDbPath = await this._callbacks.transformFilePathToDbPath(scriptFilePath);
+            const scriptDbPath = await this._callbacks.onTransformFilePathToDbPath(scriptFilePath);
             if (scriptDbPath) {
                 const currentList = transformed[scriptDbPath] ??= [];
                 for (const depFilePath of depFilePaths) {
-                    const depDbPath = await this._callbacks.transformFilePathToDbPath(depFilePath);
+                    const depDbPath = await this._callbacks.onTransformFilePathToDbPath(depFilePath);
                     if (depDbPath && !currentList.includes(depDbPath)) {
                         currentList.push(depDbPath);
                     }

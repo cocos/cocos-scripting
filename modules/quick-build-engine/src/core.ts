@@ -22,7 +22,7 @@ import { StatsQuery } from '@ccbuild/stats-query';
 import * as Modularize from '@ccbuild/modularize';
 import { TransformResult } from './transformer/transformer';
 import { BabelTransformer } from './transformer/babel-transformer';
-import type { ImportMap } from './import-map';
+import type { ImportMap } from '@ccbuild/utils';
 
 type FileId = FileUid;
 

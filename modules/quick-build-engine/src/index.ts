@@ -16,7 +16,7 @@ import { encodeFilePath, encodeVirtualFileUid } from './file-uid';
 import { VirtualModules } from './virtual-modules';
 import globby from 'globby';
 import Transport from 'winston-transport';
-import type { ImportMap } from './import-map';
+import type { ImportMap } from '@ccbuild/utils';
 
 const VERSION = '1.2.32';
 
@@ -262,22 +262,26 @@ async function quickCompile(options: QuickCompileOptions, bundlers: IBundler[], 
         bundler: IBundler,
         chunkDir: string,
     ): Promise<void> {
-        const importMap: ImportMap & { imports: NonNullable<ImportMap['imports']> } = { imports: {} };
+        const importMap: ImportMap = { 
+            imports: {},
+            scopes: {},
+        };
+
         const importMapFile = ps.join(targetOptions.dir, 'partial-import-map.json');
 
         for (const [alias, entry] of Object.entries(entryAliases)) {
             const finalUrl = bundler.getFinalUrl(entry);
             if (typeof finalUrl === 'string') {
-                importMap.imports[alias] = finalUrl;
+                importMap.imports![alias] = finalUrl;
             } else {
                 const relUrl = urlRelative(pathToFileURL(importMapFile), pathToFileURL(finalUrl.path));
-                importMap.imports[alias] = relUrl;
+                importMap.imports![alias] = relUrl;
             }
         }
 
         const chunkBaseURL = urlRelative(pathToFileURL(importMapFile), pathToFileURL(chunkDir));
         for (const [alias, chunkRelativeURL] of Object.entries(targetRecord.externalDependencyImportMap)) {
-            importMap.imports[alias] = `./${chunkBaseURL}/${chunkRelativeURL}`;
+            importMap.imports![alias] = `./${chunkBaseURL}/${chunkRelativeURL}`;
         }
 
         await fs.ensureDir(ps.dirname(importMapFile));
@@ -353,7 +357,10 @@ export class QuickCompiler {
         const moduleOverrides = this._setupModuleOverrides(statsQuery, features, configurableFlags, options.platform);
         const target = options.targets[targetIndex];
         const bundler = this._bundlers[targetIndex];
-        let importMap: ImportMap = {};
+        let importMap: ImportMap = {
+            imports: {},
+            scopes: {},
+        };
         try {
             importMap = await fs.readJson(
                 ps.join(target.dir, 'partial-import-map.json'),

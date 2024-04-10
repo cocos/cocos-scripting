@@ -34,28 +34,15 @@ interface Params {
     'executor_pack_mod_instantiation_error_host_execute_error': { url: string, reason: unknown };
 }
 
-type I18N = {
-    t(textName: string, params?: unknown): string;
-    register(lang: 'zh' | 'en', key: string, map: any): void;
-};
 
 let i18n: undefined | null | I18N;
-
-declare global {
-    namespace globalThis {
-        namespace Editor {
-            var I18n: I18N;
-            const Project: any;
-        }
-    }
-}
 
 export function i18nTranslate<T extends keyof Params>(textName: T, params?: Params[T]) {
     const prefix = 'lib-programming';
 
     if (i18n === undefined) {
         try {
-            i18n = globalThis.Editor.I18n;
+            i18n = Editor.I18n;
             i18n.register('zh', prefix, languages.zh);
             i18n.register('en', prefix, languages.en);
         } catch {

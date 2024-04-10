@@ -72,6 +72,7 @@ export class Executor {
     }
 
     private async _initialize(options: Executor.Options): Promise<void> {
+        this._projectPath = options.projectPath;
         if (options.beforeUnregisterClass) {
             this._beforeUnregisterClass = options.beforeUnregisterClass;
         }
@@ -79,18 +80,19 @@ export class Executor {
         this._addInstantiationHandlers(options.importEngineMod);
 
         this._cceModuleMap = options.cceModuleMap;
-        this._fixedImportMap.imports['cc'] = engineIndexURL;
-        this._fixedImportMap.imports['cc/env'] = `${engineExportToEditorPrefix}cc/editor/populate-internal-constants`;
+        const imports = this._fixedImportMap.imports!;
+        imports['cc'] = engineIndexURL;
+        imports['cc/env'] = `${engineExportToEditorPrefix}cc/editor/populate-internal-constants`;
         // TODO: deprecated cce.env is only live in 3.0-preview
-        this._fixedImportMap.imports['cce.env'] = this._fixedImportMap.imports['cc/env'];
+        imports['cce.env'] = imports['cc/env'];
         const projectCustomMacroURL = new URL('./temp/programming/custom-macro.js', projectUrlPrefix);
-        this._fixedImportMap.imports['cc/userland/macro'] = projectCustomMacroURL.href;
+        imports['cc/userland/macro'] = projectCustomMacroURL.href;
 
         for (const [moduleName, moduleConfig] of Object.entries(this._cceModuleMap)) {
             if (moduleName === 'mapLocation') {
                 continue;
             }
-            this._fixedImportMap.imports[moduleName] = `${editorExportToProjectPrefix}${moduleName}`;
+            imports[moduleName] = `${editorExportToProjectPrefix}${moduleName}`;
         }
 
         const venderOnLoad = System.constructor.prototype.onload;
@@ -110,7 +112,7 @@ export class Executor {
         this._editorSystem.addInstantiationHandler((url) => {
             if (url.startsWith(projectUrlPrefix)) {
                 let quickCompilerRequest = url.substr(projectUrlPrefix.length);
-                quickCompilerRequest = ps.join(Editor.Project.path, quickCompilerRequest);
+                quickCompilerRequest = ps.join(this._projectPath, quickCompilerRequest);
                 require(quickCompilerRequest);
                 return this._editorSystem.getRegister() as ModuleRegister;
             }
@@ -390,6 +392,7 @@ export class Executor {
     private _packLoader: QuickPackLoader;
     private _instantiatedPackMods: string[] = [];
     private _cceModuleMap: Record<string, any> = {};
+    private _projectPath = '';
 }
 
 export namespace Executor {
@@ -420,6 +423,7 @@ export namespace Executor {
     }>;
 
     export interface Options {
+        projectPath: string,
         importEngineMod: ImportEngineMod;
         quickPackLoaderContext: LoaderContext;
         beforeUnregisterClass?: BeforeUnregisterClass;

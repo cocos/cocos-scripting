@@ -1,4 +1,4 @@
-export declare namespace Editor {
+declare namespace Editor {
 
     export namespace Profile {
         export type PreferencesProtocol = 'default' | 'global' | 'local';

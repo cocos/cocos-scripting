@@ -284,7 +284,7 @@ export async function buildScriptCommand(
     for (const dbInfo of options.dbInfos) {
         const dbURL = `db://${dbInfo.dbID}/`;
         const assetDirURL = pathToFileURL(ps.join(dbInfo.target, ps.join(ps.sep))).href;
-        importMap.imports[dbURL] = assetDirURL;
+        importMap.imports![dbURL] = assetDirURL;
         assetPrefixes.push(assetDirURL);
     }
 

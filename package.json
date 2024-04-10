@@ -1,6 +1,6 @@
 {
-  "name": "@cocos/ccbuild",
-  "version": "2.2.10",
+  "name": "@cocos-new/scripting",
+  "version": "2.2.34",
   "description": "The next generation of build tool for Cocos engine.",
   "scripts": {
     "build": "turbo build",
@@ -8,7 +8,7 @@
     "version": "node ./scripts/remove-workspaces.js && changeset version && node ./scripts/restore-workspaces.js",
     "version-alpha": "node ./scripts/remove-workspaces.js && changeset pre enter alpha && changeset version && changeset pre exit && node ./scripts/restore-workspaces.js",
     "version-snapshot": "node ./scripts/remove-workspaces.js && changeset version --snapshot test && node ./scripts/restore-workspaces.js",
-    "deploy": "npm run clean && turbo build --force && node ./scripts/deploy.js",
+    "deploy": "turbo build && node ./scripts/deploy.js",
     "api": "npm run build && node ./scripts/update-api.js",
     "doc": "typedoc",
     "clean": "node ./scripts/clear.js",
@@ -25,9 +25,8 @@
     "build",
     "compile"
   ],
+
   "files": [
-    "lib/src/**/*",
-    "static/**/*",
     "CHANGELOG.md",
     "README.md"
   ],

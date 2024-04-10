@@ -3,6 +3,9 @@
   "compilerOptions": {
     "outDir": "./lib",
     "rootDir": "./src",
+    "types": [
+      "./@types/internal-types"
+    ]
   },
   "include": [
     "./src/index.ts"

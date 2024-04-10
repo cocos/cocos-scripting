@@ -3,10 +3,9 @@ import { ModLo, MemoryModule, ImportMap } from '@cocos/creator-programming-mod-l
 import { QuickPack, QuickPackLoaderContext } from '@cocos/creator-programming-quick-pack';
 import { Logger } from '@cocos/creator-programming-common';
 import { fileURLToPath, pathToFileURL, URL } from 'url';
-import { asserts } from '@ccbuild/utils';
+import { asserts, AssetChangeType, AssetChange, AssetDatabaseDomain } from '@ccbuild/utils';
 import minimatch from 'minimatch';
-import { AssetChange, AssetChangeType, AssetDatabaseDomain, IPackerDriverCallbacks } from './types';
-import { Editor } from './internal-types';
+import { IPackerDriverCallbacks } from './types';
 
 import * as ps from 'path';
 
@@ -210,7 +209,7 @@ export class PackTarget {
         const assetPrefixes: string[] = [];
         for (const assetDatabaseDomain of assetDatabaseDomains) {
             const assetDirURL = pathToFileURL(ps.join(assetDatabaseDomain.physical, ps.join(ps.sep))).href;
-            importMap.imports[assetDatabaseDomain.root.href] = assetDirURL;
+            importMap.imports![assetDatabaseDomain.root.href] = assetDirURL;
             assetPrefixes.push(assetDirURL);
         }
 
@@ -265,7 +264,7 @@ export class PackTarget {
         let prerequisiteAssetMods = Array.from(this._prerequisiteAssetMods).sort();
         if (useEditorFolderFeature && this._name !== 'editor') {
             // preview 编译需要剔除 Editor 目录下的脚本
-            const editorPatterns = await this._callbacks.queryEditorPatterns();
+            const editorPatterns = await this._callbacks.onQueryEditorPatterns();
             prerequisiteAssetMods = Array.from(prerequisiteAssetMods).filter(mods => {
                 const filePath = mods.startsWith('file:') ? fileURLToPath(mods) : mods;
                 return !editorPatterns.some(pattern => matchPattern(filePath, pattern));
