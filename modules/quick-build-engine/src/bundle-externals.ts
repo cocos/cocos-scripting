@@ -9,11 +9,6 @@ import babelPresetEnv from '@babel/preset-env';
 import { encodeUrlAsFilePath } from './utilts';
 import fs from 'fs';
 
-export interface ImportMap {
-    imports?: Record<string, string>;
-    scopes?: Record<string, Record<string, string>>;
-}
-
 export interface BundleExternalsOptions {
     perf?: boolean;
 

@@ -1,5 +1,4 @@
 import { URL } from 'url';
-import { asserts } from './asserts';
 
 export function parseExtensionName(pathname: string) {
     const segments = pathname.split('/');

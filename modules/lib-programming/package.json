@@ -11,6 +11,7 @@
         "./lib/**/*"
     ],
     "dependencies": {
+        "@ccbuild/utils": "*",
         "@cocos/creator-programming-quick-pack": "*",
         "@cocos/module-system": "*",
 

@@ -1,110 +1,77 @@
 
 import ps from 'path';
 import fs from 'fs-extra';
-import { fileURLToPath, pathToFileURL, URL } from 'url';
+import { pathToFileURL, URL } from 'url';
 import { performance } from 'perf_hooks';
-import { makePrerequisiteImportsMod, makeTentativePrerequisiteImports, prerequisiteImportsModURL } from './prerequisite-imports';
-// import { editorBrowserslistQuery } from '@editor/lib-programming';
+
+import { PackTarget } from './pack-target';
+import { editorBrowserslistQuery } from '@ccbuild/utils';
 import { StatsQuery } from '@ccbuild/stats-query';
-//cjh import { asserts } from '../utils/asserts';
+
 //cjh import { querySharedSettings, SharedSettings } from '../shared/query-shared-settings';
+import { SharedSettings } from '@ccbuild/utils';
 import { Logger } from '@cocos/creator-programming-common';
 import { QuickPack, QuickPackLoaderContext } from '@cocos/creator-programming-quick-pack';
+import { AssetChange, AssetChangeType, AssetDatabaseDomain, EngineInfo, IPackerDriverCallbacks } from './types';
+import { Editor } from './internal-types';
 
 import {
+    ImportRestriction,
     ModLo,
-    MemoryModule,
     ModLoOptions,
-    ImportMap,
 } from '@cocos/creator-programming-mod-lo';
-//cjh import { AssetChange, AssetChangeType, AssetDatabaseDomain, AssetDbInterop, ModifiedAssetChange } from './asset-db-interop';
+
 import { PackerDriverLogger } from './logger';
+
 //cjh import { LanguageServiceAdapter } from '../language-service';
 // import { DbURLInfo, getInternalCompilerOptions, getInternalDbURLInfos, realTsConfigPath } from '../intelligence';
 // import { AsyncDelegate } from '../utils/delegate';
-import ts from 'typescript';
-import JSON5 from 'json5';
-import minimatch from 'minimatch';
 
-/**
- * 以编辑器环境为编译目标对应的 browserslist 查询。
- */
-const editorBrowserslistQuery = 'Electron 5.0.8';
+import JSON5 from 'json5';
 
 const VERSION = '20';
 
 const featureUnitModulePrefix = 'cce:/internal/x/cc-fu/';
 
-const useEditorFolderFeature = false; // TODO: 之后正式接入编辑器 Editor 目录后移除这个开关
 
-export interface EngineInfo {
-    typescript: {
-        type: 'builtin' | 'custom'; // 当前使用的引擎类型（内置或自定义）
-        custom: string; // 自定义引擎地址
-        builtin: string, // 内置引擎地址
-        path: string; // 当前使用的引擎路径，为空也表示编译失败
-    },
-    native: {
-        type: 'builtin' | 'custom'; // 当前使用的引擎类型（内置或自定义）
-        custom: string; // 自定义引擎地址
-        builtin: string; // 内置引擎地址
-        path: string; // 当前使用的引擎路径，为空也表示编译失败
-    },
-}
-
-//TODO(cjh): Move to utils
-export interface SharedSettings {
-    useDefineForClassFields: boolean;
-    allowDeclareFields: boolean;
-    loose: boolean;
-    guessCommonJsExports: boolean;
-    exportsConditions: string[];
-    importMap?: {
-        json: ImportMap;
-        url: string;
-    };
-    preserveSymlinks: boolean;
-}
-
-function matchPattern(path: string, pattern: string): boolean {
-    return minimatch(path.replace(/\\/g, '/'), pattern.replace(/\\/g, '/'));
-}
-
-async function getEditorPatterns(): Promise<string[]> {
+// async function getEditorPatterns(): Promise<string[]> {
     // const dbList: string[] = await Editor.Message.request('asset-db', 'query-db-list');
-    const editorPatterns: string[] = [];
     //cjh for (const dbID of dbList) {
     //     const dbInfo = await Editor.Message.request('asset-db', 'query-db-info', dbID);
     //     const dbEditorPattern = ps.join(dbInfo.target, '**', 'editor', '**/*');
     //     editorPatterns.push(dbEditorPattern);
     // }
-    return editorPatterns;
-}
+    // return editorPatterns;
+// }
 
 function getCCEModuleIDs(cceModuleMap: CCEModuleMap): string[] {
     return Object.keys(cceModuleMap).filter(id => id !== 'mapLocation');
 }
 
-interface BuildResult {
-    depsGraph: Record<string, string[]>;
+interface IncrementalRecord {
+    version: string;
+    config: {
+        previewTarget?: string;
+    } & SharedSettings;
 }
 
-interface CCEModuleConfig {
+export interface CCEModuleConfig {
     description: string;
     main: string;
     types: string;
 }
 
-type CCEModuleMap = {
+export type CCEModuleMap = {
     [moduleName: string]: CCEModuleConfig;
 } & {
     mapLocation: string;
 };
 
-export interface PackerDriverOption {
+export interface PackerDriverOptions {
     workspace: string;
     projectPath: string;
     engineInfo: EngineInfo;
+    callbacks: IPackerDriverCallbacks;
 }
 
 /**
@@ -121,9 +88,9 @@ export class PackerDriver {
     /**
      * 创建 Packer 驱动器。
      */
-    public static async create(option: PackerDriverOption): Promise<PackerDriver> {
+    public static async create(options: PackerDriverOptions): Promise<PackerDriver> {
         PackerDriver._cceModuleMap = PackerDriver.queryCCEModuleMap();
-        const baseWorkspace = option.workspace;
+        const baseWorkspace = options.workspace;
         const versionFile = ps.join(baseWorkspace, 'VERSION');
         const targetWorkspaceBase = ps.join(baseWorkspace, 'targets');
         const debugLogFile = ps.join(baseWorkspace, 'logs', 'debug.log');
@@ -142,10 +109,10 @@ export class PackerDriver {
         const logger = new PackerDriverLogger(debugLogFile);
 
         logger.debug(new Date().toLocaleString());
-        // logger.debug(`Project: ${Editor.Project.path}`);
+        logger.debug(`Project: ${options.projectPath}`);
         logger.debug(`Targets: ${Object.keys(predefinedTargets)}`);
 
-        const incrementalRecord = await PackerDriver._createIncrementalRecord(logger);
+        const incrementalRecord = await PackerDriver._createIncrementalRecord(logger, options.callbacks);
 
         await PackerDriver._validateIncrementalRecord(
             incrementalRecord,
@@ -159,7 +126,7 @@ export class PackerDriver {
                 ps.join(__dirname, '..', '..', 'static', 'builtin-mods', 'code-quality', '/')).href,
         };
 
-        const { engineInfo } = option;
+        const { engineInfo } = options;
         const { path: engineRoot } = engineInfo.typescript;
         logger.debug(`Engine path: ${engineRoot}`);
 
@@ -200,8 +167,7 @@ export class PackerDriver {
                 allowDeclareFields: incrementalRecord.config.allowDeclareFields,
                 cr: crOptions,
                 _compressUUID(uuid: string): string {
-                    return '';
-                    //cjh return Editor.Utils.UUID.compressUUID(uuid, false);
+                    return options.callbacks.compressUUID(uuid, false);
                 },
                 logger,
                 checkObsolete: true,
@@ -214,7 +180,7 @@ export class PackerDriver {
             modLo.setLoadMappings(loadMappings);
 
             const targetWorkspace = ps.join(targetWorkspaceBase, targetId);
-            const origin = option.projectPath;//cjh Editor.Project.path;
+            const origin = options.projectPath;
             const quickPack = new QuickPack({
                 modLo,
                 origin,
@@ -259,6 +225,7 @@ export class PackerDriver {
                     json: incrementalRecord.config.importMap.json,
                     url: new URL(incrementalRecord.config.importMap.url),
                 } : undefined,
+                callbacks: options.callbacks,
             });
         }
 
@@ -266,16 +233,21 @@ export class PackerDriver {
             targets,
             statsQuery,
             logger,
+            options.callbacks,
             //cjh await getInternalCompilerOptions(),
             // await getInternalDbURLInfos()
         );
         return packer;
     }
 
+    public static getImportRestrictions(): ImportRestriction[] {
+        return PackerDriver._importRestrictions;
+    }
+
     public static async updateImportRestrictions(): Promise<void> {
-        if (!useEditorFolderFeature) {
-            return;
-        }
+        // if (!useEditorFolderFeature) {
+        //     return;
+        // }
 
         //cjh const dbList: string[] = await Editor.Message.request('asset-db', 'query-db-list');
         // const restrictions = PackerDriver._importRestrictions;
@@ -308,6 +280,12 @@ export class PackerDriver {
     public busy(): boolean {
         return this._asyncIteration.busy();
     }
+
+    public setAssetDatabaseDomains(assetDatabaseDomains: AssetDatabaseDomain[]): void {
+        for (const target of Object.values(this._targets)) {
+            target.setAssetDatabaseDomains(assetDatabaseDomains);
+        }
+    } 
 
     //cjh public async mountDatabase(dbName: string): Promise<void> {
     //     const assetChanges = await this._assetDbInterop.fetch(dbName);
@@ -410,19 +388,21 @@ export class PackerDriver {
     private _statsQuery: StatsQuery;
     private _asyncIteration: AsyncIterationConcurrency1;
     //cjh private readonly _assetDbInterop: AssetDbInterop;
-    // private _assetChangeQueue: AssetChange[] = [];
+    private _assetChangeQueue: AssetChange[] = [];
     private _featureChanged = false;
     private _beforeBuildTasks: (() => void)[] = [];
     private _broadcastListenerMap: Record<string, (...args: any[]) => void> = {};
+    private _callbacks: IPackerDriverCallbacks;
     private _depsGraph: Record<string, string[]> = {};
     private static _cceModuleMap: CCEModuleMap;
-    private static _importRestrictions: any[] = [];
+    private static _importRestrictions: ImportRestriction[] = [];
     private _init = false;
 
-    private constructor(targets: PackerDriver['_targets'], statsQuery: StatsQuery, logger: PackerDriverLogger/*, compilerOptions: Readonly<ts.CompilerOptions>, dbURLInfos: readonly DbURLInfo[]*/) {
+    private constructor(targets: PackerDriver['_targets'], statsQuery: StatsQuery, logger: PackerDriverLogger, callbacks: IPackerDriverCallbacks/*, compilerOptions: Readonly<ts.CompilerOptions>, dbURLInfos: readonly DbURLInfo[]*/) {
         this._targets = targets;
         this._statsQuery = statsQuery;
         this._logger = logger;
+        this._callbacks = callbacks;
         //cjh this.languageService = new LanguageServiceAdapter(realTsConfigPath, Editor.Project.path, this.beforeEditorBuildDelegate, compilerOptions, dbURLInfos);
         // this._assetDbInterop = new AssetDbInterop(this._onSomeAssetChangesWereMade.bind(this));
 
@@ -456,6 +436,11 @@ export class PackerDriver {
         }
     }
 
+    public notifyAssetChanges(changes: ReadonlyArray<AssetChange>): void {
+        this._assetChangeQueue.push(...changes);
+        this._dispatchBuildRequest();
+    }
+
     /**
      * 当资源更改计时器的时间到了之后，我们发起一次构建请求。
      */
@@ -478,42 +463,43 @@ export class PackerDriver {
      * 开始一次构建。
      */
     private async _startBuildIteration(): Promise<void> {
-        //cjh Editor.Metrics.trackTimeStart('programming:compile-start');
-        // Editor.Message.broadcast('programming:compile-start');
+        Editor.Metrics.trackTimeStart('programming:compile-start');
+        Editor.Message.broadcast('programming:compile-start');
         this._logger.clear();
         this._logger.debug(
             'Build iteration starts.\n' +
-            //cjh `Number of accumulated asset changes: ${this._assetChangeQueue.length}\n` +
+            `Number of accumulated asset changes: ${this._assetChangeQueue.length}\n` +
             `Feature changed: ${this._featureChanged}`,
         );
         if (this._featureChanged) {
             this._featureChanged = false;
             await this._syncEngineFeatures();
         }
-        //cjh const assetChanges = this._assetChangeQueue;
-        // this._assetChangeQueue = [];
+        const assetChanges = this._assetChangeQueue;
+        this._assetChangeQueue = [];
         const beforeTasks = this._beforeBuildTasks.slice();
         this._beforeBuildTasks.length = 0;
         for (const beforeTask of beforeTasks) {
             beforeTask();
         }
-        //cjh try {
-        //     await this.beforeEditorBuildDelegate.dispatch(assetChanges.filter(item => item.type === AssetChangeType.modified) as ModifiedAssetChange[]);
-        // } catch (error) {
-        //     console.debug(error);
-        // }
-        //
-        // const nonDTSChanges = assetChanges.filter(item => !item.filePath.endsWith('.d.ts'));
+
+        try {
+            await this._callbacks.beforeBuild(assetChanges.filter(item => item.type === AssetChangeType.modified));
+        } catch (err) {
+            console.debug(err);
+        }
+
+        const nonDTSChanges = assetChanges.filter(item => !item.filePath.endsWith('.d.ts'));
         for (const [, target] of Object.entries(this._targets)) {
-            //cjh if (assetChanges.length !== 0) {
-            //     await target.applyAssetChanges(nonDTSChanges);
-            // }
+            if (assetChanges.length !== 0) {
+                await target.applyAssetChanges(nonDTSChanges);
+            }
             const buildResult = await target.build();
             this._depsGraph = buildResult.depsGraph; // 更新依赖图
         }
 
-        //cjh Editor.Message.broadcast('programming:compiled');
-        // Editor.Metrics.trackTimeEnd('programming:compile-start');
+        Editor.Message.broadcast('programming:compiled');
+        Editor.Metrics.trackTimeEnd('programming:compile-start');
     }
 
     /**
@@ -530,30 +516,30 @@ export class PackerDriver {
         void this._asyncIteration.nextIteration();
     }
 
-    private static async _createIncrementalRecord(logger: Logger): Promise<IncrementalRecord> {
-        //cjh const sharedModLoOptions = await querySharedSettings(logger);
+    private static async _createIncrementalRecord(logger: PackerDriverLogger, callbacks: IPackerDriverCallbacks): Promise<IncrementalRecord> {
+        const sharedModLoOptions = await callbacks.querySharedSettings(logger);
 
         const incrementalRecord: IncrementalRecord = {
             version: VERSION,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore TODO(cjh):
             config: {
-                //cjh ...sharedModLoOptions,
+                ...sharedModLoOptions,
             },
         };
 
-        //cjh const previewBrowsersListConfigFile = await (Editor.Profile.getProject(
-        //     'project',
-        //     'script.previewBrowserslistConfigFile',
-        // ) as Promise<string | undefined>);
+        const previewBrowsersListConfigFile = await (Editor.Profile.getProject(
+            'project',
+            'script.previewBrowserslistConfigFile',
+        ) as Promise<string | undefined>);
 
-        // if (previewBrowsersListConfigFile) {
-        //     const previewBrowsersListConfigFilePath = Editor.UI.__protected__.File.resolveToRaw(previewBrowsersListConfigFile);
-        //     const previewTarget = await readBrowserslistTarget(previewBrowsersListConfigFilePath);
-        //     if (previewTarget) {
-        //         incrementalRecord.config.previewTarget = previewTarget;
-        //     }
-        // }
+        if (previewBrowsersListConfigFile) {
+            const previewBrowsersListConfigFilePath = Editor.UI.__protected__.File.resolveToRaw(previewBrowsersListConfigFile);
+            const previewTarget = await readBrowserslistTarget(previewBrowsersListConfigFilePath);
+            if (previewTarget) {
+                incrementalRecord.config.previewTarget = previewTarget;
+            }
+        }
 
         return incrementalRecord;
     }
@@ -612,17 +598,16 @@ export class PackerDriver {
     }
 
     private async _syncEngineFeatures(): Promise<void> {
-        const features:string[] = [];//cjh ((await Editor.Profile.getProject('engine', 'modules.includeModules')) as string[] || [] as string[]);
+        const features:string[] = await this._callbacks.queryIncludeModules();
         this._logger.debug(`Sync engine features: ${features}`);
 
         // 如果带 physics-2d-box2d 模块，需要决定使用哪个后端
         const index = features.findIndex(feature => feature.startsWith('physics-2d-box2d'));
         if (index !== -1) {
             // TODO：实验性的 wasm 模块，之后移除
-            //cjh if (await Editor.Profile.getConfig('engine', 'physics-2d-box2d')) {
-            //     features.splice(index, 1, 'physics-2d-box2d-wasm');
-            // } else 
-            {
+            if (await Editor.Profile.getConfig('engine', 'physics-2d-box2d')) {
+                features.splice(index, 1, 'physics-2d-box2d-wasm');
+            } else {
                 features.splice(index, 1, 'physics-2d-box2d');
             }
         }
@@ -644,7 +629,7 @@ export class PackerDriver {
         return engineIndexModuleSource;
     }
 
-    private async _triggerNextBuild(beforeBuildTask: () => void): Promise<void> {
+    private _triggerNextBuild(beforeBuildTask: () => void): void {
         this._beforeBuildTasks.push(beforeBuildTask);
         this._dispatchBuildRequest();
     }
@@ -656,11 +641,11 @@ export class PackerDriver {
     private async _transformDepsGraph(): Promise<void> {
         const transformed: Record<string, string[]> = {};
         for (const [scriptFilePath, depFilePaths] of Object.entries(this._depsGraph)) {
-            const scriptDbPath = await this._transformFilePathToDbPath(scriptFilePath);
+            const scriptDbPath = await this._callbacks.transformFilePathToDbPath(scriptFilePath);
             if (scriptDbPath) {
                 const currentList = transformed[scriptDbPath] ??= [];
                 for (const depFilePath of depFilePaths) {
-                    const depDbPath = await this._transformFilePathToDbPath(depFilePath);
+                    const depDbPath = await this._callbacks.transformFilePathToDbPath(depFilePath);
                     if (depDbPath && !currentList.includes(depDbPath)) {
                         currentList.push(depDbPath);
                     }
@@ -669,25 +654,17 @@ export class PackerDriver {
         }
         this._depsGraph = transformed;
     }
-
-    private async _transformFilePathToDbPath(filePath: string): Promise<string | null | undefined> {
-        const dbProtocol = 'db:';
-        if (filePath.startsWith(dbProtocol)) {
-            return filePath;
-        }
-        const fileProtocol = 'file:///';
-        if (filePath.startsWith(fileProtocol)) {
-            filePath = fileURLToPath(filePath);
-            return '';//cjh await Editor.Message.request('asset-db', 'query-url', filePath);
-        }
-    }
 }
 
-const engineIndexModURL = 'cce:/internal/x/cc';
-
 type TargetName = string;
-
 type PredefinedTargetName = 'editor' | 'preview';
+
+interface PredefinedTarget {
+    name: string;
+    browsersListTargets?: ModLoOptions['targets'];
+    sourceMaps?: boolean | 'inline';
+    isEditor?: boolean;
+}
 
 const DEFAULT_PREVIEW_BROWSERS_LIST_TARGET = 'supports es6-module';
 
@@ -733,264 +710,6 @@ async function readBrowserslistTarget(browserslistrcPath: string): Promise<strin
     }
 }
 
-interface PredefinedTarget {
-    name: string;
-    browsersListTargets?: ModLoOptions['targets'];
-    sourceMaps?: boolean | 'inline';
-    isEditor?: boolean;
-}
-
-interface ImportMapWithURL {
-    json: ImportMap;
-    url: URL;
-}
-
-class PackTarget {
-    constructor(options: {
-        name: string;
-        modLo: ModLo;
-        sourceMaps?: boolean | 'inline';
-        quickPack: QuickPack;
-        quickPackLoaderContext: QuickPackLoaderContext;
-        logger: Logger;
-        tentativePrerequisiteImportsMod: boolean;
-        engineIndexModule: {
-            /**
-             * `'cc'` 模块的初始内容。
-             */
-            source: string;
-
-            /**
-             * 这个目标的是否理会用户的引擎功能设置。
-             * 如果是，`setEngineIndexModuleSource` 不会被调用。
-             * 否则，当编辑器的引擎功能改变时，`setEngineIndexModuleSource` 会被调用以重新设置 `'cc'` 模块的内容。
-             */
-            respectToFeatureSetting: boolean;
-        };
-        userImportMap?: ImportMapWithURL;
-    }) {
-        this._name = options.name;
-        this._modLo = options.modLo;
-        this._quickPack = options.quickPack;
-        this._quickPackLoaderContext = options.quickPackLoaderContext;
-        this._sourceMaps = options.sourceMaps;
-        this._logger = options.logger;
-        this._respectToFeatureSetting = options.engineIndexModule.respectToFeatureSetting;
-        this._tentativePrerequisiteImportsMod = options.tentativePrerequisiteImportsMod;
-        this._userImportMap = options.userImportMap;
-
-        const modLo = this._modLo;
-        this._entryMod = modLo.addMemoryModule(prerequisiteImportsModURL,
-            (this._tentativePrerequisiteImportsMod ? makeTentativePrerequisiteImports : makePrerequisiteImportsMod)([]));
-        this._engineIndexMod = modLo.addMemoryModule(engineIndexModURL, options.engineIndexModule.source);
-
-        //cjh this.setAssetDatabaseDomains([]);
-    }
-
-    get quickPackLoaderContext(): QuickPackLoaderContext {
-        return this._quickPackLoaderContext;
-    }
-
-    get ready(): boolean {
-        return this._ready;
-    }
-
-    get respectToEngineFeatureSetting(): boolean {
-        return this._respectToFeatureSetting;
-    }
-
-    public async build(): Promise<BuildResult> {
-        this._ensureIdle();
-        this._buildStarted = true;
-        const targetName = this._name;
-        //cjh Editor.Message.broadcast('programming:pack-build-start', targetName);
-        // Editor.Metrics.trackTimeStart(`programming:pack-build-start-${targetName}`);
-        this._logger.debug(`Target(${targetName}) build started.`);
-
-        let buildResult: BuildResult | undefined;
-        const t1 = performance.now();
-        try {
-            const prerequisiteAssetMods = await this._getPrerequisiteAssetModsWithFilter();
-            const buildEntries = [
-                engineIndexModURL,
-                prerequisiteImportsModURL,
-                ...prerequisiteAssetMods,
-            ];
-            const cleanResolution = this._cleanResolutionNextTime;
-            if (cleanResolution) {
-                this._cleanResolutionNextTime = false;
-            }
-            if (cleanResolution) {
-                console.debug('This build will perform a clean module resolution.');
-            }
-            buildResult = await this._quickPack.build(buildEntries, {
-                retryResolutionOnUnchangedModule: this._firstBuild,
-                cleanResolution: cleanResolution,
-            });
-            this._firstBuild = false;
-        } catch (err) {
-            this._logger.error(`${err}`);
-        }
-        const t2 = performance.now();
-        this._logger.debug(`Target(${targetName}) ends with cost ${t2 - t1}ms.`);
-
-        this._ready = true;
-        // await new Promise<void>((resolve) => {
-        //     setInterval(() => {
-        //         if (globalThis.xx) {
-        //             resolve();
-        //         }
-        //     }, 10);
-        // });
-        //cjh Editor.Message.broadcast('programming:pack-build-end', targetName);
-        // Editor.Metrics.trackTimeEnd(`programming:pack-build-start-${targetName}`);
-
-        this._buildStarted = false;
-        if (buildResult) {
-            return buildResult;
-        } else {
-            console.warn('Cannot get build result from quick pack.');
-            return { depsGraph: {} };
-        }
-    }
-
-    public async clearCache(): Promise<void> {
-        await this._quickPack.clear();
-        this._firstBuild = true;
-    }
-
-    //cjh public async applyAssetChanges(changes: readonly AssetChange[]): Promise<void> {
-    //     this._ensureIdle();
-    //     for (const change of changes) {
-    //         const uuid = change.uuid;
-    //         // Note: "modified" directive is decomposed as "remove" and "add".
-    //         if (change.type === AssetChangeType.modified ||
-    //             change.type === AssetChangeType.remove) {
-    //             const oldURL = this._uuidURLMap.get(uuid);
-    //             if (!oldURL) {
-    //                 // As of now, we receive an asset modifying or changing directive
-    //                 // but the asset was not processed by us before.
-    //                 // This however can only happen when:
-    //                 // - the asset is removed, and it's an plugin script;
-    //                 // - the asset is modified from plugin script to non-plugin-script.
-    //                 // Otherwise, something went wrong.
-    //                 // But we could not distinguish the second reason from
-    //                 // "received an error asset change directive"
-    //                 // since we don't know the asset's previous status. So we choose to skip this check.
-    //                 // this._logger.warn(`Unexpected: ${uuid} is not in registry.`);
-    //             } else {
-    //                 this._uuidURLMap.delete(uuid);
-    //                 this._modLo.unsetUUID(oldURL);
-    //                 const deleted = this._prerequisiteAssetMods.delete(oldURL);
-    //                 if (!deleted) {
-    //                     this._logger.warn(`Unexpected: ${oldURL} is not in registry.`);
-    //                 }
-    //             }
-    //         }
-    //         if (change.type === AssetChangeType.modified ||
-    //             change.type === AssetChangeType.add) {
-    //             if (change.isPluginScript) {
-    //                 continue;
-    //             }
-    //             const { href: url } = change.url;
-    //             this._uuidURLMap.set(uuid, url);
-    //             this._modLo.setUUID(url, uuid);
-    //             this._prerequisiteAssetMods.add(url);
-    //         }
-    //     }
-
-    //     // Update the import main module
-    //     const prerequisiteImports = await this._getPrerequisiteAssetModsWithFilter();
-    //     this._entryMod.source = (this._tentativePrerequisiteImportsMod ? makeTentativePrerequisiteImports : makePrerequisiteImportsMod)(prerequisiteImports);
-    // }
-
-    public setEngineIndexModuleSource(source: string): void {
-        this._ensureIdle();
-        this._engineIndexMod.source = source;
-    }
-
-    //cjh public setAssetDatabaseDomains(assetDatabaseDomains: AssetDatabaseDomain[]): void {
-    //     this._ensureIdle();
-
-    //     const { _userImportMap: userImportMap } = this;
-
-    //     const importMap: ImportMap = {};
-    //     const importMapURL = userImportMap ? userImportMap.url : new URL('foo:/bar');
-
-    //     // Integrates builtin mappings, since all of builtin mappings are absolute, we do not need parse.
-    //     importMap.imports = {};
-    //     importMap.imports['cc'] = engineIndexModURL;
-    //     const assetPrefixes: string[] = [];
-    //     for (const assetDatabaseDomain of assetDatabaseDomains) {
-    //         const assetDirURL = pathToFileURL(ps.join(assetDatabaseDomain.physical, ps.join(ps.sep))).href;
-    //         importMap.imports[assetDatabaseDomain.root.href] = assetDirURL;
-    //         assetPrefixes.push(assetDirURL);
-    //     }
-
-    //     if (userImportMap) {
-    //         if (userImportMap.json.imports) {
-    //             importMap.imports = {
-    //                 ...importMap.imports,
-    //                 ...userImportMap.json.imports,
-    //             };
-    //         }
-    //         if (userImportMap.json.scopes) {
-    //             for (const [scopeRep, specifierMap] of Object.entries(userImportMap.json.scopes)) {
-    //                 const scopes = importMap.scopes ??= {};
-    //                 scopes[scopeRep] = {
-    //                     ...(scopes[scopeRep] ?? {}),
-    //                     ...specifierMap,
-    //                 };
-    //             }
-    //         }
-    //     }
-
-    //     this._logger.debug(
-    //         `Our import map(${importMapURL}): ${JSON.stringify(importMap, undefined, 2)}`,
-    //     );
-
-    //     this._modLo.setImportMap(importMap, importMapURL);
-    //     this._modLo.setAssetPrefixes(assetPrefixes);
-
-    //     this._cleanResolutionNextTime = true;
-    // }
-
-    private _buildStarted = false;
-    private _ready = false;
-    private _name: string;
-    private _engineIndexMod: MemoryModule;
-    private _entryMod: MemoryModule;
-    private _modLo: ModLo;
-    private _sourceMaps?: boolean | 'inline';
-    private _quickPack: QuickPack;
-    private _quickPackLoaderContext: QuickPackLoaderContext;
-    private _prerequisiteAssetMods: Set<string> = new Set();
-    private _uuidURLMap: Map<string, string> = new Map();
-    private _logger: Logger;
-    private _firstBuild = true;
-    private _cleanResolutionNextTime = true;
-    private _respectToFeatureSetting: boolean;
-    private _tentativePrerequisiteImportsMod: boolean;
-    private _userImportMap: ImportMapWithURL | undefined;
-
-    private async _getPrerequisiteAssetModsWithFilter(): Promise<string[]> {
-        let prerequisiteAssetMods = Array.from(this._prerequisiteAssetMods).sort();
-        if (useEditorFolderFeature && this._name !== 'editor') {
-            // preview 编译需要剔除 Editor 目录下的脚本
-            const editorPatterns = await getEditorPatterns();
-            prerequisiteAssetMods = Array.from(prerequisiteAssetMods).filter(mods => {
-                const filePath = mods.startsWith('file:') ? fileURLToPath(mods) : mods;
-                return !editorPatterns.some(pattern => minimatch(filePath, pattern));
-            });
-        }
-        return prerequisiteAssetMods;
-    }
-
-    private _ensureIdle(): void {
-        //cjh asserts(!this._buildStarted, 'Build is in progress, but a status change request is filed');
-    }
-}
-
 class AsyncIterationConcurrency1 {
     private _iterate: () => Promise<void>;
 
@@ -1025,13 +744,6 @@ class AsyncIterationConcurrency1 {
             return this._pendingPromise;
         }
     }
-}
-
-interface IncrementalRecord {
-    version: string;
-    config: {
-        previewTarget?: string;
-    } & SharedSettings;
 }
 
 function matchObject(lhs: unknown, rhs: unknown): boolean {

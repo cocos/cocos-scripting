@@ -1,14 +1,13 @@
 import { pathToFileURL, moduleSpecifierURLRelative } from './path-url-interop';
-
-interface ImportMap {
-    imports?: Record<string, string>;
-    scopes?: Record<string, Record<string, string>>;
-}
+import { ImportMap } from '@ccbuild/utils';
 
 export function createImportMapFromFileMapping(importMapFile: string, mapping: Record<string, string>): ImportMap {
     const importMapFileURL = pathToFileURL(importMapFile);
-    const importMap: ImportMap = {};
-    importMap.imports = {};
+    const importMap: ImportMap = {
+        imports: {},
+        scopes: {},
+    };
+
     for (const aliasModuleId of Object.keys(mapping)) {
         const chunkEntryFile = mapping[aliasModuleId];
         const relativeURL = moduleSpecifierURLRelative(importMapFileURL, pathToFileURL(chunkEntryFile));

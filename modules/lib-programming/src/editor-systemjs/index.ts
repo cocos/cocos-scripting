@@ -9,7 +9,7 @@ import {
     // @ts-ignore
 } from '../../static/executor/systemjs-bridge/out';
 import NodeUrl from 'url';
-import { i18nTranslate } from '../utils/i18n';
+import { i18nTranslate, ImportMap } from '@ccbuild/utils';
 import type { ResolutionDetailMap } from '@cocos/creator-programming-quick-pack';
 
 type SystemJsRegistry = Record<string, ModuleRegister>;
@@ -220,11 +220,6 @@ export class ExecutorSystem {
         throw Error(i18nTranslate('executor_failed_to_instantiate',
             { url, firstParentURL: firstParentUrl ?? i18nTranslate('executor_system_js_origin') }));
     }
-}
-
-interface ImportMap {
-    imports?: Record<string, string>;
-    scopes?: Record<string, Record<string, string>>;
 }
 
 export const globalEditorSystem = new ExecutorSystem();

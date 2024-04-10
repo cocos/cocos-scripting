@@ -1,6 +1,6 @@
 import { LoaderContext } from './utils/loader-context';
 import { ChunkIOBase } from './utils/chunk-io/base';
-import { asserts, i18nTranslate } from '@cocos/creator-programming-common';
+import { asserts, i18nTranslate } from '@ccbuild/utils';
 import { fileURLToPath, pathToFileURL, URL } from 'url';
 import { ChunkTimestamp } from './utils/chunk';
 import { QuickPackMiddleware } from './middleware';
@@ -173,9 +173,4 @@ export type { ChunkTimestamp };
 export interface ChunkInfo {
     type: 'file';
     path: string;
-}
-
-export interface ImportMap {
-    imports?: Record<string, string>;
-    scopes?: Record<string, Record<string, string>>;
 }

@@ -8,7 +8,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import { renderFile } from 'ejs';
 import virtual from './virtual-entry-source.js';
 
-interface BuildOptions {
+export interface BuildOptions {
     out: string;
     sourceMap: boolean;
     minify: boolean;

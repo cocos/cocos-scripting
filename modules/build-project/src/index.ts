@@ -13,25 +13,9 @@ import ps, { relative } from 'path';
 import { packMods } from './pack-mods';
 //cjh import { IAssetInfo, ITransformTarget, ModulePreservation, InternalBuildResult } from '../../../../../@types/protected';
 import { CCEnvConstants } from './build-time-constants';
-//cjh import { SharedSettings } from '@cocos/creator-types/editor/packages/programming/@types/protected';
+import { SharedSettings } from '@ccbuild/utils';
 import { isCjsInteropUrl, getCjsInteropTarget } from '@cocos/creator-programming-common';
 import minimatch from 'minimatch';
-
-export interface SharedSettings {
-    useDefineForClassFields: boolean;
-    allowDeclareFields: boolean;
-    loose: boolean;
-    guessCommonJsExports: boolean;
-    exportsConditions: string[];
-    preserveSymlinks: boolean;
-    importMap?: {
-        json: {
-            imports?: Record<string, string>;
-            scopes?: Record<string, Record<string, string>>;
-        };
-        url: string;
-    };
-}
 
 /**
  * 
@@ -48,7 +32,7 @@ export type ModulePreservation = 'erase' | 'preserve' | 'facade';
 
 export type ITransformTarget = string | string[] | Record<string, string>;
 
-interface buildRes {
+export interface buildProjRes {
     scriptPackages: string[];
     importMappings: Record<string, string>;
 }
@@ -126,8 +110,8 @@ async function genImportRestrictions(
  */
 export async function buildScriptCommand(
     options: IBuildScriptFunctionOption & SharedSettings,
-): Promise<buildRes> {
-    const res: buildRes = {
+): Promise<buildProjRes> {
+    const res: buildProjRes = {
         scriptPackages: [],
         importMappings: {},
     };
@@ -287,13 +271,14 @@ export async function buildScriptCommand(
 
     const userImportMap = options.importMap;
 
-    const importMap: ImportMap = {};
-    const importMapURL = userImportMap ? new URL(userImportMap.url) : new URL('foo:/bar');
-
-    importMap.imports = {
-        'cc/env': 'virtual:/cc/env',
-        'cc/userland/macro': 'virtual:/cc/userland/macro',
+    const importMap: ImportMap = {
+        imports: {
+            'cc/env': 'virtual:/cc/env',
+            'cc/userland/macro': 'virtual:/cc/userland/macro',
+        },
+        scopes: {},
     };
+    const importMapURL = userImportMap ? new URL(userImportMap.url) : new URL('foo:/bar');
 
     const assetPrefixes: string[] = [];
     for (const dbInfo of options.dbInfos) {

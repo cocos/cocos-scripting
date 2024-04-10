@@ -11,10 +11,7 @@ import { makeVisitorOnModuleSpecifiers } from './module-interop';
 import { moduleSpecifierURLRelative, pathToFileURL } from './path-url-interop';
 import babelPluginKillAmd from './babel-plugin-kill-amd';
 
-interface ImportMap {
-    imports?: Record<string, string>;
-    scopes?: Record<string, Record<string, string>>;
-}
+import { ImportMap } from '@ccbuild/utils';
 
 const VERSION = '1.0.1';
 
@@ -428,7 +425,7 @@ export class Bringer {
     }
 
     private _getCacheKey(file: string): string {
-        let pathRelative = ps.relative(this._projectDir, file);
+        const pathRelative = ps.relative(this._projectDir, file);
         return pathRelative.replace(/\\/g, '/');
     }
 

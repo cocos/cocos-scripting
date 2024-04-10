@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ccbuild/utils": "*",
     "@cocos/creator-programming-babel-preset-cc": "*",
     "@cocos/creator-programming-common": "*",
     "@cocos/creator-programming-import-maps": "*",

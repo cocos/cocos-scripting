@@ -1,4 +1,4 @@
-import { tryParseURL } from "./url";
+import { tryParseURL } from './url';
 
 export function isRelativeSpecifier(specifier: string) {
     return specifier.startsWith('/') ||

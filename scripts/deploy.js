@@ -146,16 +146,21 @@ rootPkg.dependencies = allDeps;
 rootPkg.optionalDependencies = allOptionalDeps;
 delete rootPkg.devDependencies;
 delete rootPkg.scripts;
+delete rootPkg.workspaces;
 for (const dep in rootPkg.dependencies) {
     if (rootPkg.dependencies[dep] === '*') {
         delete rootPkg.dependencies[dep];
     }
 }
-rootPkg.main = './lib/src/index.js';
-rootPkg.types = './lib/src/index.d.ts';
+
+const entryJsFile = './modules/entry/lib/index.js';
+const entryDtsFile = './modules/entry/lib/index.d.ts';
+
+rootPkg.main = entryJsFile;
+rootPkg.types = entryDtsFile;
 rootPkg.exports = {};
 const dotExports = rootPkg.exports['.'] = {};
-dotExports['types'] = './lib/src/index.d.ts';
-dotExports['default'] = './lib/src/index.js';
+dotExports['default'] = entryJsFile;
+dotExports['types'] = entryDtsFile;
 rootPkg.files.push('modules/**/*');
 fs.writeFileSync(ps.join(deployDir, 'package.json'), JSON.stringify(rootPkg, undefined, 4), 'utf8');

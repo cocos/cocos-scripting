@@ -16,9 +16,9 @@
   },
   "readme": "*",
   "files": [
-    "systemjs/src",
-    "lib",
-    "runtime-src",
+    "./systemjs/src/**/*",
+    "./lib/**/*",
+    "./runtime-src/**/*",
     "module-system.d.ts"
   ],
   "dependencies": {

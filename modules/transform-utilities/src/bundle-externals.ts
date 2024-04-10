@@ -10,11 +10,6 @@ import rpNodeResolve from 'rollup-plugin-node-resolve';
 import babelPresetEnv from '@babel/preset-env';
 import UUID from 'node-uuid';
 
-export interface ImportMap {
-    imports?: Record<string, string>;
-    scopes?: Record<string, Record<string, string>>;
-}
-
 export interface BundleExternalsOptions {
     minify?: boolean;
     sourceMap?: boolean;

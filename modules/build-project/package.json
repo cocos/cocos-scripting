@@ -20,6 +20,7 @@
     "license": "MIT",
     "dependencies": {
         "@ccbuild/stats-query": "*",
+        "@ccbuild/utils": "*",
         "@cocos/creator-programming-common": "*",
         "@cocos/creator-programming-import-maps": "*",
         "@cocos/creator-programming-mod-lo": "*",

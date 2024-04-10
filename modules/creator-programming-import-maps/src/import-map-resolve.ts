@@ -1,4 +1,4 @@
-import { asserts, tryParseURL, i18nTranslate } from '@cocos/creator-programming-common';
+import { asserts, tryParseURL, i18nTranslate } from '@ccbuild/utils';
 import { ParsedSpecifierMap, ParsedImportMap } from './parsed-import-map';
 import { URL } from 'url';
 

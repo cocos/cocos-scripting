@@ -45,6 +45,7 @@ declare global {
     namespace globalThis {
         namespace Editor {
             var I18n: I18N;
+            const Project: any;
         }
     }
 }

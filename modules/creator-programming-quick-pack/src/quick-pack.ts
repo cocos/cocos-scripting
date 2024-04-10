@@ -6,7 +6,8 @@ import { ErroneousModuleRecord, ModuleRecord, ModuleResolution, ResolutionMessag
 import { ChunkWriter } from './utils/chunk-io/writer';
 import { ChunkUID } from './utils/chunk-id';
 import { LoaderContext } from './utils/loader-context';
-import { asserts, assertsNonNullable, tryParseURL, createLogger, Logger, isCjsInteropUrl, getCjsInteropTarget, launchSequentially, parallelDiscarding, i18nTranslate, isBareSpecifier,  } from '@cocos/creator-programming-common';
+import { createLogger, Logger, isCjsInteropUrl, getCjsInteropTarget, launchSequentially, parallelDiscarding,  } from '@cocos/creator-programming-common';
+import { asserts, assertsNonNullable, tryParseURL, i18nTranslate, isBareSpecifier } from '@ccbuild/utils';
 import { Chunk, ChunkMessage } from './utils/chunk';
 import { JavaScriptSource, cjsMetaUrlExportName } from '@cocos/creator-programming-mod-lo';
 import { QuickPackMiddleware } from './middleware';

@@ -1,6 +1,6 @@
 
 import { URL, fileURLToPath, pathToFileURL } from 'url';
-import { asserts, isRelativeSpecifier, hasFileProtocol, tryParseURL } from '@cocos/creator-programming-common';
+import { asserts, isRelativeSpecifier, hasFileProtocol, tryParseURL } from '@ccbuild/utils';
 import { InvalidModuleSpecifierError, InvalidPackageConfigurationError, InvalidPackageTargetError, ModuleNotFoundError, PackagePathNotExportedError, UnsupportedDirectoryImportError } from './resolve-error';
 import fs from 'fs-extra';
 import ps from 'path';

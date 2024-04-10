@@ -19,6 +19,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@ccbuild/utils": "*",
+
     "@babel/core": "7.19.6",
     "@babel/template": "7.18.10",
     "@babel/preset-env": "7.16.4",

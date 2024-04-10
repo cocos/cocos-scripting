@@ -6,11 +6,11 @@ import { getCjsInteropModuleSource } from './cjs/wrapper';
 import { fileURLToPath, URL, pathToFileURL } from 'url';
 import { modLoBuiltinLoadMappings } from './utils/mod-lo-builtin-mods';
 import { performance } from 'perf_hooks';
-import { getBaseName, hasFileProtocol, replaceExtension, tryParseURL, createLogger, Logger } from '@cocos/creator-programming-common';
-import { asserts, isCjsInteropUrl, getCjsInteropTarget, isRelativeSpecifier, i18nTranslate  } from '@cocos/creator-programming-common';
+import { ImportMap, getBaseName, hasFileProtocol, replaceExtension, tryParseURL, asserts, i18nTranslate, isRelativeSpecifier } from '@ccbuild/utils';
+import { isCjsInteropUrl, getCjsInteropTarget, createLogger, Logger } from '@cocos/creator-programming-common';
 import { defaultConditions, esmResolve, readPackageScope } from './resolver/esm-resolve';
 import { CanNotBeBaseURLError, CjsInteropError, ModuleNotFoundError, UnsupportedDirectoryImportError } from './resolver/resolve-error';
-import { ImportMap, ParsedImportMap, parseImportMap } from '@cocos/creator-programming-import-maps';
+import { ParsedImportMap, parseImportMap } from '@cocos/creator-programming-import-maps';
 import { cjsResolve } from './resolver/cjs-resolve';
 import { BabelTransformer } from './transformer/babel/babel-transformer';
 import { CircularReferenceReportOptions, Transformer, TransformOptions } from './transformer/transformer';
@@ -39,7 +39,7 @@ type PackageMeta = NonNullable<Parameters<Parameters<typeof nodeResolve>[2]>[2]>
 
 const esmDataURIPrefix = 'data:text/javascript,';
 
-interface ImportRestriction {
+export interface ImportRestriction {
     importerPatterns: string[];
     banSourcePatterns: string[];
 }

@@ -4,6 +4,7 @@ import { ExecutorSystem, globalEditorSystem } from '../editor-systemjs';
 import { URL } from 'url';
 import { LoaderContext, QuickPackLoader } from '@cocos/creator-programming-quick-pack';
 import { PackModInstantiation, PackModuleEvaluator } from './pack-mod-instantiation';
+import { ImportMap } from '@ccbuild/utils';
 
 type ImportEngineMod = (id: string) => Record<string, unknown> | Promise<Record<string, unknown>>;
 
@@ -383,7 +384,7 @@ export class Executor {
 
     private _plugins: PluginScriptInfo[] = [];
 
-    private _fixedImportMap: { imports: Record<string, string> } = { imports: {} };
+    private _fixedImportMap: ImportMap = { imports: {}, scopes: {} };
     private _engineImportMapURL = '';
 
     private _packLoader: QuickPackLoader;

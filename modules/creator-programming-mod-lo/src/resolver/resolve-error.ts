@@ -1,5 +1,5 @@
 import { URL } from 'url';
-import { i18nTranslate } from '@cocos/creator-programming-common';
+import { i18nTranslate } from '@ccbuild/utils';
 
 export abstract class ResolveError extends Error {
     constructor(

@@ -1,6 +1,6 @@
 {
   "name": "@cocos/ccbuild-entry",
-  "version": "2.2.11",
+  "version": "1.0.0",
   "description": "The next generation of build tool for Cocos engine.",
 
   "scripts": {
@@ -54,6 +54,9 @@
     "@ccbuild/stats-query": "*",
     "@ccbuild/transformer": "*",
     "@ccbuild/utils": "*",
+    "@editor/lib-programming": "*",
+    "@cocos/module-system": "*",
+    "@editor/build-polyfills": "*",
 
     "@cocos/creator-programming-babel-preset-cc": "*",
     "@cocos/creator-programming-common": "*",

@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@ccbuild/utils": "*",
     "fs-extra": "~11.1.1"
   },
   "devDependencies": {

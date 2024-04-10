@@ -431,10 +431,6 @@ export class QuickCompiler {
     }
 }
 
-export namespace QuickCompiler {
-    export type Options = QuickCompileOptions;
-}
-
 type OptionsRecord = QuickCompileOptions;
 
 function recordOptions(options: Readonly<QuickCompileOptions>): OptionsRecord {

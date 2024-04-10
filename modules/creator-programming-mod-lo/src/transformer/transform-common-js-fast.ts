@@ -1,17 +1,17 @@
-import { CjsExportsInfo, CommonJsAnalyzeResult, detectCjsExports } from "../cjs/detect-exports";
+import { CjsExportsInfo, CommonJsAnalyzeResult, detectCjsExports } from '../cjs/detect-exports';
 import MagicString from 'magic-string';
-import { CommonJsMod, JavaScriptSource, Specifier, TransformResolver } from "../mods";
-import dedent from "dedent";
-import { modLoBuiltinModCommonJsURL } from "../utils/mod-lo-builtin-mods";
-import { cjsMetaUrlExportName } from "../cjs/share";
-import { analyzeCommonJs } from "../cjs/detect-exports";
-import { assert } from "console";
+import { CommonJsMod, JavaScriptSource, Specifier, TransformResolver } from '../mods';
+import dedent from 'dedent';
+import { modLoBuiltinModCommonJsURL } from '../utils/mod-lo-builtin-mods';
+import { cjsMetaUrlExportName } from '../cjs/share';
+import { analyzeCommonJs } from '../cjs/detect-exports';
+import { assert } from 'console';
 // @ts-ignore
 import babelPluginTransformSystemJs from '@babel/plugin-transform-modules-systemjs';
 // @ts-ignore
 import babelPluginProposalDynamicImport from '@babel/plugin-proposal-dynamic-import';
 import * as babel from '@babel/core';
-import { assertsNonNullable } from "../../../creator-programming-common/lib/asserts";
+import { assertsNonNullable } from '@ccbuild/utils';
 import { parse } from 'acorn';
 import { simple } from 'acorn-walk';
 

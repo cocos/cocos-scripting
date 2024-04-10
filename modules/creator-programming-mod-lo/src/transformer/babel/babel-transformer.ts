@@ -7,7 +7,7 @@ import babelPluginAnnotateCCClass from './babel-plugins/plugin-annotate-ccclass'
 import bpDetectCircularReference from './babel-plugins/plugin-detect-circular';
 import babelPresetEnv from '@babel/preset-env';
 import * as babel from '@babel/core';
-import { asserts, assertsNonNullable } from '@cocos/creator-programming-common';
+import { asserts, assertsNonNullable } from '@ccbuild/utils';
 import { RawSourceMap } from 'source-map';
 import { InternalTransformOptions, SourceMap } from '../../mod-lo';
 import { createBabelPluginDetectAndRewriteImports } from './babel-plugins/detect-imports';

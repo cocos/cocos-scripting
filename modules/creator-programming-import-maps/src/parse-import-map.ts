@@ -1,6 +1,6 @@
 import { URL } from 'url';
 import { ParsedImportMap, ParsedScopeMap, ParsedSpecifierMap } from './parsed-import-map';
-import { i18nTranslate } from '@cocos/creator-programming-common';
+import { i18nTranslate } from '@ccbuild/utils';
 
 export function parseImportMap(json: any, baseUrl: URL) {
     if (typeof json !== 'object') {

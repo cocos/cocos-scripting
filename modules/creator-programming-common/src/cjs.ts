@@ -1,4 +1,4 @@
-import { replaceExtension } from "./url";
+import { replaceExtension } from '@ccbuild/utils';
 import { URL } from 'url';
 
 export function isCjsInteropUrl(url: URL): boolean {

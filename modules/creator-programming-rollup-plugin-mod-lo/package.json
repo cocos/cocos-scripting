@@ -34,10 +34,11 @@
   },
 
   "dependencies": {
-    "@babel/core": "7.19.6",
-
+    "@ccbuild/utils": "*",
     "@cocos/creator-programming-common": "*",
-    "@cocos/creator-programming-mod-lo": "*"
+    "@cocos/creator-programming-mod-lo": "*",
+
+    "@babel/core": "7.19.6"
   },
   "publishConfig": {
     "access": "public"

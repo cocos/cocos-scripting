@@ -22,6 +22,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@ccbuild/utils": "*",
     "@ccbuild/transform-utilities": "*",
     "@cocos/creator-programming-babel-preset-cc": "*",
     "@cocos/babel-plugin-dynamic-import-vars": "*",

@@ -3,8 +3,8 @@ import { ChunkIOBase } from './base';
 import ps from 'path';
 import fs from 'fs-extra';
 import { ChunkUID } from '../chunk-id';
-import { ImportMap } from '../../loader';
-import { asserts, Logger } from '@cocos/creator-programming-common';
+import { Logger } from '@cocos/creator-programming-common';
+import { asserts, ImportMap } from '@ccbuild/utils';
 import { URL, fileURLToPath, pathToFileURL } from 'url';
 import RelateUrl from 'relateurl';
 import crypto from 'crypto';
@@ -167,8 +167,10 @@ export class ChunkWriter extends ChunkIOBase {
             return `./${relativePath}`;
         };
 
-        const importMap: ImportMap = {};
-        importMap.imports = {};
+        const importMap: ImportMap = {
+            imports: {},
+            scopes: {},
+        };
         const imports = importMap.imports;
         const involvedModules: string[] =[];
         for (const [alias, chunkId] of Object.entries(entries)) {
@@ -176,7 +178,6 @@ export class ChunkWriter extends ChunkIOBase {
             involvedModules.unshift(chunkId);
         }
 
-        importMap.scopes = {};
         const scopes = importMap.scopes;
         const visited = new Set<string>();
         while (involvedModules.length !== 0) {

@@ -15,12 +15,13 @@ import coreJsBuilder from 'core-js-builder';
 // @ts-ignore
 import ps from 'path';
 
+
 /**
  * @param options 
  * @returns True if the requested polyfills(bundle) is generated and should be taken.
  * False if no polyfill is necessary, the bundle file is not generated as well.
  */
-async function buildPolyfills(options: buildPolyfills.Options): Promise<boolean> {
+export async function buildPolyfills(options: BuildPolyfillsOptions): Promise<boolean> {
     const entries: string[] = [];
 
     // core-js polyfills
@@ -36,7 +37,7 @@ async function buildPolyfills(options: buildPolyfills.Options): Promise<boolean>
         });
         const coreJsOutFile = ps.join(coreJsTempDir, 'core-js.js');
         const coreJsOptions: coreJsBuilder.Options = Object.assign({},
-            options.coreJs === true ? buildPolyfills.defaultCoreJsOptions : options.coreJs,
+            options.coreJs === true ? defaultCoreJsOptions : options.coreJs,
             { filename: coreJsOutFile },
         );
         try {
@@ -108,26 +109,22 @@ async function bundle(entries: string[], outFile: string, options: { sourceMap?:
     await rollupBuild.write(rollupOutputOptions);
 }
 
-namespace buildPolyfills {
-    export interface Options {
-        file: string;
+export interface BuildPolyfillsOptions {
+    file: string;
 
-        sourceMap?: boolean;
+    sourceMap?: boolean;
 
-        debug?: boolean;
+    debug?: boolean;
 
-        coreJs?: boolean | Omit<coreJsBuilder.Options, 'filename'>,
+    coreJs?: boolean | Omit<coreJsBuilder.Options, 'filename'>,
 
-        asyncFunctions?: boolean;
+    asyncFunctions?: boolean;
 
-        fetch?: boolean;
-    }
-
-    export const defaultCoreJsOptions: Omit<coreJsBuilder.Options, 'filename'> = {
-        modules: ['es'],
-        blacklist: [],
-        targets: '> 0.5%',
-    };
+    fetch?: boolean;
 }
 
-export default buildPolyfills;
+export const defaultCoreJsOptions: Omit<coreJsBuilder.Options, 'filename'> = {
+    modules: ['es'],
+    blacklist: [],
+    targets: '> 0.5%',
+};
