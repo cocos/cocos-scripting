@@ -1,12 +1,12 @@
-import { asserts, assertsIsFalse } from "@cocos/creator-programming-common/lib/asserts";
-import { unitTestLogger } from "@cocos/creator-programming-test-utils/lib/test-logger";
-import { ModLo } from "../../../../src/mod-lo";
-import { URL, pathToFileURL } from "url";
+import { asserts, assertsIsFalse } from '@ccbuild/utils';
+import { unitTestLogger } from '@cocos/creator-programming-test-utils/lib/test-logger';
+import { ModLo } from '../../../../src/mod-lo';
+import { URL, pathToFileURL } from 'url';
 import ps, { join } from 'path';
-import { readJson } from "fs-extra";
-import { ModuleNotFoundError } from "../../../../src/resolver/resolve-error";
+import { readJson } from 'fs-extra';
+import { ModuleNotFoundError } from '../../../../src/resolver/resolve-error';
 import '../resolve-result-matcher';
-import { genSymLinks } from "./gen-sym-links";
+import { genSymLinks } from './gen-sym-links';
 
 const dirURL: Readonly<URL> = pathToFileURL(ps.join(__dirname, ps.sep));
 
@@ -64,7 +64,7 @@ test(`preserveSymlinks, asset prefix and import map`, async () => {
     const importMapURL = new URL('spec/import-map.json', dirURL);
     const importMap = {
         imports: {
-            "ji_ni_tai_mei/": "./assets-symlink/"
+            'ji_ni_tai_mei/': './assets-symlink/'
         }
     };
     modLo.setImportMap(importMap, importMapURL);

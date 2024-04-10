@@ -1,9 +1,7 @@
 import { URL } from 'url';
-import { ImportMap } from '../src/import-map';
+import { ImportMap, tryParseURL, isRelativeSpecifier } from '@ccbuild/utils';
 import { parseImportMap, ImportMapParseError } from '../src/parse-import-map';
 import { importMapResolve } from '../src/import-map-resolve';
-import { tryParseURL } from '@cocos/creator-programming-common/lib/url';
-import { isRelativeSpecifier } from '@cocos/creator-programming-common/lib/specifier';
 
 describe('Import map parse errors', () => {
     test('Top level should be object', () => {
