@@ -1,3 +1,4 @@
+import { PluginItem } from '@babel/core';
 // @ts-ignore
 import pluginTransformTypeScript from '@babel/plugin-transform-typescript';
 // @ts-ignore
@@ -6,12 +7,16 @@ import { pluginDecoratorCC } from './decorator-cc';
 // @ts-ignore
 import pluginClassProperties from '@babel/plugin-proposal-class-properties';
 // @ts-ignore
+import pluginPrivatePropertyInObject from '@babel/plugin-proposal-private-property-in-object';
+// @ts-ignore
+import pluginPrivateMethods from '@babel/plugin-proposal-private-methods';
+// @ts-ignore
 import pluginNullishCoalescingOperator from '@babel/plugin-proposal-nullish-coalescing-operator';
 // @ts-ignore
 import pluginOptionalChaining from '@babel/plugin-proposal-optional-chaining';
 // @ts-ignore
 import pluginLogicalAssignmentOperators from '@babel/plugin-proposal-logical-assignment-operators';
-import type { babelPresetCC } from './index' 
+import type { babelPresetCC } from './index'; 
 
 export function genBabelPlugins ({
     allowDeclareFields,
@@ -20,7 +25,7 @@ export function genBabelPlugins ({
     ccDecoratorHelpers,
     fieldDecorators,
     editorDecorators,
-}: babelPresetCC.Options) {
+}: babelPresetCC.Options): PluginItem[] {
     const looseClassProperties = !useDefineForClassFields;
     if (!ccDecoratorHelpers) {
         ccDecoratorHelpers = 'inline';
@@ -56,6 +61,14 @@ export function genBabelPlugins ({
             loose: looseClassProperties,
         }],
 
+        [pluginPrivatePropertyInObject, {
+            loose: looseClassProperties,
+        }],
+
+        [pluginPrivateMethods, {
+            loose: looseClassProperties,
+        }],
+
         // ?? operator
         pluginNullishCoalescingOperator,
 
@@ -64,5 +77,5 @@ export function genBabelPlugins ({
 
         // ||= &&=
         pluginLogicalAssignmentOperators,
-    ]
+    ];
 }

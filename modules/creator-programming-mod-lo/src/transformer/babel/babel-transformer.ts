@@ -85,8 +85,17 @@ export class BabelTransformer implements Transformer {
             // // ??
             // assumptions.noIncompleteNsImportDetection = true;
 
+            /*
+             * 
+                // NOTE: Don't set privateFieldsAsProperties assumptions here since it will conflict with which in babel-plugins.ts, there will be some warning output like the following:
+                [proposal-class-properties]: You are using the "loose: true" option and you are explicitly setting a value for the "privateFieldsAsProperties" assumption. The "loose" option can cause incompatibilities with the other class features plugins, so it's recommended that you replace it with the following top-level option:
+                "assumptions": {
+                    "setPublicClassFields": true,
+                    "privateFieldsAsSymbols": true
+                } 
+             */
             // https://babeljs.io/docs/en/babel-plugin-proposal-private-methods#loose
-            assumptions.privateFieldsAsProperties = true;
+            // assumptions.privateFieldsAsProperties = true;
 
             // // ??
             // assumptions.pureGetters = true;
@@ -111,11 +120,10 @@ export class BabelTransformer implements Transformer {
             // assumptions.constantReexports = false;
             // assumptions.enumerableModuleMeta = false;
         }
-        if (!useDefineForClassFields) {
-            assumptions.setPublicClassFields = true;
-        }
+
         this._assumptions = assumptions;
         this._loose = loose;
+        this._useDefineForClassFields = useDefineForClassFields;
         this._allowDeclareFields = allowDeclareFields;
         this._cr = cr;
         this._internalTransform = _internalTransform;
@@ -206,6 +214,7 @@ export class BabelTransformer implements Transformer {
 
     private _targets?: TransformTargets;
     private _loose: boolean;
+    private _useDefineForClassFields: boolean;
     private _assumptions: BabelAssumptions | undefined;
     private _allowDeclareFields: boolean;
     private _cr?: CircularReferenceReportOptions;
@@ -238,7 +247,7 @@ export class BabelTransformer implements Transformer {
         presets.push([babelPresetCC, {
             allowDeclareFields: this._allowDeclareFields,
             // @ts-ignore
-            useDefineForClassFields: !this._assumptions.setPublicClassFields
+            useDefineForClassFields: this._useDefineForClassFields,
         } as babelPresetCC.Options]);
 
         if (options) {

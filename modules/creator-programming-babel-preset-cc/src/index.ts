@@ -11,7 +11,7 @@ export const babelPresetCC = declare((api: any, options: babelPresetCC.Options):
         overrides: [{
             plugins: genBabelPlugins(options),
         }],
-    }
+    };
 });
 
 export namespace babelPresetCC {
