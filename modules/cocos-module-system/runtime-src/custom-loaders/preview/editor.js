@@ -1,7 +1,7 @@
-import { systemJSPrototype } from './globals';
-import { resolveIfNotPlainOrUrl, hasSymbol } from '../systemjs/src/common.js';
+import { systemJSPrototype } from '../../globals';
+import { resolveIfNotPlainOrUrl, hasSymbol } from '../../../systemjs/src/common.js';
 
-let resolutionDetailMap = {};//
+let resolutionDetailMap = {};
 
 function createDetailResolver() {
     const logger = (message) => {

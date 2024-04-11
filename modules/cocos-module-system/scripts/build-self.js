@@ -14,5 +14,8 @@ const { build } = require('../lib/build.js');
         libprogramming: false,
         quickBuildEngine: true,
         inlineDynamicImports: true,
+        output: {
+            exports: 'named'
+        }
     });
 })();

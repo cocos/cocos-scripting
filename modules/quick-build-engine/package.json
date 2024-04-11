@@ -5,7 +5,8 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "files": [
-    "./lib/**/*"
+    "./lib/**/*",
+    "./static/**/*"
   ],
   "exports": {
     ".": {
@@ -57,6 +58,7 @@
   "devDependencies": {
     "@ccbuild/stats-query": "*",
     "@ccbuild/modularize": "*",
+    "@cocos/module-system": "*",
 
     "@types/babel__core": "7.1.20",
     "@types/fs-extra": "9.0.13",

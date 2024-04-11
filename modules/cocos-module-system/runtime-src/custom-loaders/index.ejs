@@ -34,5 +34,6 @@ export * from './libprogramming';
 <% } %>
     
 <% if (quickBuildEngine) { %>
-export * from './quick-build-engine';
+import { loader } from './quick-build-engine';
+export default loader;
 <% } %>

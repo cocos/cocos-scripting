@@ -1,4 +1,4 @@
-import { rollup } from 'rollup';
+import { rollup, OutputOptions } from 'rollup';
 import { terser } from 'rollup-plugin-terser';
 import replace from '@rollup/plugin-replace';
 import { join, parse } from 'path';
@@ -20,6 +20,7 @@ export interface BuildOptions {
     libprogramming?: boolean;
     quickBuildEngine?: boolean;
     inlineDynamicImports?: boolean;
+    output?: OutputOptions;
 }
 
 export async function build({
@@ -34,6 +35,7 @@ export async function build({
     libprogramming = false,
     quickBuildEngine = false,
     inlineDynamicImports = false,
+    output,
 }: BuildOptions): Promise<void> {
     const input = join(__dirname, '..', 'runtime-src', 'custom-loaders', 'index.js');
     const ejsResult = await compileEjs(join(__dirname, '..', 'runtime-src', 'custom-loaders', 'index.ejs'), {
@@ -47,6 +49,22 @@ export async function build({
     const modules: Record<string, string> = {};
     modules[ejsResult.path] = ejsResult.source;
 
+    const outputOptions: OutputOptions = {
+        file: out,
+        sourcemap: sourceMap,
+        format: format ?? 'iife',
+    };
+
+    if (inlineDynamicImports) {
+        outputOptions.inlineDynamicImports = inlineDynamicImports;
+    }
+
+    if (output) {
+        if (output.banner) outputOptions.banner = output.banner;
+        if (output.footer) outputOptions.footer = output.footer;
+        if (output.exports) outputOptions.exports = output.exports;
+    }  
+//
     await (await rollup({
         input,
         plugins: [
@@ -64,13 +82,8 @@ export async function build({
             typescript({ tsconfig: join(__dirname, '../runtime-src/tsconfig.json') }),
             commonjs({
             }),
-        ],
-    })).write({
-        file: out,
-        sourcemap: sourceMap,
-        format: format ?? 'iife',
-        inlineDynamicImports,
-    });
+        ]
+    })).write(outputOptions);
 }
 
 interface CompileEjsOptions {

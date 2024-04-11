@@ -5,11 +5,12 @@
   "main": "lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run prebuilt",
     "prebuilt": "node ./scripts/prebuilt.js"
   },
   "files": [
-    "./lib/**/*"
+    "./lib/**/*",
+    "./prebuilt/**/*"
   ],
 
   "author": "",

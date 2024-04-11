@@ -2,7 +2,7 @@
 
 const path = require('path');
 
-const buildPolyfills = require('../lib/index').default;
+const { buildPolyfills } = require('../lib');
 (async () => {
     // Polyfills for in-editor environment
     await buildPolyfills({

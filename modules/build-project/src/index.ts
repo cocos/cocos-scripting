@@ -11,7 +11,7 @@ import rpSourcemaps from 'rollup-plugin-sourcemaps';
 import { terser } from 'rollup-plugin-terser';
 import ps, { relative } from 'path';
 import { packMods } from './pack-mods';
-//cjh import { IAssetInfo, ITransformTarget, ModulePreservation, InternalBuildResult } from '../../../../../@types/protected';
+
 import { CCEnvConstants } from './build-time-constants';
 import { SharedSettings } from '@ccbuild/utils';
 import { isCjsInteropUrl, getCjsInteropTarget } from '@cocos/creator-programming-common';

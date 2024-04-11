@@ -64,6 +64,7 @@
     "@cocos/creator-programming-mod-lo": "*",
     "@cocos/creator-programming-quick-pack": "*",
     "@cocos/creator-programming-rollup-plugin-mod-lo": "*",
+    "@cocos/babel-plugin-dynamic-import-vars": "*",
 
     "dedent": "0.7.0",
     "fs-extra": "~11.1.1",

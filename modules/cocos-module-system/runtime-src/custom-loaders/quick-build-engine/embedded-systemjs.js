@@ -1,14 +1,13 @@
-
-import './push-systemjs-global';
 // TODO: when loading missed q-bundled:
-import { applyImportMap } from '../../../systemjs/src/system-node';
+import { applyImportMap, System as engineSystemJSLoader } from '../../../systemjs/src/system-node';
 import '../../../systemjs/src/extras/named-register';
-import { System } from './pop-systemjs-global';
+
+//
 import { fileURLToPath } from 'url';
 import fs from 'fs';
-export { System, applyImportMap, loadBundle };
+export { engineSystemJSLoader, applyImportMap, loadBundle };
 
-const systemPrototype = Object.getPrototypeOf(System);
+const systemPrototype = Object.getPrototypeOf(engineSystemJSLoader);
 const vendorInstantiate = systemPrototype.instantiate;
 systemPrototype.instantiate = async function instantiate(url) {
     if (url.startsWith('file:///')) {
@@ -29,5 +28,5 @@ async function loadBundle(url) {
 
 function wrapExecute(source, url) {
     const fn = new Function('System', `${source}\n//# sourceURL=${url}`);
-    fn(System);
+    fn(engineSystemJSLoader);
 }

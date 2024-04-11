@@ -4,10 +4,12 @@
         "build": {
             "dependsOn": ["^build"],
             "inputs": [
-                "src/**"
+                "src/**",
+                "scripts/**"
             ],
             "outputs": [
-                "lib/**"
+                "lib/**",
+                "static/**"
             ]
         },
 

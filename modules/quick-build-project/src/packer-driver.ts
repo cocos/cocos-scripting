@@ -8,7 +8,6 @@ import { PackTarget } from './pack-target';
 import { editorBrowserslistQuery } from '@ccbuild/utils';
 import { StatsQuery } from '@ccbuild/stats-query';
 
-//cjh import { querySharedSettings, SharedSettings } from '../shared/query-shared-settings';
 import { SharedSettings, AssetChange, AssetChangeType, AssetDatabaseDomain, EngineInfo, ImportRestriction } from '@ccbuild/utils';
 import { Logger } from '@cocos/creator-programming-common';
 import { QuickPack, QuickPackLoaderContext } from '@cocos/creator-programming-quick-pack';
@@ -18,26 +17,9 @@ import { ModLo, ModLoOptions } from '@cocos/creator-programming-mod-lo';
 
 import { PackerDriverLogger } from './logger';
 
-//cjh import { LanguageServiceAdapter } from '../language-service';
-// import { DbURLInfo, getInternalCompilerOptions, getInternalDbURLInfos, realTsConfigPath } from '../intelligence';
-// import { AsyncDelegate } from '../utils/delegate';
-
-// import JSON5 from 'json5';
-
 const VERSION = '20';
 
 const featureUnitModulePrefix = 'cce:/internal/x/cc-fu/';
-
-
-// async function getEditorPatterns(): Promise<string[]> {
-    // const dbList: string[] = await Editor.Message.request('asset-db', 'query-db-list');
-    //cjh for (const dbID of dbList) {
-    //     const dbInfo = await Editor.Message.request('asset-db', 'query-db-info', dbID);
-    //     const dbEditorPattern = ps.join(dbInfo.target, '**', 'editor', '**/*');
-    //     editorPatterns.push(dbEditorPattern);
-    // }
-    // return editorPatterns;
-// }
 
 interface IncrementalRecord {
     version: string;
@@ -230,8 +212,6 @@ export class PackerDriver {
             logger,
             cceModuleMap: options.cceModuleMap,
             callbacks: options.callbacks,
-            //cjh await getInternalCompilerOptions(),
-            // await getInternalDbURLInfos()
         });
         return packer;
     }
@@ -240,39 +220,6 @@ export class PackerDriver {
         return PackerDriver._importRestrictions;
     }
 
-    // public static async updateImportRestrictions(): Promise<void> {
-        // if (!useEditorFolderFeature) {
-        //     return;
-        // }
-
-        //cjh const dbList: string[] = await Editor.Message.request('asset-db', 'query-db-list');
-        // const restrictions = PackerDriver._importRestrictions;
-        // restrictions.length = 0;
-        // const banSourcePatterns = await getEditorPatterns();
-        // banSourcePatterns.push(...getCCEModuleIDs(PackerDriver._cceModuleMap)); // 禁止从这些模块里导入
-
-        // for (let i = 0; i < dbList.length; ++i) {
-        //     const dbID = dbList[i];
-        //     const dbInfo = await Editor.Message.request('asset-db', 'query-db-info', dbID);
-        //     const dbPattern = ps.join(dbInfo.target, '**/*');
-        //     const dbEditorPattern = ps.join(dbInfo.target, '**', 'editor', '**/*');
-        //     restrictions[i] = {
-        //         importerPatterns: [dbPattern, '!' + dbEditorPattern], // TODO: 如果需要兼容就项目，则路径不能这么配置，等编辑器提供查询接口
-        //         banSourcePatterns,
-        //     };
-        // }
-    // }
-
-    // public static queryCCEModuleMap(): CCEModuleMap {
-    //     const cceModuleMapLocation = ps.join(__dirname, '../../cce-module.jsonc');
-    //     const cceModuleMap = JSON5.parse(fs.readFileSync(cceModuleMapLocation, 'utf8')) as CCEModuleMap;
-    //     cceModuleMap.mapLocation = cceModuleMapLocation;
-    //     return cceModuleMap;
-    // }
-
-    /**构建任务的委托，在构建之前会把委托里面的所有内容执行 */
-    //cjh public readonly beforeEditorBuildDelegate: AsyncDelegate<(changes: ModifiedAssetChange[]) => Promise<void>> = new AsyncDelegate();
-    
     public busy(): boolean {
         return this._asyncIteration.busy();
     }
@@ -282,55 +229,6 @@ export class PackerDriver {
             target.setAssetDatabaseDomains(assetDatabaseDomains);
         }
     } 
-
-    //cjh public async mountDatabase(dbName: string): Promise<void> {
-    //     const assetChanges = await this._assetDbInterop.fetch(dbName);
-    //     this._assetChangeQueue.push(...assetChanges);
-    //     await this._assetDbInterop.onMountDatabase(dbName);
-    //     await PackerDriver.updateImportRestrictions();
-    // }
-
-    // public async unmountDatabase(dbName: string): Promise<void> {
-    //     this._assetDbInterop.onUnmountDatabase(dbName);
-    //     await PackerDriver.updateImportRestrictions();
-    // }
-    //
-    // public async resetDatabases(build = true): Promise<void> {
-    //     const assetDatabaseDomains = await this._assetDbInterop.queryAssetDomains();
-    //     this._logger.debug(
-    //         'Reset databases. ' +
-    //         `Enumerated domains: ${JSON.stringify(assetDatabaseDomains, undefined, 2)}`);
-
-    //     const setTargets = (): void => {
-    //         for (const target of Object.values(this._targets)) {
-    //             target.setAssetDatabaseDomains(assetDatabaseDomains);
-    //         }
-    //     };
-
-    //     if (build) {
-    //         this._triggerNextBuild(setTargets);
-    //     } else {
-    //         setTargets();
-    //     }
-    // }
-    //
-    // /**
-    //  * 从 asset-db 获取所有数据并构建。
-    //  */
-    // public async pullAssetDb(): Promise<void> {
-    //     const logger = this._logger;
-
-    //     logger.debug('Pulling asset-db.');
-
-    //     const t1 = performance.now();
-    //     await this._fetchAll();
-    //     const t2 = performance.now();
-
-    //     logger.debug(`Fetch asset-db cost: ${t2 - t1}ms.`);
-
-    //     await this._waitForBuild();
-    //     return;
-    // }
 
     public async clearCache(): Promise<void> {
         if (this._clearing) {
@@ -383,18 +281,17 @@ export class PackerDriver {
     private _logger: PackerDriverLogger;
     private _statsQuery: StatsQuery;
     private _asyncIteration: AsyncIterationConcurrency1;
-    //cjh private readonly _assetDbInterop: AssetDbInterop;
+
     private _assetChangeQueue: AssetChange[] = [];
     private _featureChanged = false;
     private _beforeBuildTasks: (() => void)[] = [];
-    // private _broadcastListenerMap: Record<string, (...args: any[]) => void> = {};
+
     private _callbacks: IPackerDriverCallbacks;
     private _depsGraph: Record<string, string[]> = {};
     private _cceModuleMap: CCEModuleMap;
     private static _importRestrictions: ImportRestriction[] = [];
     private _init = false;
 
-    // /*, compilerOptions: Readonly<ts.CompilerOptions>, dbURLInfos: readonly DbURLInfo[]*/
     private constructor({
         targets, 
         statsQuery, 
@@ -413,8 +310,6 @@ export class PackerDriver {
         this._logger = logger;
         this._cceModuleMap = cceModuleMap;
         this._callbacks = callbacks;
-        //cjh this.languageService = new LanguageServiceAdapter(realTsConfigPath, Editor.Project.path, this.beforeEditorBuildDelegate, compilerOptions, dbURLInfos);
-        // this._assetDbInterop = new AssetDbInterop(this._onSomeAssetChangesWereMade.bind(this));
 
         this._asyncIteration = new AsyncIterationConcurrency1(async () => {
             return await this._startBuildIteration();
@@ -428,9 +323,6 @@ export class PackerDriver {
         }
         this._init = true;
         await this._callbacks.onInit();
-        //cjh this._broadcastListenerMap['engine:modules-changed'] = () => this._onEngineFeaturesChanged();
-        //cjh Object.keys(this._broadcastListenerMap).forEach((message) => Editor.Message.__protected__.addBroadcastListener(message, this._broadcastListenerMap[message]));
-        //cjh await this._assetDbInterop.init();
         await this._syncEngineFeatures();
     }
 
@@ -440,9 +332,6 @@ export class PackerDriver {
         }
         this._init = false;
         await this._callbacks.onDestroy();
-        //cjh Object.keys(this._broadcastListenerMap).forEach((message) => Editor.Message.__protected__.removeBroadcastListener(message, this._broadcastListenerMap[message]));
-        // this._broadcastListenerMap = {};
-        // await this._assetDbInterop.destroyed();
     }
 
     public get logger(): Logger {
@@ -481,16 +370,6 @@ export class PackerDriver {
     public getCCEModuleIDs(): string[] {
         return getCCEModuleIDs(this._cceModuleMap);
     }
-
-    /**
-     * 当资源更改计时器的时间到了之后，我们发起一次构建请求。
-     */
-    //cjh private _onSomeAssetChangesWereMade(changes: ReadonlyArray<AssetChange>) {
-    //     this._logger.debug(
-    //         `Dispatch build request for time accumulated ${changes.length} asset changes.`);
-    //     this._assetChangeQueue.push(...changes);
-    //     this._dispatchBuildRequest();
-    // }
 
     /**
      * 当引擎功能变动后。

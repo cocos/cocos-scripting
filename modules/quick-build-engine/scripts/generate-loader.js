@@ -14,5 +14,10 @@ const { build } = require('@cocos/module-system');
         libprogramming: false,
         quickBuildEngine: true,
         inlineDynamicImports: true,
+        output: {
+            banner: 'const editorSystemJSLoader = globalThis.System;',
+            footer: 'globalThis.System = editorSystemJSLoader;',
+            exports: 'named',
+        },
     });
 })();
