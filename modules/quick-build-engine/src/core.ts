@@ -508,6 +508,9 @@ export async function core({
 
         const watchFiles: Record<string, number> = {};
         for (const watchFile of bundleResult.watchFiles) {
+            if (isVirtualFileUid(watchFile)) {
+                continue;
+            }
             try {
                 const stat = await fs.stat(watchFile);
                 watchFiles[getDependencyFileId(watchFile)] = stat.mtimeMs;
