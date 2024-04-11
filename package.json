@@ -1,6 +1,6 @@
 {
   "name": "@cocos-new/scripting",
-  "version": "2.2.34",
+  "version": "2.2.41",
   "description": "The next generation of build tool for Cocos engine.",
   "scripts": {
     "build": "turbo build",
@@ -27,6 +27,7 @@
   ],
 
   "files": [
+    "./static/**/*",
     "CHANGELOG.md",
     "README.md"
   ],
