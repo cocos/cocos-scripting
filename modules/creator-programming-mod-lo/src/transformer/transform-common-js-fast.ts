@@ -24,18 +24,18 @@ export class FastCommonJsMod implements CommonJsMod {
         this._cjsAnalyzeResult = analyzeCommonJs(source);
     }
 
-    source() {
+    source(): JavaScriptSource  {
         return {
             code: this._source,
             map: undefined,
         };
     }
 
-    public module() {
+    public module(): JavaScriptSource {
         return wrapCommonJs(this._source, this._id, this._cjsAnalyzeResult, modLoBuiltinModCommonJsURL, true);
     }
 
-    public systemjs(resolver?: TransformResolver) {
+    public systemjs(resolver?: TransformResolver): { source: JavaScriptSource, moduleSpecifiers: Specifier[] } {
         const {
             _source: code,
             _cjsAnalyzeResult: analyzeResult,
@@ -43,7 +43,7 @@ export class FastCommonJsMod implements CommonJsMod {
 
         const moduleSpecifiers: Specifier[] = [];
         
-        const resolveAndPushSpecifier = (specifier: string, resolver: TransformResolver) => {
+        const resolveAndPushSpecifier = (specifier: string, resolver: TransformResolver): string => {
             const resolved = resolver(specifier);
             moduleSpecifiers.push({ value: specifier, resolved });
             return resolved ? resolved : specifier;

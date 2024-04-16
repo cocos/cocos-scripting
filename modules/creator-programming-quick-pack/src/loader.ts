@@ -1,6 +1,6 @@
 import { LoaderContext } from './utils/loader-context';
 import { ChunkIOBase } from './utils/chunk-io/base';
-import { i18nTranslate } from '@ccbuild/utils';
+import { i18nTranslate, ImportMap } from '@ccbuild/utils';
 import { fileURLToPath, URL } from 'url';
 import { ChunkTimestamp } from './utils/chunk';
 import { QuickPackMiddleware } from './middleware';
@@ -79,7 +79,7 @@ export class QuickPackLoader {
      * Loads the import map.
      * @returns The import map object.
      */
-    public async loadImportMap(): Promise<unknown> {
+    public async loadImportMap(): Promise<ImportMap> {
         return await fs.readJson(this._middleware.importMapPath);
     }
 

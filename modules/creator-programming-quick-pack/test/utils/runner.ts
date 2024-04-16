@@ -3,7 +3,10 @@ import { ModLo } from '@cocos/creator-programming-mod-lo';
 import { QuickPack } from '../../src/quick-pack';
 import { unitTestLogger } from '@cocos/creator-programming-test-utils';
 
-export function createSimpleRunner (origin: string, workspace: string) {
+export function createSimpleRunner (origin: string, workspace: string): { 
+    modLo: ModLo,
+    quickPack: QuickPack,
+} {
     const modLo = new ModLo({
         _compressUUID: () => '',
         logger: unitTestLogger,

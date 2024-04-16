@@ -106,7 +106,7 @@ export class Executor {
         this._logger = options.logger || {};
     }
 
-    private _addInstantiationHandlers(importer: ImportEngineMod): Promise<void> {
+    private _addInstantiationHandlers(importer: ImportEngineMod): void {
         // 处理项目里的自定义配置模块，比如 custom-macro 模块
         this._editorSystem.addInstantiationHandler((url) => {
             if (url.startsWith(projectUrlPrefix)) {

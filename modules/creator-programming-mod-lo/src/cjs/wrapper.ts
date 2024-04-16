@@ -14,7 +14,7 @@ export function wrapCjs(
         return {
             visitor: {
                 Program: {
-                    exit: (path) => {
+                    exit: (path): void => {
                         const requires: string[] = [];
                         context.traverse(path.node, collectRequiresVisitor(requires));
                         wrap(context, path, requires, exports, reexports);
@@ -31,13 +31,13 @@ function wrap(
     requires: readonly string[],
     exports: readonly string[],
     reexports: readonly string[],
-) {
+): void {
     const originalProgram = path.node;
     const reqIds = requires.map((req) => path.scope.generateUid('req'));
 
     const filteredExports = exports.filter((exportName) => !reservedIds.includes(exportName));
 
-    let cjsExportVarId = path.scope.generateUid('cjsExports');
+    const cjsExportVarId = path.scope.generateUid('cjsExports');
 
     let declExportVars: babel.types.Statement[] = [];
     let updateExportVars: babel.types.Statement[] = [];
@@ -114,7 +114,7 @@ const template = babel.template.program(dedent`
     export const %%cjsMetaUrlExportName%% = import.meta.url;
 `);
 
-export async function getCjsInteropModuleSource(requestTarget: string) {
+export async function getCjsInteropModuleSource(requestTarget: string): Promise<string> {
     return dedent`
         // I am the facade module who provides access to the CommonJS module '${requestTarget}'~
         import { ${cjsMetaUrlExportName} as req } from '${requestTarget}';

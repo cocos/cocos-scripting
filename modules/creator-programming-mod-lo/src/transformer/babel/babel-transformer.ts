@@ -197,7 +197,7 @@ export class BabelTransformer implements Transformer {
         }
     }
 
-    public async loadHelper(url: URL) {
+    public async loadHelper(url: URL): Promise<EsmMod> {
         // @ts-ignore
         const source = babel.buildExternalHelpers(null, 'module');
         return new BabelEsmMod(

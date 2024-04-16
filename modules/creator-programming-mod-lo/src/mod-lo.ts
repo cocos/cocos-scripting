@@ -44,7 +44,7 @@ export class MemoryModule {
         this.source = source;
     }
 
-    get source() {
+    get source(): string {
         return this._source;
     }
 
@@ -53,7 +53,7 @@ export class MemoryModule {
         this._mTimestamp = performance.now();
     }
 
-    get mTimestamp() {
+    get mTimestamp(): MTimestamp {
         return this._mTimestamp;
     }
 
@@ -87,7 +87,7 @@ export class ModLo {
         importRestrictions,
         preserveSymlinks = false,
     }: ModLoOptions) {
-        const transformer = (() => {
+        const transformer = ((): Transformer => {
             // if (transformerType == 'babel') {
                 return new BabelTransformer({
                     targets,
@@ -226,26 +226,26 @@ export class ModLo {
     /**
      * @param externals Can be bare specifiers or URLs.
      */
-    public setExternals(externals: string[]) {
+    public setExternals(externals: string[]): void {
         this._externals.push(...externals);
     }
 
-    public addMemoryModule(url: Readonly<URL> | string, source: string) {
+    public addMemoryModule(url: Readonly<URL> | string, source: string): MemoryModule {
         const urlObject = normalizeURLArg(url);
         return this._memoryModules[urlObject.href] = new MemoryModule(source);
     }
 
-    public setUUID(url: string, uuid: string) {
+    public setUUID(url: string, uuid: string): void {
         assertIsURL(url);
         this._uuidMap.set(url, uuid);
     }
 
-    public unsetUUID(url: string) {
+    public unsetUUID(url: string): void {
         assertIsURL(url);
         this._uuidMap.delete(url);
     }
 
-    public setImportMap(importMap: ImportMap, url: URL) {
+    public setImportMap(importMap: ImportMap, url: URL): void {
         this._parsedImportMap = parseImportMap(importMap, url);
     }
 
@@ -255,7 +255,7 @@ export class ModLo {
      * - 这个和 import map 不同。它不会改变模块的 URL，只会在加载模块源码时转而去加载文件系统上的。
      * - 键和值要么都以 / 结尾，要么都不以 / 结尾。如果以 / 结尾表示整个目录映射。
      */
-    public setLoadMappings(loadMappings: Record<string, string>) {
+    public setLoadMappings(loadMappings: Record<string, string>): void {
         this._loadMappings.push(...normalizeLoadMappings(modLoBuiltinLoadMappings));
         if (loadMappings) {
             this._loadMappings.push(...normalizeLoadMappings(loadMappings));
@@ -263,7 +263,7 @@ export class ModLo {
         this._loadMappings.sort(([a], [b]) => a > b ? 1 : -1);
     }
 
-    public setExtraExportsConditions(exportConditions: string[]) {
+    public setExtraExportsConditions(exportConditions: string[]): void {
         this._conditions = [...defaultConditions, ...(exportConditions ?? [])];
     }
 
@@ -271,7 +271,7 @@ export class ModLo {
      * 设置属于 asset 的模块 URL 的前缀。
      * @param prefixes 
      */
-    public setAssetPrefixes(prefixes: string[]) {
+    public setAssetPrefixes(prefixes: string[]): void {
         if (this._preserveSymlinks) {
             this._assetPrefixes = prefixes.slice();
         } else {
@@ -290,7 +290,7 @@ export class ModLo {
         return minimatch(path.replace(/\\/g, '/'), pattern.replace(/\\/g, '/'));
     }
 
-    private _detectImportRestriction (resolveResult: ResolveResult, importer?: URL) {
+    private _detectImportRestriction (resolveResult: ResolveResult, importer?: URL): void {
         if (this._importRestrictions) {
             // get resolved id
             let resolvedId: string;
@@ -539,7 +539,7 @@ export class ModLo {
         };
     }
 
-    private _isExternal(specifierOrURL: string) {
+    private _isExternal(specifierOrURL: string): boolean {
         return this._externals.includes(specifierOrURL);
     }
 
@@ -627,16 +627,16 @@ export class ModLo {
     private _preserveSymlinks = false;
 }
 
-function filterModule(url: string, rule: ModuleFilterRule) {
+function filterModule(url: string, rule: ModuleFilterRule): boolean {
     return typeof rule === 'string' ? url === rule : rule.test(url);
 }
 
 class ModuleFilter {
-    public add(rule: ModuleFilterRule) {
+    public add(rule: ModuleFilterRule): void {
         this._rules.push(rule);
     }
 
-    public test (url: Readonly<URL>) {
+    public test (url: Readonly<URL>): boolean {
         const href = url.href;
         return this._rules.some(
             (rule) => filterModule(href, rule));
@@ -772,7 +772,7 @@ export type MTimestamp = number | {
     uuid: string;
 };
 
-export function isEqualMTimestamp(lhs: MTimestamp, rhs: MTimestamp) {
+export function isEqualMTimestamp(lhs: MTimestamp, rhs: MTimestamp): boolean {
     if (typeof lhs !== 'object') {
         return lhs === rhs;
     } else if (typeof rhs !== 'object') {
@@ -782,7 +782,7 @@ export function isEqualMTimestamp(lhs: MTimestamp, rhs: MTimestamp) {
     }
 }
 
-export function mTimestampToString(mTimestamp: MTimestamp) {
+export function mTimestampToString(mTimestamp: MTimestamp): string {
     return typeof mTimestamp === 'object'
         ? `${new Date(mTimestamp.mtime)}@${mTimestamp.uuid}`
         : `${new Date(mTimestamp)}`;
@@ -796,15 +796,15 @@ export type ResolveResult = {
     specifierOrURL: string;
 };
 
-function normalizeURLArg(url: string | Readonly<URL>) {
+function normalizeURLArg(url: string | Readonly<URL>): Readonly<URL> {
     return typeof url === 'string' ? new URL(url) : url;
 }
 
-function assertIsURL(url: string) {
+function assertIsURL(url: string): void {
     asserts(new URL(url));
 }
 
-function isFileURL(url: URL) {
+function isFileURL(url: URL): boolean {
     return url.protocol === 'file:';
 }
 
@@ -816,7 +816,7 @@ function tryConvertAsPath(url: URL): string | undefined {
     }
 }
 
-function createCjsInteropUrl(url: URL) {
+function createCjsInteropUrl(url: URL): URL {
     try {
         const result = new URL(`?cjs`, url);
         const originalExtension = replaceExtension(result, '.mjs');
@@ -829,12 +829,12 @@ function createCjsInteropUrl(url: URL) {
     }
 }
 
-function getCjsInteropSource(url: URL) {
+function getCjsInteropSource(url: URL): Promise<string> {
     const target = getCjsInteropTarget(url);
     return getCjsInteropModuleSource(`./${target.pathname.split('/').pop()!}`);
 }
 
-function normalizeLoadMappings(loadMappings: Record<string, string>) {
+function normalizeLoadMappings(loadMappings: Record<string, string>): Array<[string, Readonly<URL>]> {
     const normalized: Array<[string, Readonly<URL>]> = [];
     for (const [from, to] of Object.entries(loadMappings)) {
         if (!from.endsWith('/') && to.endsWith('/')) {

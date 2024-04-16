@@ -130,7 +130,7 @@ function $({
 namespace $ {
     export function filterWarns(
         warning: rollup.RollupWarning,
-        defaultHandler: rollup.WarningHandler) {
+        defaultHandler: rollup.WarningHandler): void {
         if (warning.code === 'CIRCULAR_DEPENDENCY') {
             if (warning.cycle && warning.cycle.every((id) => id.includes('node_modules'))) {
                 return;

@@ -3,7 +3,7 @@ import vm from 'vm';
 import fs from 'fs-extra';
 import { ChunkTimestamp, ChunkId, QuickPackLoader } from '@cocos/creator-programming-quick-pack';
 import type { ExecutorSystem } from '../editor-systemjs';
-import { i18nTranslate, asserts } from '@ccbuild/utils';
+import { i18nTranslate, asserts, ImportMap } from '@ccbuild/utils';
 import { pathToFileURL } from 'url';
 
 export interface PackModuleEvaluator {
@@ -120,7 +120,7 @@ export class PackModInstantiation {
         });
     }
 
-    public async getImportMap() {
+    public async getImportMap(): Promise<ImportMap> {
         return await this._quickPackLoader.loadImportMap();
     }
 

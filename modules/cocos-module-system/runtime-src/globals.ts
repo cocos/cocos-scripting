@@ -66,7 +66,7 @@ declare global {
 declare let $global: any;  //  $global for TAOBAO
 declare let getApp: any;  // getApp for WECHAT miniprogram
 
-const globalObj = (function getGlobalObj () {
+const globalObj = (function getGlobalObj (): { System: SystemJS } | undefined {
     if (typeof $global !== 'undefined') {
         return $global;
     } else if (typeof getApp === 'function') {
