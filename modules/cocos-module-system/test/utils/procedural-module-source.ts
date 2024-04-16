@@ -7,7 +7,7 @@ export enum EventType {
     SELF_ACCEPT_ERROR = 'self-accept-error',
 }
 
-export const sourceOfEventType = (eventType: EventType) => `'${eventType}'`;
+export const sourceOfEventType = (eventType: EventType): string => `'${eventType}'`;
 
 export const sourceOfNotifyExecution = `
     import.meta.notify(${sourceOfEventType(EventType.EXECUTION)});
@@ -23,7 +23,7 @@ export const sourceOfReportDependencyAccept = (
     dependencies: string | string[],
     update: boolean = true,
     error: boolean = true,
-) => `
+): string => `
 import.meta.ccHot.accept(
     ${Array.isArray(dependencies)
         ? `[${dependencies.map((dep) => `'${dep}'`).join(', ')}]`

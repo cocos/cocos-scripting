@@ -1,6 +1,6 @@
 
 import { systemGlobal, systemJSPrototype } from '../../runtime-src/globals';
-import { VirtualModules } from './virtual-modules.js';
+import { VirtualModules } from './virtual-modules';
 import { reload } from '../../runtime-src/hmr';
 
 export class Env {
@@ -19,15 +19,15 @@ export class Env {
         Env._envMap[this._domain] = this;
     }
 
-    get root() {
+    get root(): string {
         return `vm://${this._domain}/`;
     }
 
-    get virtualModules() {
+    get virtualModules(): VirtualModules {
         return this._virtualModules;
     }
 
-    public vmURL(literals: TemplateStringsArray) {
+    public vmURL(literals: TemplateStringsArray): string {
         return new URL(literals[0], this.root).href;
     }
 
@@ -39,7 +39,7 @@ export class Env {
         return await reload(modules.map(id => new URL(id, this.root).href));
     }
 
-    public injectModuleMeta(injector: Injector) {
+    public injectModuleMeta(injector: Injector): void {
         this._injector = injector;
     }
 

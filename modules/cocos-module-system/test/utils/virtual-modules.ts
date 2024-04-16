@@ -5,12 +5,12 @@ export class VirtualModules {
         return this._files[id];
     }
 
-    public add(id: string, source: string) {
+    public add(id: string, source: string): void {
         const { code } = babel.transformSync(source, { plugins: ['@babel/plugin-transform-modules-systemjs'] })!;
         this._files[id] = code!;
     }
 
-    public delete(id: string) {
+    public delete(id: string): void {
         delete this._files[id];
     }
 

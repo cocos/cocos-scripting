@@ -126,7 +126,7 @@ async function quickCompile(options: QuickCompileOptions, bundlers: IBundler[], 
     async function main(): Promise<void> {
         await targetLauncher(
             options.targets,
-            async (targetOption, targetIndex) => {
+            async (targetOption, targetIndex): Promise<void> => {
                 logger.debug(`Starting target ${targetIndex}`);
                 const label = `QuickCompiler:Compile target ${targetIndex}`;
                 console.time(label);

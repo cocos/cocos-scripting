@@ -1,13 +1,14 @@
 import { LoaderContext } from './utils/loader-context';
 import { ChunkIOBase } from './utils/chunk-io/base';
-import { asserts, i18nTranslate } from '@ccbuild/utils';
-import { fileURLToPath, pathToFileURL, URL } from 'url';
+import { i18nTranslate } from '@ccbuild/utils';
+import { fileURLToPath, URL } from 'url';
 import { ChunkTimestamp } from './utils/chunk';
 import { QuickPackMiddleware } from './middleware';
 import fs from 'fs-extra';
 import { CHUNK_HOME_RELATIVE_URL, IMPORT_MAP_RELATIVE_URL, RESOLUTION_DETAIL_MAP_RELATIVE_URL } from './constants';
 import { ResolutionDetailMap } from './resolution-detail-map';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface Options { }
 
 export class ResourceNotFoundError extends Error {
@@ -21,17 +22,18 @@ const baseURL = new URL('pack:///') as Readonly<URL>;
 export class QuickPackLoader {
     public constructor(
         context: LoaderContext,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         options: Options = {},
     ) {
         this._middleware = new QuickPackMiddleware(context.workspace);
         this._chunkReader = new ChunkIOBase({ chunkHomePath: this._middleware.chunkHomePath });
     }
 
-    get importMapURL() {
+    get importMapURL(): string {
         return IMPORT_MAP_RELATIVE_URL;
     }
 
-    get resolutionDetailMapURL() {
+    get resolutionDetailMapURL(): string {
         return RESOLUTION_DETAIL_MAP_RELATIVE_URL;
     }
 
@@ -77,7 +79,7 @@ export class QuickPackLoader {
      * Loads the import map.
      * @returns The import map object.
      */
-    public async loadImportMap() {
+    public async loadImportMap(): Promise<unknown> {
         return await fs.readJson(this._middleware.importMapPath);
     }
 
@@ -104,7 +106,7 @@ export class QuickPackLoader {
      * @param url URL of the chunk.
      * @returns The chunk ID.
      */
-    public getChunkId(url: string) {
+    public getChunkId(url: string): string {
         // First, normalize it
         const absolute = new URL(url, baseURL);
         absolute.search = ''; // Discard any search params
@@ -128,7 +130,7 @@ export class QuickPackLoader {
      * @param id The chunk ID.
      * @returns The chunk ID.
      */
-    public async loadChunkFromId(id: ChunkId) {
+    public async loadChunkFromId(id: ChunkId): Promise<ChunkInfo> {
         const file = fileURLToPath(new URL(id, this._middleware.workspaceURL));
         return {
             type: 'file',
@@ -150,7 +152,7 @@ export class QuickPackLoader {
         return resources.map((resource) => this._timestampsCache[resource] ?? -1);
     }
 
-    public async reload() {
+    public async reload(): Promise<void> {
         const serializedAssemblyRecord = await fs.readJson(this._middleware.assemblyRecordPath);
         this._chunkReader.deserializeRecord(serializedAssemblyRecord);
         this._timestampsCache = Object.entries(await this._chunkReader.queryAllTimestamps()).reduce((result, [chunkRelativeURL, timestamp]) => {

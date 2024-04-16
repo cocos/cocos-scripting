@@ -10,31 +10,31 @@ export class QuickPackMiddleware {
         this._workspaceURL = pathToFileURL(ps.join(workspace, ps.sep));
     }
 
-    get workspace() {
+    get workspace(): string {
         return this._workspace;
     }
 
-    get workspaceURL() {
+    get workspaceURL(): URL {
         return this._workspaceURL;
     }
 
-    get mainRecordPath() {
+    get mainRecordPath(): string {
         return ps.join(this._workspace, 'main-record.json');
     }
 
-    get assemblyRecordPath() {
+    get assemblyRecordPath(): string {
         return ps.join(this._workspace, 'assembly-record.json');
     }
 
-    get chunkHomePath() {
+    get chunkHomePath(): string {
         return fileURLToPath(new URL(CHUNK_HOME_RELATIVE_URL, this._workspaceURL));
     }
 
-    get importMapPath() {
+    get importMapPath(): string {
         return fileURLToPath(new URL(IMPORT_MAP_RELATIVE_URL, this._workspaceURL));
     }
 
-    get resolutionDetailMapPath() {
+    get resolutionDetailMapPath(): string {
         return fileURLToPath(new URL(RESOLUTION_DETAIL_MAP_RELATIVE_URL, this._workspaceURL));
     }
 
@@ -43,7 +43,7 @@ export class QuickPackMiddleware {
             this.assemblyRecordPath,
             this.importMapPath,
         ];
-        for (let file of filesToLock) {
+        for (const file of filesToLock) {
             if (fs.existsSync(file)) {
                 // NOTE: proper-lockfile will create a lock folder to mark the file as locked, and keep updating the mtime of this folder.
                 // If the process throws an exception or is blocked, mtime will stop updating and the stale lock will become invalid.
@@ -55,7 +55,7 @@ export class QuickPackMiddleware {
         }
     }
 
-    public async unlock () {
+    public async unlock (): Promise<void> {
         for (const file of this._lockedFiles) {
             if (fs.existsSync(file) && await lockfile.check(file)) {
                 await lockfile.unlock(file);

@@ -64,9 +64,8 @@ export class Executor {
         this._editorSystem = globalEditorSystem;
         this._logger = {};
 
-        const quickPackLoader = new QuickPackLoader(quickPackLoaderContext);
-        this._packLoader = quickPackLoader;
-        this._packModInstantiation = new PackModInstantiation(quickPackLoader, this._editorSystem, packModuleEvaluator);
+        this._packLoader = new QuickPackLoader(quickPackLoaderContext);
+        this._packModInstantiation = new PackModInstantiation(this._packLoader, this._editorSystem, packModuleEvaluator);
 
         this._importExceptionHandler = importExceptionHandler ?? defaultImportExceptionHandler;
     }
@@ -96,18 +95,18 @@ export class Executor {
         }
 
         const venderOnLoad = System.constructor.prototype.onload;
-        const self = this;
-        System.constructor.prototype.onload = function (...args: Parameters<Executor['_onModuleLoaded']>) {
-            self._onModuleLoaded(...args);
+
+        System.constructor.prototype.onload = (...args: Parameters<Executor['_onModuleLoaded']>): void => {
+            this._onModuleLoaded(...args);
             if (typeof venderOnLoad === 'function') {
-                venderOnLoad.apply(this, arguments);
+                venderOnLoad.apply(this, args);
             }
         };
 
         this._logger = options.logger || {};
     }
 
-    private _addInstantiationHandlers(importer: ImportEngineMod) {
+    private _addInstantiationHandlers(importer: ImportEngineMod): Promise<void> {
         // 处理项目里的自定义配置模块，比如 custom-macro 模块
         this._editorSystem.addInstantiationHandler((url) => {
             if (url.startsWith(projectUrlPrefix)) {
@@ -167,11 +166,11 @@ export class Executor {
         });
     }
 
-    public addPolyfillFile(file: string) {
+    public addPolyfillFile(file: string): void {
         require(file);
     }
 
-    public async prepare() {
+    public async prepare(): Promise<void> {
         await this._reloadPackMods();
     }
 
@@ -182,7 +181,7 @@ export class Executor {
     /**
      * 重新读取 Packer 的内容并重新执行所有项目脚本和插件脚本。
      */
-    public async reload() {
+    public async reload(): Promise<void> {
         const onClassRegistered: EditorExtends.Listener<'class-registered'> = (classConstructor, metadata) => {
             this._registeredClasses.push(classConstructor);
             console.debug(`[[Executor]] Register ${classConstructor.name}`);
@@ -220,7 +219,7 @@ export class Executor {
      * 热更脚本插件
      * @param info 脚本插件更新信息
      */
-    public async hotReloadPluginScripts(info?: IPluginChangedInfo) {
+    public async hotReloadPluginScripts(info?: IPluginChangedInfo): Promise<void> {
         if (info && Object.keys(info.changes).length === 0 && info.removals.length === 0) {
             return;
         }
@@ -245,17 +244,17 @@ export class Executor {
         await this._loadAllPlugins();
     }
 
-    public isModule(id: string) {
+    public isModule(id: string): boolean {
         return id in this._modules;
     }
 
-    public async clear() {
+    public async clear(): Promise<void> {
         this._invalidateAllPlugins();
         this._plugins = [];
         await this._invalidateAllModules();
     }
 
-    public setPluginScripts (plugins: PluginScriptInfo[]) {
+    public setPluginScripts (plugins: PluginScriptInfo[]): void {
         this._invalidateAllPlugins();
         this._plugins = plugins;
     }
@@ -269,7 +268,7 @@ export class Executor {
         return this._classUuidMap[uuid];
     }
 
-    private async _reloadPackMods() {
+    private async _reloadPackMods(): Promise<void> {
         // 多进程操作同一个资源。如果不给文件加锁，会导致文件读写冲突
         await this._packModInstantiation.lock();
         await this._packModInstantiation.reload();
@@ -286,7 +285,7 @@ export class Executor {
         this._editorSystem.setResolutionDetailMap(resolutionDetailMap, new URL(this._packLoader.resolutionDetailMapURL, packResourceBaseURL).href);
     }
 
-    private async _invalidateAllModules() {
+    private async _invalidateAllModules(): Promise<void> {
         const cc = await System.import('cc') as EngineExports;
 
         for (const registeredClass of this._registeredClasses) {
@@ -305,7 +304,7 @@ export class Executor {
         this._invalidateAllPackMods();
     }
 
-    private _invalidateAllPackMods() {
+    private _invalidateAllPackMods(): void {
         for (const packModId of this._instantiatedPackMods) {
             console.debug(`Invalidating '${packModId}'`);
             const result = System.delete(packModId);
@@ -316,7 +315,7 @@ export class Executor {
         this._instantiatedPackMods.length = 0;
     }
 
-    private async _importPrerequisiteModules() {
+    private async _importPrerequisiteModules(): Promise<void> {
         const cc = await System.import('cc') as EngineExports;
 
         try {
@@ -331,7 +330,7 @@ export class Executor {
         }
     }
 
-    private async _loadAllPlugins() {
+    private async _loadAllPlugins(): Promise<void> {
         const sortedMapped = this._plugins.map((pluginScript) => pluginScript.file);
         for (const file of sortedMapped) {
             try {
@@ -342,22 +341,22 @@ export class Executor {
         }
     }
 
-    private _invalidateAllPlugins() {
+    private _invalidateAllPlugins(): void {
         for (const [, pluginScriptInfo] of Object.entries(this._plugins)) {
             delete require.cache[pluginScriptInfo.file];
         }
     }
 
-    private _tryLog<Cat extends keyof Executor.Logger>(cat: Cat, ...args: Parameters<NonNullable<Executor.Logger[Cat]>>) {
+    private _tryLog<Cat extends keyof Executor.Logger>(cat: Cat, ...args: Parameters<NonNullable<Executor.Logger[Cat]>>): void {
         // @ts-ignore
         return (cat in this._logger) ? this._logger[cat]!(...args) : this._defaultLog(...args);
     }
 
-    private _defaultLog(...args: any) {
+    private _defaultLog(...args: unknown[]): void {
         console.log(...args);
     }
 
-    private _onModuleLoaded(error: Error, id: string) {
+    private _onModuleLoaded(error: Error, id: string): void {
         const cachedExceptions = this._cachedExceptions;
         if (!error) {
             console.debug(`[[Executor]] Module "${id}" loaded.`);

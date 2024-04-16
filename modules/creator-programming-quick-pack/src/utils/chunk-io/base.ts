@@ -17,26 +17,25 @@ export class ChunkIOBase {
         return this._build;
     }
 
-    public deserializeRecord(json: unknown) {
+    public deserializeRecord(json: unknown): void {
         this._build = json as ChunkIOBase['_build'];
     }
 
-    protected async clear() {
+    protected async clear(): Promise<void> {
         try {
             await fs.remove(fileURLToPath(this._chunkHomeURL));
-        } catch (err) {
-        }
+        } catch (err) { /* empty */ }
     }
 
-    protected _calculateChunkCodeFileName(chunkId: string) {
+    protected _calculateChunkCodeFileName(chunkId: string): string {
         return fileURLToPath(new URL(this.calculateChunkCodeFileRelativePath(chunkId), this._chunkHomeURL));
     }
 
-    public calculateChunkCodeFileRelativePath(chunkId: string) {
+    public calculateChunkCodeFileRelativePath(chunkId: string): string {
         return `${chunkId.slice(0, 2)}/${chunkId}.js`;
     }
 
-    public async queryAllTimestamps() {
+    public async queryAllTimestamps(): Promise<Record<string, number>> {
         const result: Record<string, number> = {};
         for (const [chunkId, { timestamp }] of Object.entries(this._build.chunks)) {
             const relativePath = this.calculateChunkCodeFileRelativePath(chunkId);

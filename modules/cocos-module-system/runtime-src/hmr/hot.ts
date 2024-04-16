@@ -55,7 +55,7 @@ export class HotState {
 
     public accept(dependencies: string | string[], updateHandler?: UpdateHandler, errorHandler?: ErrorHandler): void;
 
-    public accept(dependencies: string | string[] | ErrorHandler | undefined, updateHandler?: UpdateHandler, errorHandler?: ErrorHandler) {
+    public accept(dependencies: string | string[] | ErrorHandler | undefined, updateHandler?: UpdateHandler, errorHandler?: ErrorHandler): void {
         if (typeof dependencies === 'undefined') {
             // Self-acceptable
             this._selfAcceptable = true;
@@ -90,7 +90,7 @@ export class HotState {
 
     public decline(dependencies: string[]): void;
 
-    public decline(dependencies?: string[]) {
+    public decline(dependencies?: string[]): void {
         if (typeof dependencies === 'undefined') {
             this._selfDeclined = true;
         } else {
@@ -103,7 +103,7 @@ export class HotState {
         }
     }
 
-    public dispose(handler: DisposeHandler) {
+    public dispose(handler: DisposeHandler): void {
         (this._disposeHandlers ??= []).push(handler);
     }
 
@@ -115,7 +115,7 @@ export class HotState {
         return this._preventHotReload;
     }
 
-    get _isSelfAcceptable() {
+    get _isSelfAcceptable(): boolean {
         return this._selfAcceptable;
     }
 
@@ -123,7 +123,7 @@ export class HotState {
         return this._selfErrorHandlers?.length ?? 0 !== 0;
     }
 
-    _invokeSelfAcceptErrorHandlers(err: unknown) {
+    _invokeSelfAcceptErrorHandlers(err: unknown): void {
         const { _selfErrorHandlers: selfErrorHandlers } = this;
         if (selfErrorHandlers) {
             for (const selfErrorHandler of selfErrorHandlers) {
@@ -132,7 +132,7 @@ export class HotState {
         }
     }
 
-    _isAcceptableDependency(dependency: string) {
+    _isAcceptableDependency(dependency: string): boolean {
         const dependencyModuleId = systemGlobal.resolve(dependency, this.id);
         const handlers = this._dependencyUpdateHandlersMap?.[dependencyModuleId];
         if (!handlers) {
@@ -141,21 +141,21 @@ export class HotState {
         return handlers.updateHandlers?.length !== 0 || handlers.updateHandlers?.length !== 0;
     }
 
-    _invokeDependencyUpdateHandlers(dependency: string) {
+    _invokeDependencyUpdateHandlers(dependency: string): void {
         const dependencyModuleId = systemGlobal.resolve(dependency, this.id);
         this._dependencyUpdateHandlersMap?.[dependencyModuleId]?.updateHandlers?.forEach((handler) => handler());
     }
 
-    _invokeDependencyErrorHandlers(dependency: string, err: unknown) {
+    _invokeDependencyErrorHandlers(dependency: string, err: unknown): void {
         const dependencyModuleId = systemGlobal.resolve(dependency, this.id);
         this._dependencyUpdateHandlersMap?.[dependencyModuleId]?.errorHandlers?.forEach((errorHandler) => errorHandler(err));
     }
 
-    get _isSelfDeclined() {
+    get _isSelfDeclined(): boolean {
         return this._selfDeclined;
     }
 
-    _isDeclinedDependency(dependency: string) {
+    _isDeclinedDependency(dependency: string): boolean {
         const { _declinedDependencies: declinedDependencies } = this;
         if (!declinedDependencies) {
             return false;
@@ -164,7 +164,7 @@ export class HotState {
         return declinedDependencies.has(dependencyModuleId);
     }
 
-    _invokeDisposeHandlers() {
+    _invokeDisposeHandlers(): unknown {
         const { _disposeHandlers: disposeHandlers, data } = this;
         if (disposeHandlers) {
             for (const disposeHandler of disposeHandlers) {
@@ -196,7 +196,7 @@ export class HotState {
 
 const hotStateMap: Record<string, HotState> = Object.create(null);
 
-function getOrCreateHotState(id: string) {
+function getOrCreateHotState(id: string): HotState {
     const existing = hotStateMap[id];
     if (existing) {
         return existing;
@@ -302,7 +302,7 @@ function requestModuleChainPosition(updateModuleId: string): ModuleChainPosition
     };
 }
 
-function mergeIntoUniquely<T>(target: T[], source: T[]) {
+function mergeIntoUniquely<T>(target: T[], source: T[]): void {
     for (const value of source) {
         if (!target.includes(value)) {
             target.push(value);
@@ -315,18 +315,18 @@ class ReloadWorkSet {
 
     public acceptableModuleMap: Record<string, string[]> = {};
 
-    public hasOutdated(id: string) {
+    public hasOutdated(id: string): boolean {
         return this.outdatedModules.includes(id);
     }
 
-    public addOutdated(id: string) {
+    public addOutdated(id: string): void {
         if (!this.hasOutdated(id)) {
             delete this.acceptableModuleMap[id];
             this.outdatedModules.push(id);
         }
     }
 
-    public removeOutdated (id: string) {
+    public removeOutdated (id: string): void {
         delete this.acceptableModuleMap[id];
         const idx = this.outdatedModules.indexOf(id);
         if (idx !== -1) {
@@ -334,7 +334,7 @@ class ReloadWorkSet {
         }
     }
 
-    public addDependencyAcceptable(importer: string, dependency: string) {
+    public addDependencyAcceptable(importer: string, dependency: string): void {
         // TODO: asserts(!this.hasOutdated(importer))
         const accepts = this.acceptableModuleMap[importer] ??= [];
         if (!accepts.includes(dependency)) {
@@ -342,7 +342,7 @@ class ReloadWorkSet {
         }
     }
 
-    public mergeInto(other: ReloadWorkSet) {
+    public mergeInto(other: ReloadWorkSet): void {
         const {
             outdatedModules,
             acceptableModuleMap,
@@ -358,7 +358,7 @@ class ReloadWorkSet {
     }
 }
 
-async function reloadWithWorkSet(workSet: ReloadWorkSet) {
+async function reloadWithWorkSet(workSet: ReloadWorkSet): Promise<void> {
     const {
         outdatedModules,
         acceptableModuleMap,
@@ -423,7 +423,7 @@ async function reloadWithWorkSet(workSet: ReloadWorkSet) {
     }
 }
 
-export async function reload(specifiers: string[]) {
+export async function reload(specifiers: string[]): Promise<boolean> {
     const moduleIds = specifiers.map(
         (specifier) => systemGlobal.resolve(specifier));
 

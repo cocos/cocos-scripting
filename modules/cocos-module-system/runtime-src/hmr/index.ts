@@ -5,11 +5,11 @@ import { systemJSPrototype } from '../globals';
 
 let _defaultHotupdatable = true;
 
-systemJSPrototype.reload = function(files: string[]) {
+systemJSPrototype.reload = function(files: string[]): Promise<boolean> {
     return reload(files);
 };
 
-systemJSPrototype.setDefaultHotReloadable = function (value: boolean) {
+systemJSPrototype.setDefaultHotReloadable = function (value: boolean): void {
     _defaultHotupdatable = value;
 };
 
@@ -32,10 +32,10 @@ systemJSPrototype.createContext = function (id: string): ImportContext {
         upvalue (name: string) {
             return function (target: any) {
                 name2class[name] = target;
-            }
+            };
         }
     };
-}
+};
 
 const vendorEntries = systemJSPrototype.entries;
 systemJSPrototype.entries = function () {
@@ -50,6 +50,6 @@ systemJSPrototype.entries = function () {
         return next;
     };
     return entries;
-}
+};
 
-export { reload } from './hot.js';
+export { reload } from './hot';
