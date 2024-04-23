@@ -1,6 +1,6 @@
 {
-  "name": "@cocos-new/scripting",
-  "version": "2.2.41",
+  "name": "@cocos/scripting",
+  "version": "1.0.0",
   "description": "The next generation of build tool for Cocos engine.",
   "scripts": {
     "build": "turbo build",
