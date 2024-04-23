@@ -1,20 +1,20 @@
-import { BabelFile, types as t } from "@babel/core";
+import { BabelFile, types as t } from '@babel/core';
 // @ts-ignore
 import syntaxDecorators from '@babel/plugin-syntax-decorators';
 // @ts-ignore
-import { addNamed } from '@babel/helper-module-imports'
-import { CC_HELPER_GENERATOR, CC_HELPER_IMPORT_GENERATOR } from "./constants";
+import { addNamed } from '@babel/helper-module-imports';
+import { CC_HELPER_GENERATOR, CC_HELPER_IMPORT_GENERATOR } from './constants';
 // @ts-ignore
-import { declare } from "@babel/helper-plugin-utils";
-import { getHelperBuilder, CC_HELPER_MODULE } from "./helpers";
+import { declare } from '@babel/helper-plugin-utils';
+import { getHelperBuilder, CC_HELPER_MODULE } from './helpers';
 import { genVisitor } from './legacy-visitor';
 
 
 export namespace pluginDecoratorCC {
    export interface Options {
      // NOTE：for now, only 'legacy' is supported.
-     version?: "legacy" | "2018-09" | "2021-12" | "2022-03";
-     helpers: "external" | "inline";
+     version?: 'legacy' | '2018-09' | '2021-12' | '2022-03';
+     helpers: 'external' | 'inline';
      fieldDecorators?: string[];
      editorDecorators?: string[];
    }
