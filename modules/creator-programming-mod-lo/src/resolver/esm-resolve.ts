@@ -65,6 +65,7 @@ interface ResolveContext {
     legacyMainResolveExtensions: readonly string[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function packageImportsResolve(_specifier: string, _parentURL: URL, _context: ResolveContext): URL {
     throw new Error(`We currently do not support package 'imports' field.`);
 }
@@ -80,6 +81,7 @@ function packageResolve(specifier: string, parentURL: URL, context: ResolveConte
 
     const onlyFilePackages = true;
     let packageJsonUrl = new URL(`./node_modules/${packageName}/package.json`, parentURL);
+    // eslint-disable-next-line no-constant-condition
     while (true) {
         if (onlyFilePackages && !hasFileProtocol(packageJsonUrl)) {
             break;
@@ -130,7 +132,11 @@ function packageResolve(specifier: string, parentURL: URL, context: ResolveConte
     throw new ModuleNotFoundError(specifier, parentURL);
 }
 
-function parsePackageName(specifier: string, base?: URL) {
+function parsePackageName(specifier: string, base?: URL): {
+    packageName: string,
+    isScoped: boolean,
+    packageSubpath: string,
+} {
     let packageName: string;
     let isScoped = false;
 
@@ -175,6 +181,7 @@ function packageSelfResolve(packageName: string, packageSubpath: string, parentU
 
 export function readPackageScope(url: URL, baseUrl?: URL): NormalizedPackageJson {
     let packageJsonURL = new URL('./package.json', url);
+    // eslint-disable-next-line no-constant-condition
     while (true) {
         if (packageJsonURL.pathname.endsWith('node_modules/package.json')) {
             break;
@@ -254,7 +261,7 @@ function readPackageJson(url: URL, baseUrl?: URL): NormalizedPackageJson {
     return normalized;
 }
 
-function isConditionalExportsMainSugar(exports: unknown, packageJSONUrl: URL, base?: URL) {
+function isConditionalExportsMainSugar(exports: unknown, packageJSONUrl: URL, base?: URL): boolean {
     if (typeof exports === 'string' || Array.isArray(exports)) {
         return true;
     }
@@ -367,7 +374,7 @@ function packageExportsResolve(
     throw exportsNotFound(packageSubpath, packageJSONUrl, base);
 }
 
-function patternKeyCompare(a: string, b: string) {
+function patternKeyCompare(a: string, b: string): number {
     const aPatternIndex = a.indexOf('*');
     const bPatternIndex = b.indexOf('*');
     const baseLenA = aPatternIndex === -1 ? a.length : aPatternIndex + 1;
@@ -457,7 +464,7 @@ function resolvePackageTargetString(
     internal: boolean,
     isPathMap: boolean,
     context: ResolveContext,
-) {
+): URL {
     if (subpath !== '' && !pattern && target[target.length - 1] !== '/') {
         throw invalidPackageTarget(match, target, packageJSONUrl, internal, base);
     }
@@ -528,7 +535,7 @@ function resolvePackageTargetString(
     return new URL(subpath, resolved);
 }
 
-function exportsNotFound(subpath: string, packageJSONUrl: URL, base: URL | undefined) {
+function exportsNotFound(subpath: string, packageJSONUrl: URL, base: URL | undefined): PackagePathNotExportedError {
     return new PackagePathNotExportedError(
         new URL('.', packageJSONUrl).href,
         subpath,
@@ -542,7 +549,7 @@ function invalidPackageTarget(
     packageJSONUrl: URL,
     internal: boolean,
     base: URL | undefined,
-) {
+): InvalidPackageTargetError {
     if (typeof target === 'object' && target !== null) {
         target = JSON.stringify(target, null, '');
     } else {
@@ -563,12 +570,12 @@ function throwInvalidSubpath(
     packageJSONUrl: URL,
     internal: boolean,
     base: URL | undefined,
-) {
+): void {
     const reason = `request is not a valid match in pattern "${match}" for the "${internal ? 'imports' : 'exports'}" resolution of ${fileURLToPath(packageJSONUrl)}`;
     throw new InvalidModuleSpecifierError(request, reason, base?.href);
 }
 
-function emitInvalidSegmentDeprecation(...args: any[]) {
+function emitInvalidSegmentDeprecation(...args: any[]): void {
 }
 
 function resolvePackageTargetObject(
@@ -581,7 +588,7 @@ function resolvePackageTargetObject(
     internal: boolean,
     isPathMap: boolean,
     context: ResolveContext,
-) {
+): URL | null | undefined {
     const keys = Object.getOwnPropertyNames(target);
 
     if (keys.some(isArrayIndex)) {
@@ -622,7 +629,7 @@ function resolvePackageTargetArray(
     internal: boolean,
     isPathMap: boolean,
     context: ResolveContext,
-) {
+): URL | undefined | null {
     if (target.length === 0) {
         return null;
     }
@@ -665,7 +672,7 @@ function resolvePackageTargetArray(
     }
 }
 
-function applyPattern(s: string, replacer: string) {
+function applyPattern(s: string, replacer: string): string {
     return s.replace(/\*/g, replacer);
 }
 
@@ -719,15 +726,15 @@ function legacyMainResolve(
     throw new ModuleNotFoundError('<main>', new URL('.', packageJsonUrl));
 }
 
-function fileExists(url: URL) {
+function fileExists(url: URL): boolean {
     return (tryStat(url)).isFile();
 }
 
-function dirExists(url: URL) {
+function dirExists(url: URL): boolean {
     return (tryStat(url)).isDirectory();
 }
 
-function tryStat(url: URL) {
+function tryStat(url: URL): fs.Stats {
     try {
         const path = fileURLToPath(url);
         return fs.statSync(path);

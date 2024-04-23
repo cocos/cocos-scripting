@@ -387,7 +387,7 @@ export class ModLo {
         }
     }
 
-    private _getLoadURL(url: URL) {
+    private _getLoadURL(url: URL): URL {
         if (url.pathname.endsWith('/')) {
             asserts(false, `Module URL shall not ends with /.`);
             return url;
@@ -404,7 +404,7 @@ export class ModLo {
         return url;
     }
 
-    private async _loadSource(url: URL) {
+    private async _loadSource(url: URL): Promise<string> {
         if (url.href in this._memoryModules) {
             return this._memoryModules[url.href].source;
         } else if (isCjsInteropUrl(url)) {
@@ -492,7 +492,7 @@ export class ModLo {
         };
     }
 
-    private async _tryExtensionLessResolve(url: URL, extensions: readonly string[]) {
+    private async _tryExtensionLessResolve(url: URL, extensions: readonly string[]): Promise<URL | undefined> {
         if (await this._fileExists(url)) {
             return url;
         }
@@ -566,7 +566,7 @@ export class ModLo {
         }
     }
 
-    private async _tryStat(path: string) {
+    private async _tryStat(path: string): Promise<fs.Stats> {
         try {
             return await fs.stat(path);
         } catch {
@@ -574,11 +574,11 @@ export class ModLo {
         }
     }
 
-    private async _fileExists(url: URL) {
+    private async _fileExists(url: URL): Promise<boolean> {
         return (await this._tryStat(fileURLToPath(url))).isFile();
     }
 
-    private _allowExtensionLessResolution(parent: Readonly<URL>, resolved: Readonly<URL>) {
+    private _allowExtensionLessResolution(parent: Readonly<URL>, resolved: Readonly<URL>): boolean {
         if (!parent.pathname.endsWith('.ts')) {
             return false;
         }
@@ -588,7 +588,7 @@ export class ModLo {
         return false;
     }
 
-    private _isAssetModule(url: URL) {
+    private _isAssetModule(url: URL): boolean {
         const href = url.href;
         return this._assetPrefixes.some((assetPrefix) => href.startsWith(assetPrefix));
     }

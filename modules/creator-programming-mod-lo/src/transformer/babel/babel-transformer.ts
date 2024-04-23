@@ -229,7 +229,10 @@ export class BabelTransformer implements Transformer {
         throw new Error(`Failed to transform.`);
     }
 
-    private _getPluginsPresetsOfModule(options: TransformOptions, disableTransform?: boolean) {
+    private _getPluginsPresetsOfModule(options: TransformOptions, disableTransform?: boolean): {
+        plugins: babel.PluginItem[],
+        presets: babel.PluginItem[],
+    } {
         const plugins: babel.PluginItem[] = [];
         const presets: babel.PluginItem[] = [];
 
@@ -279,7 +282,10 @@ export class BabelTransformer implements Transformer {
         };
     }
 
-    private _getPluginsPresetsOfCommonJsModule() {
+    private _getPluginsPresetsOfCommonJsModule(): {
+        plugins: babel.PluginItem[],
+        presets: babel.PluginItem[],
+    } {
         const plugins: babel.PluginItem[] = [];
         const presets: babel.PluginItem[] = [];
 
@@ -370,7 +376,7 @@ class BabelModBase {
         this._assumptions = assumptions;
     }
 
-    public async module() {
+    public async module(): Promise<JavaScriptSource> {
         return await this._transform(
             this._plugins,
             this._presets,
