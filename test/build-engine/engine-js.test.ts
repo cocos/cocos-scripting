@@ -1,4 +1,4 @@
-import { buildEngine, BuildEngineResult } from '@ccbuild/build-engine';
+import { buildEngine, BuildEngineResult, enumerateAllDependents, enumerateDependentAssets, enumerateDependentChunks } from '@ccbuild/build-engine';
 import * as ps from 'path';
 import * as fs from 'fs-extra';
 import del from 'del';
@@ -137,9 +137,9 @@ describe('engine-js', () => {
             split: true,
         });
         
-        expect(buildEngine.enumerateAllDependents(res, features)).toMatchSnapshot();
-        expect(buildEngine.enumerateDependentChunks(res, features)).toMatchSnapshot();
-        expect(buildEngine.enumerateDependentAssets(res, features)).toMatchSnapshot();
+        expect(enumerateAllDependents(res, features)).toMatchSnapshot();
+        expect(enumerateDependentChunks(res, features)).toMatchSnapshot();
+        expect(enumerateDependentAssets(res, features)).toMatchSnapshot();
         await del(out, { force: true });
     });
 

@@ -19,7 +19,7 @@ export interface OptionData<T> {
  * The matrix option can help us list all combinations to avoid missing test cases.
  * 
  * @example
- * const multipleBuildOptions = genOptionsFromMatrix<buildEngine.Options>({
+ * const multipleBuildOptions = genOptionsFromMatrix<BuildEngineOptions>({
  *  engine: ['./test-engine-source', './test-engine-source-without-symlink'],
  *  platform: ['ALIPAY', 'OPEN_HARMONY', 'HTML5'],
  * });

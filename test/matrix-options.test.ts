@@ -1,8 +1,8 @@
-import { buildEngine } from '@ccbuild/build-engine';
+import { buildEngine, BuildEngineOptions } from '@ccbuild/build-engine';
 import { genOptionsFromMatrix } from './matrix-options';
 
 test('matrix options', async () => {
-  const optionList = genOptionsFromMatrix<buildEngine.Options>({
+  const optionList = genOptionsFromMatrix<BuildEngineOptions>({
     engine: ['./test-engine-source', './test-engine-source-without-symlink'],
     out: ['./lib-matrix-options'],
     platform: ['ALIPAY', 'OPEN_HARMONY', 'HTML5'],
