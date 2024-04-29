@@ -1,5 +1,5 @@
 {
-  "name": "@cocos-new/scripting",
+  "name": "@cocos/scripting",
   "version": "1.0.4",
   "description": "The next generation of build tool for Cocos engine.",
   "scripts": {
