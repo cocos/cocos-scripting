@@ -4,7 +4,7 @@ import * as babel from '@babel/core';
 import babelPluginTransformModulesSystemJs from '@babel/plugin-transform-modules-systemjs';
 import URL from 'url';
 
-interface BuiltinModuleOptions {
+export interface BuiltinModuleOptions {
     /**
      * `BuiltinModuleProvider` 中提供的模块的格式。
      */
@@ -15,7 +15,7 @@ interface BuiltinModuleOptions {
  * 很多时候 `BuiltinModuleProvider` 中的模块需要映射到其它模块。
  * `TargetKind` 代表了目标模块的模块格式。
  */
-type TargetKind = 'commonjs' | 'amd';
+export type TargetKind = 'commonjs' | 'amd';
 
 /**
  * `BuiltinModuleProvider` 用于提供项目脚本用到的所有“内置”模块，例如：

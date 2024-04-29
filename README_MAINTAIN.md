@@ -12,7 +12,7 @@ npm run build
 
 ## unit test
 
-Every time you fix a bug or introduce a new feature to `@cocos/ccbuild`, please remember considering to add your unit test into `test` folder.
+Every time you fix a bug or introduce a new feature to `@cocos/scripting`, please remember considering to add your unit test into `test` folder.
 
 ```sh
 # run test
@@ -61,16 +61,14 @@ npm run version-alpha
 
 ## publish
 
-We used monorepo but only `@cocos/ccbuild` is public project, every time we need to publish, we need to deploy the project first.
-Please remember to version your package before you deploy and publish it.
+Create a release version on Github, ci runner will generate a npm package and commit to the offical npm registry for us.
+
+
+## local deploying
 
 ```sh
 
-# this would collect all private project together, and generate one project in 'deploy' folder
 npm run deploy
 
-# if you got a publish authorization, then you could publish the package in 'deploy' folder
-cd ./deploy/
-npm publish
 ```
 

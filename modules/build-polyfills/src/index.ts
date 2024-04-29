@@ -109,6 +109,13 @@ async function bundle(entries: string[], outFile: string, options: { sourceMap?:
     await rollupBuild.write(rollupOutputOptions);
 }
 
+export interface CoreJSBuilderOptions {
+    modules?: string[];
+    blacklist?: string[];
+    targets?: string;
+    filename: string;
+}
+
 export interface BuildPolyfillsOptions {
     file: string;
 
@@ -116,14 +123,14 @@ export interface BuildPolyfillsOptions {
 
     debug?: boolean;
 
-    coreJs?: boolean | Omit<coreJsBuilder.Options, 'filename'>,
+    coreJs?: boolean | Omit<CoreJSBuilderOptions, 'filename'>,
 
     asyncFunctions?: boolean;
 
     fetch?: boolean;
 }
 
-export const defaultCoreJsOptions: Omit<coreJsBuilder.Options, 'filename'> = {
+export const defaultCoreJsOptions: Omit<CoreJSBuilderOptions, 'filename'> = {
     modules: ['es'],
     blacklist: [],
     targets: '> 0.5%',

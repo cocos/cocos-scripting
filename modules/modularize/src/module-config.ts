@@ -24,7 +24,7 @@ export type PlatformType = Uppercase<keyof typeof WebPlatform | keyof typeof Min
  * - We can also specify the exact platform like
  * { "web": {default: "/path/to/index.ts", "web-desktop": "/path/to/index.ts" } }.
  */
-type AbstractPlatformExport<T> = ({
+export type AbstractPlatformExport<T> = ({
     /**
      * Default platform export for unspecified platforms.
      */
@@ -34,7 +34,7 @@ type AbstractPlatformExport<T> = ({
 /**
  * The export condition. `types` fields are required.
  */
-type ExportCondition<T> = {
+export type ExportCondition<T> = {
     /**
      * This is the main module export condition.
      * - The dts bundle tools resolve this condition as entry.
@@ -50,7 +50,7 @@ type ExportCondition<T> = {
     [customCondition: string]: string;
 } & T;
 
-interface ConditionalExports {
+export interface ConditionalExports {
     /**
      * This is exported to the game runtime.
      * Also we build the `cc.d.ts` with this export condition's `types` field.
@@ -103,7 +103,7 @@ interface Migration {
     script: string;
 }
 
-interface ModuleOverride {
+export interface ModuleOverride {
     /**
      * The test string to evaluate.
      */

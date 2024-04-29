@@ -1,16 +1,5 @@
-# CCBUILD
+# Cocos Scripting Modules
 
-The next generation of build tool for Cocos engine.
+Including all modules for building, executing, polyfilling, bundling scripts for Cocos Creator.
 
-# What problems does this build tool solve ?
-
-- To merge `@editor/quick-compiler` and  `@cocos/build-engine`
-- To support build cache management
-- To support generating ts engine for AOT optimization on Open Harmony 
-- To support API generation
-- To support API report
-- To support API document model generation
-- To support build modular engine
-- More human-friendly log info
-
-> [I am a maintainer of this repo](https://github.com/cocos/cocos-ccbuild/blob/master/README_MAINTAIN.md)
+> [I am a maintainer of this repo](https://github.com/cocos/cocos-scripting/blob/master/README_MAINTAIN.md)

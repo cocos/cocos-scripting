@@ -18,8 +18,11 @@ import globby from 'globby';
 import Transport from 'winston-transport';
 import type { ImportMap } from '@ccbuild/utils';
 
-const VERSION = '1.2.32';
+export type { TargetOptions, Platform } from './core';
+export * from './progress';
+export type { SourceMapOptions } from './source-map-options';
 
+const VERSION = '1.2.32';
 export interface QuickCompileOptions {
     rootDir: string;
     outDir: string;

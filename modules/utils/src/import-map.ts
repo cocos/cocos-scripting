@@ -1,4 +1,4 @@
-type Imports = Record<string, string>;
+export type Imports = Record<string, string>;
 
 export interface ImportMap {
     imports?: Imports,

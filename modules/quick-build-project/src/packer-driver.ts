@@ -557,7 +557,7 @@ export class PackerDriver {
     }
 }
 
-type TargetName = string;
+export type TargetName = string;
 type PredefinedTargetName = 'editor' | 'preview';
 
 interface PredefinedTarget {

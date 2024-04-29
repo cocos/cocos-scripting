@@ -6,7 +6,7 @@ export type Logger = {
     error: LeveledLogMethod;
 };
 
-type LeveledLogMethod = (message: string) => void;
+export type LeveledLogMethod = (message: string) => void;
 
 export function createLogger(options: {}): Logger {
     return {

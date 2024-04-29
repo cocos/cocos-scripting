@@ -19,7 +19,7 @@ export function isThenable (value: any): boolean {
 }
 
 export * from './types';
-export { i18nTranslate } from './i18n';
+export { i18nTranslate, Params } from './i18n';
 export * from './asserts';
 export * from './url';
 export * from './specifier';

@@ -1,7 +1,4 @@
-import fs from 'fs-extra';
-import ps from 'path';
-
-export async function makeBuildTimeConstantModule(constants: Record<string, IBuildTimeConstantValue>) {
+export async function makeBuildTimeConstantModule(constants: Record<string, IBuildTimeConstantValue>): Promise<string> {
     return Object.entries(constants).map(([name, value]) => `export const ${name} = ${value};`).join('\n');
 }
 

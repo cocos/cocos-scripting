@@ -1,6 +1,6 @@
 import util from 'util';
 
-interface Params {
+export interface Params {
     'resolve_error_invalid_module_specifier': { specifier: string; reason?: string; };
     'resolve_error_invalid_package_configuration': { packageURL: string; };
     'resolve_error_invalid_package_target': { packageURL: string; };
@@ -37,7 +37,7 @@ interface Params {
 
 let i18n: undefined | null | I18N;
 
-export function i18nTranslate<T extends keyof Params>(textName: T, params?: Params[T]) {
+export function i18nTranslate<T extends keyof Params>(textName: T, params?: Params[T]): string {
     const prefix = 'lib-programming';
 
     if (i18n === undefined) {

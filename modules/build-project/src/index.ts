@@ -17,6 +17,8 @@ import { SharedSettings } from '@ccbuild/utils';
 import { isCjsInteropUrl, getCjsInteropTarget } from '@cocos/creator-programming-common';
 import minimatch from 'minimatch';
 
+export type { CCEnvConstants } from './build-time-constants';
+
 /**
  * 
  * 
@@ -37,13 +39,13 @@ export interface buildProjRes {
     importMappings: Record<string, string>;
 }
 
-interface IAssetInfo {
+export interface IAssetInfo {
     url: string; // loader 加载地址会去掉扩展名，这个参数不去掉
     file: string; // 绝对路径
     uuid: string; // 资源的唯一 ID
 }
 
-interface Bundle {
+export interface Bundle {
     id: string | null;
     scripts: IAssetInfo[];
     outFile: string;
@@ -59,7 +61,7 @@ function matchPattern(path: string, pattern: string): boolean {
     return minimatch(path.replace(/\\/g, '/'), pattern.replace(/\\/g, '/'));
 }
 
-interface DBInfo {
+export interface DBInfo {
     dbID: string;
     target: string
 }
@@ -521,6 +523,8 @@ export async function buildScriptCommand(
     return res;
 }
 
+export type ModuleFormat = 'esm' | 'cjs' | 'system' | 'iife';
+
 export interface IBuildScriptFunctionOption {
     /**
      * Are we in debug mode?
@@ -535,7 +539,7 @@ export interface IBuildScriptFunctionOption {
     /**
      * Module format.
      */
-    moduleFormat: rollup.ModuleFormat;
+    moduleFormat: ModuleFormat;
 
     /**
      * Module preservation.

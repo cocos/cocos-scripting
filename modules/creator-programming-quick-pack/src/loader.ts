@@ -9,7 +9,7 @@ import { CHUNK_HOME_RELATIVE_URL, IMPORT_MAP_RELATIVE_URL, RESOLUTION_DETAIL_MAP
 import { ResolutionDetailMap } from './resolution-detail-map';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Options { }
+export interface IQuickPackOptions { }
 
 export class ResourceNotFoundError extends Error {
     constructor(id: string) {
@@ -23,7 +23,7 @@ export class QuickPackLoader {
     public constructor(
         context: LoaderContext,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        options: Options = {},
+        options: IQuickPackOptions = {},
     ) {
         this._middleware = new QuickPackMiddleware(context.workspace);
         this._chunkReader = new ChunkIOBase({ chunkHomePath: this._middleware.chunkHomePath });

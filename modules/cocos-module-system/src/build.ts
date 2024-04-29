@@ -1,4 +1,4 @@
-import { rollup, OutputOptions } from 'rollup';
+import { rollup, OutputOptions as RollupOutputOptions } from 'rollup';
 import { terser } from 'rollup-plugin-terser';
 import replace from '@rollup/plugin-replace';
 import { join, parse } from 'path';
@@ -7,6 +7,12 @@ import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import { renderFile } from 'ejs';
 import virtual from './virtual-entry-source.js';
+
+export interface OutputOptions {
+    banner?: string | (() => string | Promise<string>);
+    footer?: string | (() => string | Promise<string>);
+    exports?: 'default' | 'named' | 'none' | 'auto';
+}
 
 export interface BuildOptions {
     out: string;
@@ -49,7 +55,7 @@ export async function build({
     const modules: Record<string, string> = {};
     modules[ejsResult.path] = ejsResult.source;
 
-    const outputOptions: OutputOptions = {
+    const outputOptions: RollupOutputOptions = {
         file: out,
         sourcemap: sourceMap,
         format: format ?? 'iife',

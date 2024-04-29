@@ -6,7 +6,9 @@ import { LoaderContext, QuickPackLoader } from '@cocos/creator-programming-quick
 import { PackModInstantiation, PackModuleEvaluator } from './pack-mod-instantiation';
 import { ImportMap } from '@ccbuild/utils';
 
-type ImportEngineMod = (id: string) => Record<string, unknown> | Promise<Record<string, unknown>>;
+export { PackModuleEvaluator } from './pack-mod-instantiation';
+
+export type ImportEngineMod = (id: string) => Record<string, unknown> | Promise<Record<string, unknown>>;
 
 // `'cc'` 的 URL
 const engineIndexURL = `cce:/internal/x/cc`;
@@ -125,9 +127,9 @@ export class Executor {
                 quickCompilerRequest = url.substr(engineExportToEditorPrefix.length);
             }
             if (quickCompilerRequest) {
-                return [[], (_export) => {
+                return [[], (_export): { execute: () => Promise<void> }  => {
                     return {
-                        execute: async () => {
+                        execute: async (): Promise<void> => {
                             const exports = await importer(quickCompilerRequest);
                             _export(exports);
                         },
@@ -153,10 +155,11 @@ export class Executor {
                 const moduleConfig = this._cceModuleMap[moduleName];
                 const mapLocation = this._cceModuleMap.mapLocation;
                 if (moduleConfig) {
-                    const exportedObj = require(ps.join(ps.dirname(mapLocation), moduleConfig.main));
-                    return [[], (_export) => {
+                    const moduleMainFilePath = ps.join(ps.dirname(mapLocation), moduleConfig.main);
+                    const exportedObj = require(moduleMainFilePath);
+                    return [[], (_export): { execute: () => Promise<void> } => {
                         return {
-                            execute: async () => {
+                            execute: async (): Promise<void> => {
                                 _export(exportedObj);
                             },
                         };
@@ -440,7 +443,7 @@ export namespace Executor {
     }
 }
 
-type PluginScriptId = string;
+export type PluginScriptId = string;
 
 export interface PluginScriptInfo {
     /**

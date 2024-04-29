@@ -6,9 +6,9 @@ type BuildTimeConstants = ConstantManager.BuildTimeConstants;
 type CCEnvConstants = ConstantManager.CCEnvConstants;
 type IBuildTimeConstantValue = StatsQuery.ConstantManager.ValueType;
 
-export { BuildTimeConstants, CCEnvConstants };
+export { BuildTimeConstants, CCEnvConstants, IBuildTimeConstantValue };
 
-interface BuildConstantsOption {
+export interface BuildConstantsOption {
     platform: PlatformType | string;
     flags: Record<string, IBuildTimeConstantValue>;
 }
