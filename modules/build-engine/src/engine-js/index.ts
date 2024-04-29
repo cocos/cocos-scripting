@@ -6,7 +6,7 @@ import realFs from 'fs';
 import tsConfigPaths from './rollup-plugins/ts-paths';
 import moduleQueryPlugin from './rollup-plugins/module-query-plugin';
 import removeDeprecatedFeatures from './rollup-plugins/remove-deprecated-features';
-import type { buildEngine } from '../index';
+import type { BuildEngineOptions, BuildEngineResult } from '../index';
 import { externalWasmLoader } from './rollup-plugins/external-wasm-loader';
 import { StatsQuery } from '@ccbuild/stats-query';
 import { filePathToModuleRequest } from '@ccbuild/utils';
@@ -52,7 +52,7 @@ function makePathEqualityKey(path: string): string {
     return process.platform === 'win32' ? path.toLocaleLowerCase() : path;
 }
 
-export async function buildJsEngine(options: Required<buildEngine.Options>): Promise<buildEngine.Result> {
+export async function buildJsEngine(options: Required<BuildEngineOptions>): Promise<BuildEngineResult> {
     const doUglify = !!options.compress;
     const engineRoot = ps.resolve(options.engine);
 
@@ -416,7 +416,7 @@ export async function buildJsEngine(options: Required<buildEngine.Options>): Pro
         await fs.writeFile(incrementalFile, JSON.stringify(watchFiles, undefined, 2));
     }
 
-    const result: buildEngine.Result = {
+    const result: BuildEngineResult = {
         chunkAliases: {},
         exports: {},
         chunkDepGraph: {},

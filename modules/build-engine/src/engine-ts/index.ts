@@ -1,7 +1,7 @@
-import type { buildEngine } from '../index';
+import type { BuildEngineOptions, BuildEngineResult } from '../index';
 import { EngineBuilder } from './engine-builder';
 
-export async function buildTsEngine (options: buildEngine.Options): Promise<buildEngine.Result> {
+export async function buildTsEngine (options: BuildEngineOptions): Promise<BuildEngineResult> {
     const builder = new EngineBuilder();
     await builder.build({
         root: options.engine,

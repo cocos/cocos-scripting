@@ -6,14 +6,19 @@ export { Modularize };
 import * as dtsBundler from '@ccbuild/dts-bundler';
 export { dtsBundler };
 
-import type { buildEngine } from '@ccbuild/build-engine';
-export type { buildEngine } from '@ccbuild/build-engine';
+import type { buildEngine, enumerateAllDependents, enumerateDependentAssets, enumerateDependentChunks, isSourceChanged, transform } from '@ccbuild/build-engine';
+export type { BuildEngineOptions, BuildEngineResult } from '@ccbuild/build-engine';
 
-export type BuildEngineFunc = (options: buildEngine.Options)=> Promise<buildEngine.Result>
+export interface BuildEngineModule {
+    buildEngine: typeof buildEngine;
+    enumerateAllDependents: typeof enumerateAllDependents;
+    enumerateDependentAssets: typeof enumerateDependentAssets;
+    enumerateDependentChunks: typeof enumerateDependentChunks;
+    isSourceChanged: typeof isSourceChanged;
+    transform: typeof transform;
+}
 
-export async function loadBuildEngineModule(): Promise<{
-    buildEngine: BuildEngineFunc,
-}> {
+export async function loadBuildEngineModule(): Promise<BuildEngineModule> {
     return await import('@ccbuild/build-engine');
 }
 
@@ -22,10 +27,9 @@ export { StatsQuery, ConfigInterface } from '@ccbuild/stats-query';
 // export { Transformer, Bundler };
 
 
-
 export {
     ImportMap, Imports, ImportRestriction, SharedSettings, EngineInfo,
-    AssetChange, AssetChangeType, AssetDatabaseDomain, UUID, FilePath,
+    AssetChange, AssetChangeType, AssetDatabaseDomain, UUID, FilePath, editorBrowserslistQuery,
  } from '@ccbuild/utils';
 
 // quick build engine
@@ -35,15 +39,17 @@ export type {
     ProgressMessage, TransformStageMessage, ExternalStageMessage, BundleStageMessage, Stage
 } from '@ccbuild/quick-build-engine';
 
-export async function loadQuickBuildEngineModule(): Promise<{
+export interface QuickBuildEngineModule {
     QuickCompiler: typeof QuickCompiler;
-}> {
+}
+
+export async function loadQuickBuildEngineModule(): Promise<QuickBuildEngineModule> {
     return await import('@ccbuild/quick-build-engine');
 }
 
 // build project
 import { SharedSettings } from '@ccbuild/utils';
-import type { buildProjRes, IBuildScriptFunctionOption } from '@ccbuild/build-project';
+import type { buildProjRes, IBuildScriptFunctionOption, buildScriptCommand } from '@ccbuild/build-project';
 
 export type {
     buildProjRes, IBuildScriptFunctionOption, ModuleFormat, ModulePreservation,
@@ -52,9 +58,11 @@ export type {
 
 export type BuildScriptCommand = (options: IBuildScriptFunctionOption & SharedSettings) => Promise<buildProjRes>;
 
-export async function loadBuildProjectModule(): Promise<{
-    buildScriptCommand: BuildScriptCommand
-}> {
+export interface BuildProjectModule {
+    buildScriptCommand: BuildScriptCommand;
+}
+
+export async function loadBuildProjectModule(): Promise<BuildProjectModule> {
     return await import('@ccbuild/build-project');
 }
 
@@ -62,9 +70,11 @@ export async function loadBuildProjectModule(): Promise<{
 import type { PackerDriver } from '@ccbuild/quick-build-project';
 export type { PackerDriver, PackerDriverOptions, IPackerDriverCallbacks, CCEModuleMap, TargetName, CCEModuleConfig } from '@ccbuild/quick-build-project';
 
-export async function loadQuickBuildProjectModule(): Promise<{
+export interface QuickBuildProjectModule {
     PackerDriver: typeof PackerDriver;
-}> {
+}
+
+export async function loadQuickBuildProjectModule(): Promise<QuickBuildProjectModule> {
     return await import('@ccbuild/quick-build-project');
 }
 
@@ -82,10 +92,13 @@ export type {
 } from '@cocos/creator-programming-quick-pack';
 
 import type { QuickPackLoader, QuickPackLoaderContext } from '@cocos/creator-programming-quick-pack';
-export async function loadQuickPackModule(): Promise<{
+
+export interface QuickPackModule {
     QuickPackLoader: typeof QuickPackLoader;
     QuickPackLoaderContext: typeof QuickPackLoaderContext;
-}> {
+}
+
+export async function loadQuickPackModule(): Promise<QuickPackModule> {
     return await import('@cocos/creator-programming-quick-pack');
 }
 
@@ -93,10 +106,14 @@ export async function loadQuickPackModule(): Promise<{
 
 // executor
 export type { Executor, ImportEngineMod, PackModuleEvaluator, IPluginChangedInfo, PluginScriptInfo, BuiltinModuleProvider, PluginScriptId, BuiltinModuleOptions, TargetKind, IBuildTimeConstantValue } from '@editor/lib-programming';
-import type { Executor } from '@editor/lib-programming';
-export async function loadScriptExecutorModule(): Promise<{
-    Executor: typeof Executor
-}> {
+import type { Executor, BuiltinModuleProvider } from '@editor/lib-programming';
+
+export interface ScriptExecutorModule {
+    Executor: typeof Executor;
+    BuiltinModuleProvider: typeof BuiltinModuleProvider;
+}
+
+export async function loadScriptExecutorModule(): Promise<ScriptExecutorModule> {
     return await import('@editor/lib-programming');
 }
 
@@ -108,9 +125,11 @@ import type { BuildOptions as BuildSystemJsOptions } from '@cocos/module-system'
 
 export type BuildSystemJsFunc = (options: BuildSystemJsOptions) => Promise<void>;
 
-export async function loadModuleSystem(): Promise<{
-    build: BuildSystemJsFunc
-}> {
+export interface ModuleSystem {
+    build: BuildSystemJsFunc;
+}
+
+export async function loadModuleSystem(): Promise<ModuleSystem> {
     return await import('@cocos/module-system');
 }
 
@@ -119,8 +138,10 @@ export type { BuildPolyfillsOptions, CoreJSBuilderOptions } from '@editor/build-
 import type { BuildPolyfillsOptions } from '@editor/build-polyfills';
 export type BuildPolyFillsFunc = (options: BuildPolyfillsOptions) => Promise<boolean>;
 
-export async function loadBuildPolyfillModule(): Promise<{
-    buildPolyfills: BuildPolyFillsFunc
-}> {
+export interface BuildPolyFillsModule {
+    buildPolyfills: BuildPolyFillsFunc;
+}
+
+export async function loadBuildPolyfillsModule(): Promise<BuildPolyFillsModule> {
     return await import('@editor/build-polyfills');
 }

@@ -1,4 +1,4 @@
-import { buildEngine } from '@ccbuild/build-engine';
+import { buildEngine, BuildEngineResult } from '@ccbuild/build-engine';
 import * as ps from 'path';
 import * as fs from 'fs-extra';
 import del from 'del';
@@ -7,7 +7,7 @@ import { getOutputContent, getOutputDirStructure } from '../utils';
 describe('engine-js', () => {
     test('build WASM module on platform supporting WASM', async () => {
         const out = ps.join(__dirname, './lib-js');
-        const buildResult: buildEngine.Result = await buildEngine({
+        const buildResult: BuildEngineResult = await buildEngine({
             engine: ps.join(__dirname, '../test-engine-source'),
             out,
             mode: 'BUILD',
