@@ -40,8 +40,6 @@
     "typescript": "4.9.5"
   },
   "devDependencies": {
-    "@ccbuild/utils": "*",
-
     "@babel/core": "7.19.6",
     "@babel/plugin-transform-modules-systemjs": "7.16.0",
     "@types/dedent": "^0.7.0",

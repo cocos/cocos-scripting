@@ -1,8 +1,7 @@
 
 import { setBaseUrl } from './base-url';
-import { extendsImportMap, setImportMap, importMap } from './import-map';
+import { extendsImportMap, setImportMap, importMap, ImportMap } from './import-map';
 import { systemJSPrototype } from '../globals';
-import type { ImportMap } from '@ccbuild/utils';
 
 /**
  * Adapts the CommonJS like platforms such as mini-game based and jsb-based platforms.

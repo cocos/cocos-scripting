@@ -2,10 +2,15 @@
 // @ts-ignore
 import { resolveImportMap, resolveIfNotPlainOrUrl, resolveAndComposeImportMap } from '../../systemjs/src/common.js';
 import { systemJSPrototype } from '../globals';
-import type { ImportMap } from '@ccbuild/utils';
 import { baseUrl } from './base-url';
 
-export const importMap = { imports: {}, scopes: {} };
+export type Imports = Record<string, string>;
+export interface ImportMap {
+    imports?: Imports,
+    scopes?: Record<string, Imports>,
+}
+
+export const importMap: ImportMap = { imports: {}, scopes: {} };
 
 export function setImportMap(json: ImportMap, location: string) {
     resolveAndComposeImportMap(json, location || baseUrl, importMap);
